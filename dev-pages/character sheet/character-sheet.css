@@ -1,0 +1,21 @@
+header {
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.navbar-brand {
+    font-size: 30px;
+}
+
+.fa-user {
+    color: grey;
+}
+
+.btn-top {
+    width: auto;
+    height: auto;
+}
+
+img {
+    width: 400px;
+    height: 400px;
+}
