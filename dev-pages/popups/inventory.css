@@ -1,22 +1,3 @@
 /* Use for customizing entire thing (like size adjustment, etc) */
 
-.scroll-table {
-  max-height: 22em;
-  overflow: auto;
-}
 
-label {
-  font-size: small;
-  margin: 1px;
-  padding-left: 1px;
-}
-
-/* .popup-title {
-  color: white;
-  font-weight: bold;
-  font-size: xx-large;
-} */
-.table-delete {
-  display: inline-block;
-  vertical-align: middle;
-}
