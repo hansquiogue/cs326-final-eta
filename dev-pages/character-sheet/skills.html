@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap  -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <!-- jQuery and JS bundle w/ Popper.js -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+    crossorigin="anonymous"></script>
+
+  <title>Euryale - skills</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" aria-label="Proficiency" id="proficiencyBonus">
+        <div class="input-group-append">
+          <span class="input-group-text" id="proficiency-label">Proficiency Bonus</span>
+        </div>
+      </div>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" aria-label="Inspiration" id="inspiration">
+        <div class="input-group-append">
+          <span class="input-group-text" id="inspiration-label">Inspiration</span>
+        </div>
+      </div>
+    </div>
+    <div class="dropdown-divider"></div>
+    <!-- Strength -->
+    <div class="row">
+      <div class="col-1">
+        <div class="form-group">
+          <label for="strength">Strength</label>
+          <input type="text" name="strength" id="strength" class="form-control" aria-label="Strength">
+        </div>
+      </div>
+      <div class="col">
+        <!-- Strength Saving Throws -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="strSave">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="strSaveProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="strSaveExp" id="strSaveExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Saving Throws</span>
+          </div>
+        </div>
+
+        <!-- Athletics -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="athletics">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="athleticsProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="athleticsExp" id="athleticsExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Athletics</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="dropdown-divider"></div>
+
+    <!-- Dexterity -->
+    <div class="row">
+      <div class="col-1">
+        <div class="form-group">
+          <label for="dexterity">Dexterity</label>
+          <input type="text" name="dexterity" id="dexterity" class="form-control" aria-label="dexterity">
+        </div>
+      </div>
+      <div class="col">
+        <!-- Saving Throw -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="dexSave">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="dexSaveProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="dexSaveExp" id="dexSaveExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Saving Throw</span>
+          </div>
+        </div>
+
+        <!-- Acrobatics -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="acrobatics">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="acrobaticsProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="acrobaticsExp" id="acrobaticsExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Acrobatics</span>
+          </div>
+        </div>
+
+        <!-- sleightOfHand -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="sleightOfHand">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="sleightOfHandProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="sleightOfHandExp" id="sleightOfHandExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Sleight of Hand</span>
+          </div>
+        </div>
+
+        <!-- stealth -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="stealth">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="stealthProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="stealthExp" id="stealthExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Stealth</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="dropdown-divider"></div>
+
+    <div class="row">
+      <div class="col-1">
+        <div class="form-group">
+          <label for="constitution">Constitution</label>
+          <input type="text" name="constitution" id="constitution" class="form-control" aria-label="constitution">
+        </div>
+      </div>
+      <div class="col">
+        <!-- conSave -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="conSave">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="conSaveProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="conSaveExp" id="conSaveExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Saving Throw</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dropdown-divider"></div>
+
+    <div class="row">
+      <div class="col-1">
+        <div class="form-group">
+          <label for="intelligence">Intelligence</label>
+          <input type="text" name="intelligence" id="intelligence" class="form-control" aria-label="intelligence">
+        </div>
+      </div>
+
+      <div class="col">
+        <!-- intSave -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="intSave">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="intSaveProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="intSaveExp" id="intSaveExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Saving Throw</span>
+          </div>
+        </div>
+
+        <!-- arcana -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="arcana">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="arcanaProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="arcanaExp" id="arcanaExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Arcana</span>
+          </div>
+        </div>
+
+        <!-- history -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="history">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="historyProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="historyExp" id="historyExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">History</span>
+          </div>
+        </div>
+
+        <!-- investigation -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="investigation">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="investigationProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="investigationExp" id="investigationExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Investigation</span>
+          </div>
+        </div>
+
+        <!-- nature -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="nature">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="natureProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="natureExp" id="natureExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Nature</span>
+          </div>
+        </div>
+
+        <!-- religion -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="religion">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="religionProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="religionExp" id="religionExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Religion</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dropdown-divider"></div>
+
+    <div class="row">
+      <div class="col-1">
+        <div class="form-group">
+          <label for="wisdom">Wisdom</label>
+          <input type="text" name="wisdom" id="wisdom" class="form-control" aria-label="wisdom">
+        </div>
+      </div>
+
+      <div class="col">
+        <!-- wisSave -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="wisSave">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="wisSaveProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="wisSaveExp" id="wisSaveExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Saving Throw</span>
+          </div>
+        </div>
+
+        <!-- animalHandling -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="animalHandling">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="animalHandlingProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="animalHandlingExp" id="animalHandlingExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Animal Handling</span>
+          </div>
+        </div>
+
+        <!-- insight -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="insight">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="insightProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="insightExp" id="insightExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Insight</span>
+          </div>
+        </div>
+
+        <!-- medicine -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="medicine">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="medicineProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="medicineExp" id="medicineExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Medicine</span>
+          </div>
+        </div>
+
+        <!-- perception -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="perception">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="perceptionProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="perceptionExp" id="perceptionExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Perception</span>
+          </div>
+        </div>
+
+        <!-- survival -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="survival">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="survivalProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="survivalExp" id="survivalExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Survival</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dropdown-divider"></div>
+    <div class="row">
+      <div class="col-1">
+        <div class="form-group">
+          <label for="wisdom">Wisdom</label>
+          <input type="text" name="wisdom" id="wisdom" class="form-control" aria-label="wisdom">
+        </div>
+      </div>
+
+      <div class="col">
+        <!-- chaSave -->
+        <div class="input-group">
+          <input type="text" class="form-control col-2" id="chaSave">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" id="chaSaveProf">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <input type="checkbox" name="chaSaveExp" id="chaSaveExp">
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text">Saving Throw</span>
+          </div>
+
+          <!-- deception -->
+          <div class="input-group">
+            <input type="text" class="form-control col-2" id="deception">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <input type="checkbox" id="deceptionProf">
+              </div>
+            </div>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <input type="checkbox" name="deceptionExp" id="deceptionExp">
+              </div>
+            </div>
+            <div class="input-group-append">
+              <span class="input-group-text">Deception</span>
+            </div>
+          </div>
+
+          <!-- intimidation -->
+          <div class="input-group">
+            <input type="text" class="form-control col-2" id="intimidation">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <input type="checkbox" id="intimidationProf">
+              </div>
+            </div>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <input type="checkbox" name="intimidationExp" id="intimidationExp">
+              </div>
+            </div>
+            <div class="input-group-append">
+              <span class="input-group-text">Intimidation</span>
+            </div>
+          </div>
+
+          <!-- performance -->
+          <div class="input-group">
+            <input type="text" class="form-control col-2" id="performance">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <input type="checkbox" id="performanceProf">
+              </div>
+            </div>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <input type="checkbox" name="performanceExp" id="performanceExp">
+              </div>
+            </div>
+            <div class="input-group-append">
+              <span class="input-group-text">Performance</span>
+            </div>
+          </div>
+
+          <!-- persuasion -->
+          <div class="input-group">
+            <input type="text" class="form-control col-2" id="persuasion">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <input type="checkbox" id="persuasionProf">
+              </div>
+            </div>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <input type="checkbox" name="persuasionExp" id="persuasionExp">
+              </div>
+            </div>
+            <div class="input-group-append">
+              <span class="input-group-text">Persuasion</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+
+    </div>
+
+
+  </div>
+
+
+
+  </div>
+  </div>
+
+
+</body>
+
+</html>
