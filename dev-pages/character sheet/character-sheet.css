@@ -11,8 +11,12 @@ header {
 }
 
 .btn-top {
-    width: auto;
-    height: auto;
+    width: 80px !important;
+}
+
+.top-cluster-mid-text {
+    color: white;
+    font-size: 15px;
 }
 
 img {

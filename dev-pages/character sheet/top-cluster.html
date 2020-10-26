@@ -50,31 +50,60 @@
         
         <div class="container rounded bg-dark mt-4">
             <!-- Top cluster -->
-            <div class="row top-cluster border border-danger rounded">
-                <div class="col form-group mx-3 mt-3">
+            <div class="row top-cluster">
+                <div class="col-sm-3 mt-4 mx-2 form-group">
                     <div class="text text-white">Character Name:</div>
                     <input class="form-control mt-2" id="char-name">
                 </div>
-                <div class="col container bg-white mx-5">
-                    soory
-                </div>
-                <div class="col">
-                    <div class="row mt-2"><button type="submit" class="btn btn-top btn-danger" id="save-btn">Save</button></div>
-                    <div class="row mt-2"><button type="submit" class="btn btn-top btn-danger" id="export-btn">Export</button></div>
-                    <div class="row mt-2"><button type="submit" class="btn btn-top btn-danger" id="export-btn">Reset</button></div>
+                <div class="col-sm-7 mt-2 container">
+                    <div class="row mt-2">
+                        <div class="col-sm-3 mx-1">
+                            <div class="top-cluster-mid-text">Level:</div>
+                            <input class="form-control" id="level">
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="top-cluster-mid-text">Class:</div>
+                            <input class="form-control" id="class">
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="top-cluster-mid-text">Race:</div>
+                            <input class="form-control" id="race">
+                        </div>
+                        <div class="row mx-1 mt-2">
+                            <div class="col-sm-4">
+                                <div class="top-cluster-mid-text">Alignment:</div>
+                                <input class="form-control" id="alignment">
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="top-cluster-mid-text">Experience Points:</div>
+                                <input class="form-control" id="exp-points">
+                            </div>
+                            <div class="col-sm-4 mt-2">
+                                <div class="top-cluster-mid-text">Experience Points Range:</div>
+                                <input type="range" class="custom-range" id="exp-range">
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                <div class="col-sm-1 mt-2 justify-content-center">
+                    <div class="row mt-2 "><button type="submit" 
+                        class="btn btn-top btn-danger btn-sm" id="save-btn">Save</button></div>
+                    <div class="row mt-2"><button type="submit" 
+                        class="btn btn-top btn-danger btn-sm" id="export-btn">Export</button></div>
+                    <div class="row mt-2"><button type="submit" 
+                        class="btn btn-top btn-danger btn-sm" id="export-btn">Reset</button></div>
                 </div>
             </div>
             
             <!-- TODO: THE REST -->
-            <div class="row mt-2">
+            <div class="row mt-5">
                 <!-- (Center) Left side skills-->
                 <div class="col"></div>
                
                 <!-- Center image -->
-                <div class="col user-img bg-secondary mt-2">
-                    <img src="./default.jpg" class="border border-danger">
-                    <button type="submit" class="btn btn-top btn-danger mt-2 float-right" id="change-img-btn">Change Image</button>
-
+                <div class="col user-img mt-2">
+                    <img src="./default.jpg" class="border border-dark">
+                    <button type="submit" class="btn btn-danger mt-2 float-right" id="change-img-btn">Change Image</button>
                 </div>
 
                 <!-- (Center) Right side spell slots-->
