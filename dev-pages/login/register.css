@@ -1,0 +1,41 @@
+
+body {
+    background-image: url('register-pic.jpg');
+    background-color: black;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+header {
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.navbar-brand {
+    font-size: 30px;
+}
+
+.top-buffer, .bottom-buffer {
+    margin-top: 170px;
+}
+
+.container {
+    height: 550px;
+    max-width: 700px;
+}
+
+.register-text {
+    color: white;
+    font-weight: bold;
+    font-size: xx-large;
+}
+
+label {
+    color: white;
+}
+
+.signin {
+    font-size: medium;
+    color: rgb(197, 13, 13);
+}
