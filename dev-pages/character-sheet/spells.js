@@ -47,7 +47,7 @@ const tableHeaderTemplate = `
 `;
 
 const deleteButtonContents =
-  '<span aria-hidden="true" class="table-delete">&times;</span>';
+  '<span aria-hidden="true" class="table-delete button-symbol">&times;</span>';
 
 // create and populate tables
 for (let level = 0; level < 10; level++) {

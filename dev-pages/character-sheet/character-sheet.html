@@ -27,6 +27,9 @@
   <!-- Personal CSS -->
   <link rel="stylesheet" href="character-sheet.css">
 
+  <!-- Personal script -->
+  <script defer src="spells.js"></script>
+
   <!-- Google font-->
   <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
 </head>
@@ -640,119 +643,192 @@
       <!-- right-hand parts -->
       <div class="col">
         <!-- Center image  and center cluster-->
-        <div class="col user-img mt-2">
-          <img src="./default.jpg" class="border border-dark">
-          <div class="row">
-            <button type="submit" class="btn btn-danger mt-2 float-right" id="change-img-btn">Change Image</button>
+        <div class="row">
+          <div class="col user-img mt-2">
+            <img src="./default.jpg" class="border border-dark">
+            <div class="row">
+              <button type="submit" class="btn btn-danger mt-2 float-right" id="change-img-btn">Change Image</button>
+            </div>
+            <div class="row pt-4">
+              <div class="row px-3">
+                <div class="col-1 px-1">
+                  <div class="form-group">
+                    <label for="ac">AC</label>
+                    <input type="text" name="ac" id="ac" class="form-control" aria-label="ac">
+                  </div>
+                </div>
+                <div class="col-2 px-1">
+                  <div class="form-group">
+                    <label for="hpMax">HP Max.</label>
+                    <input type="text" name="hpMax" id="hpMax" class="form-control" aria-label="hpMax">
+                  </div>
+                </div>
+                <div class="col-2 px-1">
+                  <div class="form-group">
+                    <label for="tempHp">Temp HP</label>
+                    <input type="text" name="tempHp" id="tempHp" class="form-control" aria-label="tempHp">
+                  </div>
+                </div>
+                <div class="col-2 px-1">
+                  <div class="form-group">
+                    <label for="hp">Current HP</label>
+                    <input type="text" name="hp" id="hp" class="form-control" aria-label="hp">
+                  </div>
+                </div>
+                <div class="col px-1">
+                  <div class="form-group">
+                    <label for="hp-range">Current HP</label>
+                    <!-- TODO programatically set min/max/step -->
+                    <input type="range" name="hp-range" id="hp-range" class="custom-range" aria-label="hp-range">
+                  </div>
+                </div>
+              </div>
+              <div class="row px-3">
+                <!-- inputs -->
+                <div class="col px-1">
+                  <div class="row px-3">
+                    <div class="col-3 px-1">
+                      <div class="form-group">
+                        <label for="initiative">Initiative</label>
+                        <input type="text" name="initiative" id="initiative" class="form-control"
+                          aria-label="initiative">
+                      </div>
+                    </div>
+                    <div class="col px-1">
+                      <div class="form-group">
+                        <label for="hitDice">Hit Dice</label>
+                        <input type="text" name="hitDice" id="hitDice" class="form-control" aria-label="hitDice">
+                      </div>
+                    </div>
+                    <div class="col px-1">
+                      <div class="form-group">
+                        <label for="hitDiceUsed">Dice Used</label>
+                        <input type="text" name="hitDiceUsed" id="hitDiceUsed" class="form-control"
+                          aria-label="hitDiceUsed">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row px-3">
+                    <div class="col-2 px-1">
+                      <div class="form-group">
+                        <label for="speed">Speed</label>
+                        <input type="text" name="speed" id="speed" class="form-control" aria-label="speed">
+                      </div>
+                    </div>
+                    <div class="col px-1">
+                      <div class="form-group">
+                        <label for="deathRollSuccesses">Successes</label>
+                        <input type="text" name="deathRollSuccesses" id="deathRollSuccesses" class="form-control"
+                          aria-label="deathRollSuccesses">
+                      </div>
+                    </div>
+                    <div class="col px-1">
+                      <div class="form-group">
+                        <label for="deathRollFailures">Failures</label>
+                        <input type="text" name="deathRollFailures" id="deathRollFailures" class="form-control"
+                          aria-label="deathRollFailures">
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <!-- dice placeholder -->
+                <div class="col px-1">
+
+                </div>
+              </div>
+              <!-- popup buttons -->
+              <div class="row px-auto mx-auto popup-buttons">
+                <a name="inventory" id="inventoryButton" class="btn btn-primary mx-1" role="button" data-toggle="modal"
+                  data-target="#inv-modal">Inventory</a>
+                <a name="information" id="informationButton" class="btn btn-primary mx-1" role="button"
+                  data-toggle="modal" data-target="#info-modal">Information</a>
+                <a name="spells" id="spellsButton" class="btn btn-primary mx-1" role="button" data-toggle="modal"
+                  data-target="#spells-modal">Spells</a>
+              </div>
+            </div>
           </div>
-          <div class="row">
-            <div class="row px-3">
-              <div class="col-1 px-1">
-                <div class="form-group">
-                  <label for="ac">AC</label>
-                  <input type="text" name="ac" id="ac" class="form-control" aria-label="ac">
-                </div>
-              </div>
-              <div class="col-2 px-1">
-                <div class="form-group">
-                  <label for="hpMax">HP Max.</label>
-                  <input type="text" name="hpMax" id="hpMax" class="form-control" aria-label="hpMax">
-                </div>
-              </div>
-              <div class="col-2 px-1">
-                <div class="form-group">
-                  <label for="tempHp">Temp HP</label>
-                  <input type="text" name="tempHp" id="tempHp" class="form-control" aria-label="tempHp">
-                </div>
-              </div>
-              <div class="col-2 px-1">
-                <div class="form-group">
-                  <label for="hp">Current HP</label>
-                  <input type="text" name="hp" id="hp" class="form-control" aria-label="hp">
-                </div>
-              </div>
-              <div class="col-3 px-1">
-                <div class="form-group">
-                  <label for="hp-range">Current HP</label>
-                  <!-- TODO programatically set min/max/step -->
-                  <input type="range" name="hp-range" id="hp-range" class="custom-range" aria-label="hp-range">
-                </div>
-              </div>
-            </div>
-            <div class="row px-3">
-              <!-- inputs -->
-              <div class="col px-1">
-                <div class="row px-3">
-                  <div class="col-3 px-1">
-                    <div class="form-group">
-                      <label for="initiative">Initiative</label>
-                      <input type="text" name="initiative" id="initiative" class="form-control" aria-label="initiative">
-                    </div>
-                  </div>
-                  <div class="col px-1">
-                    <div class="form-group">
-                      <label for="hitDice">Hit Dice</label>
-                      <input type="text" name="hitDice" id="hitDice" class="form-control" aria-label="hitDice">
-                    </div>
-                  </div>
-                  <div class="col px-1">
-                    <div class="form-group">
-                      <label for="hitDiceUsed">Dice Used</label>
-                      <input type="text" name="hitDiceUsed" id="hitDiceUsed" class="form-control"
-                        aria-label="hitDiceUsed">
-                    </div>
-                  </div>
-                </div>
-                <div class="row px-3">
-                  <div class="col-2 px-1">
-                    <div class="form-group">
-                      <label for="speed">Speed</label>
-                      <input type="text" name="speed" id="speed" class="form-control" aria-label="speed">
-                    </div>
-                  </div>
-                  <div class="col px-1">
-                    <div class="form-group">
-                      <label for="deathRollSuccesses">Successes</label>
-                      <input type="text" name="deathRollSuccesses" id="deathRollSuccesses" class="form-control"
-                        aria-label="deathRollSuccesses">
-                    </div>
-                  </div>
-                  <div class="col px-1">
-                    <div class="form-group">
-                      <label for="deathRollFailures">Failures</label>
-                      <input type="text" name="deathRollFailures" id="deathRollFailures" class="form-control"
-                        aria-label="deathRollFailures">
-                    </div>
-                  </div>
-                </div>
+          <!-- (Center) Right side spell slots-->
+          <div class="col">
+            <div class="row main-text">
+              <div class="col-md-12 mt-7">
+                <div id="label">Spell Slots</div>
+                <div class="dropdown-divider"></div>
+                <div class="row mt-3">
+                  <div class="col-sm mx-1 px-2">
+                    <div class="spell-slots-text column-label">Max:</div>
+                    <!-- fix this cause I don't know what the limit is-->
+                    <input class="form-control mt-1" type="number" min="1" max="10" id="max1">
+                    <input class="form-control mt-2" id="max2">
+                    <input class="form-control mt-0" id="max3">
+                    <input class="form-control mt-0" id="max4">
+                    <input class="form-control mt-0" id="max5">
+                    <input class="form-control mt-0" id="max6">
+                    <input class="form-control mt-0" id="max7">
+                    <input class="form-control mt-0" id="max8">
+                    <input class="form-control mt-0" id="max9">
+                    <input class="form-control mt-0" id="max9">
 
+                  </div>
+                  <div class="col-sm mx-1 px-4">
+                    <div class="spell-slots-text column-label">Used:</div>
+                    <!-- fix this cause I don't know what the limit is so I didn't add any numbers next to the text inputs-->
+                    <input class="form-control mt-1" type="number" min="1" max="10" id="used1">
+                    <input class="form-control mt-2" id="used">
+                    <input class="form-control mt-0" id="used2">
+                    <input class="form-control mt-0" id="used3">
+                    <input class="form-control mt-0" id="used4">
+                    <input class="form-control mt-0" id="used5">
+                    <input class="form-control mt-0" id="used6">
+                    <input class="form-control mt-0" id="used7">
+                    <input class="form-control mt-0" id="used8">
+                    <input class="form-control mt-0" id="used9">
+                  </div>
+                </div><br>
+                <div class="col-md-12 mt-7">
+                  <div id="label">Attacks</div>
+                  <div class="dropdown-divider"></div>
+                  <div class="row mt-3">
+                    <div class="col-sm-4 mx-1 px-2">
+                      <div class="attack-slots-text column-label">Name </div>
+                      <input class="form-control mt-1" type="text">
+                      <input class="form-control mt-1" type="text">
+                      <input class="form-control mt-1" type="text">
+                      <input class="form-control mt-1" type="text">
+                      <input class="form-control mt-1" type="text">
+                    </div>
+                    <div class="col-sm mx-0 px-4">
+                      <div class="attack-slots-text column-label">Bonus </div>
+                      <input class="form-control mt-1" type="text">
+                      <input class="form-control mt-1" type="text">
+                      <input class="form-control mt-1" type="text">
+                      <input class="form-control mt-1" type="text">
+                      <input class="form-control mt-1" type="text">
+                    </div>
+                    <div class="col-sm mx-1 px-4">
+                      <div class="attack-slots-text column-label">DMG / TYP </div>
+                      <input class="form-control mt-1" type="text">
+                      <input class="form-control mt-1" type="text">
+                      <input class="form-control mt-1" type="text">
+                      <input class="form-control mt-1" type="text">
+                      <input class="form-control mt-1" type="text">
+                    </div>
+                  </div>
+                </div>
               </div>
-              <!-- dice placeholder -->
-              <div class="col px-1">
-
-              </div>
-            </div>
-            <!-- popup buttons -->
-            <div class="row px-auto mx-auto popup-buttons">
-              <a name="inventory" id="inventoryButton" class="btn btn-primary mx-1" role="button">Inventory</a>
-              <a name="information" id="informationButton" class="btn btn-primary mx-1" role="button">Information</a>
-              <a name="spells" id="spellsButton" class="btn btn-primary mx-1" role="button">Spells</a>
             </div>
           </div>
         </div>
-        <!-- (Center) Right side spell slots-->
-        <div class="col">
 
-        </div>
         <!-- active features -->
         <div class="row mt-2 mx-2">
           <div class="row main-text">
-            <div class="col-md-12 mt-3">Active Features</div>
+            <div class="col-md-12 mt-3 cluster-heading">Active Features</div>
           </div>
           <div class="dropdown-divider"></div>
           <div class="row mt-3">
             <div class="col-sm-4 mx-1 px-2">
-              <div class="active-features-text">Name:</div>
+              <div class="active-features-text column-label">Name:</div>
               <input class="form-control" id="af-name1">
               <input class="form-control mt-1" id="af-name2">
               <input class="form-control mt-1" id="af-name3">
@@ -761,7 +837,7 @@
               <input class="form-control mt-1" id="af-name6">
             </div>
             <div class="col-sm-2 px-1">
-              <div class="active-features-text">Usage:</div>
+              <div class="active-features-text column-label">Usage:</div>
               <input class="form-control" id="af-usage1">
               <input class="form-control mt-1" id="af-usage2">
               <input class="form-control mt-1" id="af-usage3">
@@ -770,7 +846,7 @@
               <input class="form-control mt-1" id="af-usage6">
             </div>
             <div class="col-sm-2 mx-n1 px-2">
-              <div class="active-features-text">Duration:</div>
+              <div class="active-features-text column-label">Duration:</div>
               <input class="form-control" id="af-dur1">
               <input class="form-control mt-1" id="af-dur2">
               <input class="form-control mt-1" id="af-dur3">
@@ -779,7 +855,7 @@
               <input class="form-control mt-1" id="af-dur6">
             </div>
             <div class="col-sm-2 px-2">
-              <div class="active-features-text">Recovery:</div>
+              <div class="active-features-text column-label">Recovery:</div>
               <input class="form-control" id="af-rec1">
               <input class="form-control mt-1" id="af-rec2">
               <input class="form-control mt-1" id="af-rec3">
@@ -788,7 +864,7 @@
               <input class="form-control mt-1" id="af-rec6">
             </div>
             <div class="col-sm-1 px-1">
-              <div class="active-features-text">Uses:</div>
+              <div class="active-features-text column-label">Uses:</div>
               <input class="form-control" id="af-uses1">
               <input class="form-control mt-1" id="af-uses2">
               <input class="form-control mt-1" id="af-uses3">
@@ -797,7 +873,7 @@
               <input class="form-control mt-1" id="af-uses6">
             </div>
             <div class="col-sm-1 px-2 mx-n1">
-              <div class="active-features-text">Used:</div>
+              <div class="active-features-text column-label">Used:</div>
               <input class="form-control" id="af-used1">
               <input class="form-control mt-1" id="af-used2">
               <input class="form-control mt-1" id="af-used3">
@@ -812,24 +888,306 @@
 
         </div>
       </div>
-
-
-
-
-
-
     </div>
-
-
+  </div>
+  </div>
   </div>
 
+  <!-- Inventory Modal -->
+  <div class="modal fade" id="inv-modal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Character Inventory</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="button-symbol">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- inner container -->
+          <div class="container m-0" id="character-inv-inner">
+            <div class="row">
+              <div class="col-4 pr-1 pl-3">
+                <div class="form-group">
+                  <label for="inv-armor">Armor</label>
+                  <input type="text" name="inv-armor" id="inv-armor" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="inv-shield">Shield</label>
+                  <input type="text" name="inv-shield" id="inv-shield" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="inv-attuned">Attuned Items</label>
+                  <textarea class="form-control" id="inv-attuned" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="inv-other">Other</label>
+                  <textarea class="form-control" id="inv-other" rows="5"></textarea>
+                </div>
+              </div>
+              <div class="col-8 pl-4 pr-4">
+                <div class="row">
+                  <div class="col my-auto px-1">
+                    <div class="form-group">
+                      <label for="inv-plat">Platinum</label>
+                      <input type="number" name="inv-plat" id="inv-plat" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col my-auto px-1">
+                    <div class="form-group">
+                      <label for="inv-gold">Gold</label>
+                      <input type="number" name="inv-gold" id="inv-gold" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col my-auto px-1">
+                    <div class="form-group">
+                      <label for="inv-electrum">Electrum</label>
+                      <input type="number" name="inv-electrum" id="inv-electrum" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col my-auto px-1">
+                    <div class="form-group">
+                      <label for="inv-silver">Silver</label>
+                      <input type="number" name="inv-silver" id="inv-silver" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col my-auto px-1">
+                    <div class="form-group">
+                      <label for="inv-copper">Copper</label>
+                      <input type="number" name="inv-copper" id="inv-copper" class="form-control" placeholder="100">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <!-- Table header -->
+                  <table class="table table-sm">
+                    <thead>
+                      <tr>
+                        <th class="col-9">Name</th>
+                        <th>Qty</th>
+                        <th>Weight</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                  </table>
+                  <!-- TODO figure out a way to set dynamic max-height -->
+                  <!-- Table body -->
+                  <div class="scroll-table">
+                    <table class="table table-sm table-borderless">
+                      <tbody>
+                        <!-- extra rows added for testing, remove for actual use -->
+                        <tr>
+                          <td scope="row" class="col-9">
+                            <input type="text" name="inv-name-1" id="inv-name-1" class="form-control">
+                          </td>
+                          <td>
+                            <input type="text" name="inv-qty-1" id="inv-qty-1" class="form-control">
+                          </td>
+                          <td>
+                            <input type="text" name="inv-wgt-1" id="inv-wgt-1" class="form-control">
+                            <span>
+                            </span>
+                          </td>
+                          <td>
+                            <button type="button" class="close" id="inv-delete-1">
+                              <span aria-hidden="true" class="table-delete button-symbol">&times;</span>
+                            </button>
+                          </td>
+                        </tr>
 
+                        <tr>
+                          <td scope="row">
+                            <button type="button" class="close" aria-label="Delete Item">
+                              <span aria-hidden="true" , class="button-symbol">&plus;</span>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
+  <!-- Character Info Modal -->
+  <div class="modal fade" id="info-modal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Character Information</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="button-symbol">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
 
+          <div class="container m-0" id="char-info-inner">
+            <div class="row">
+              <div class="col-5">
+                <div class="row">
+                  <div class="col pr-1">
+                    <div class="form-group mb-1">
+                      <label for="info-height">Height</label>
+                      <input type="text" name="info-height" id="info-height" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col px-1">
+                    <div class="form-group mb-1">
+                      <label for="info-weight">Weight</label>
+                      <input type="text" name="info-weight" id="info-weight" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col pl-1">
+                    <div class="form-group mb-1">
+                      <label for="info-size">Size</label>
+                      <input type="text" name="info-size" id="info-size" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col pr-1">
+                    <div class="form-group mb-1">
+                      <label for="info-eyes">Eyes</label>
+                      <input type="text" name="info-eyes" id="info-eyes" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col pl-1">
+                    <div class="form-group mb-1">
+                      <label for="info-skin">Skin</label>
+                      <input type="text" name="info-skin" id="info-skin" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-4 pr-1">
+                    <div class="form-group mb-1">
+                      <label for="info-age">Age</label>
+                      <input type="text" name="info-age" id="info-age" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col pl-1">
+                    <div class="form-group mb-1">
+                      <label for="info-hair">Hair</label>
+                      <input type="text" name="info-hair" id="info-hair" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group mb-1">
+                  <label for="info-personality">Personality Traits</label>
+                  <textarea class="form-control" id="info-personality" rows="3"></textarea>
+                </div>
+                <div class="form-group mb-1">
+                  <label for="info-ideals">Ideals</label>
+                  <textarea class="form-control" id="info-ideals" rows="2"></textarea>
+                </div>
+                <div class="form-group mb-1">
+                  <label for="info-bonds">Bonds</label>
+                  <textarea class="form-control" id="info-bonds" rows="2"></textarea>
+                </div>
+                <div class="form-group mb-1">
+                  <label for="info-flaws">Flaws</label>
+                  <textarea class="form-control" id="info-flaws" rows="2"></textarea>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row">
+                  <div class="col pr-1">
+                    <div class="form-group mb-1">
+                      <label for="info-feats">Features & Traits</label>
+                      <textarea class="form-control" id="info-feats" rows="10"></textarea>
+                    </div>
+                  </div>
+                  <div class="col pl-1">
+                    <div class="form-group mb-1">
+                      <label for="info-profs">Proficiencies & Languages</label>
+                      <textarea class="form-control" id="info-profs" rows="10"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group mb-1">
+                  <label for="info-backstory">Backstory</label>
+                  <textarea class="form-control" id="info-backstory" rows="5"></textarea>
+                </div>
+                <div class="form-group mb-1">
+                  <label for="info-allies">Allies & Organizations</label>
+                  <textarea class="form-control" id="info-allies" rows="5"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- spells modal -->
+  <div class="modal fade" id="spells-modal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Character Spells</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="button-symbol">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Tab bar -->
+          <nav>
+            <div class="nav nav-tabs" id="spell-tab" role="tablist">
+              <a class="nav-link active" id="spell-cantrip-tab" data-toggle="tab" href="#spell-0" role="tab"
+                aria-controls="spell-0" aria-selected="true">Cantrips</a>
+              <a class="nav-link" id="spell-1-tab" data-toggle="tab" href="#spell-1" role="tab" aria-controls="spell-1"
+                aria-selected="false">Level 1</a>
+              <a class="nav-link" id="spell-2-tab" data-toggle="tab" href="#spell-2" role="tab" aria-controls="spell-2"
+                aria-selected="false">Level 2</a>
+              <a class="nav-link" id="spell-3-tab" data-toggle="tab" href="#spell-3" role="tab" aria-controls="spell-3"
+                aria-selected="false">Level 3</a>
+              <a class="nav-link" id="spell-4-tab" data-toggle="tab" href="#spell-4" role="tab" aria-controls="spell-4"
+                aria-selected="false">Level 4</a>
+              <a class="nav-link" id="spell-5-tab" data-toggle="tab" href="#spell-5" role="tab" aria-controls="spell-5"
+                aria-selected="false">Level 5</a>
+              <a class="nav-link" id="spell-6-tab" data-toggle="tab" href="#spell-6" role="tab" aria-controls="spell-6"
+                aria-selected="false">Level 6</a>
+              <a class="nav-link" id="spell-7-tab" data-toggle="tab" href="#spell-7" role="tab" aria-controls="spell-7"
+                aria-selected="false">Level 7</a>
+              <a class="nav-link" id="spell-8-tab" data-toggle="tab" href="#spell-8" role="tab" aria-controls="spell-8"
+                aria-selected="false">Level 8</a>
+              <a class="nav-link" id="spell-9-tab" data-toggle="tab" href="#spell-9" role="tab" aria-controls="spell-9"
+                aria-selected="false">Level 9</a>
+            </div>
+          </nav>
+          <!-- Tab contents -->
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="spell-0" role="tabpanel" aria-labelledby="spell-cantrip-tab">
+            </div>
+            <div class="tab-pane fade" id="spell-1" role="tabpanel" aria-labelledby="spell-1-tab">
+            </div>
+            <div class="tab-pane fade" id="spell-2" role="tabpanel" aria-labelledby="spell-2-tab">
+            </div>
+            <div class="tab-pane fade" id="spell-3" role="tabpanel" aria-labelledby="spell-3-tab">
+            </div>
+            <div class="tab-pane fade" id="spell-4" role="tabpanel" aria-labelledby="spell-4-tab">
+            </div>
+            <div class="tab-pane fade" id="spell-5" role="tabpanel" aria-labelledby="spell-5-tab">
+            </div>
+            <div class="tab-pane fade" id="spell-6" role="tabpanel" aria-labelledby="spell-6-tab">
+            </div>
+            <div class="tab-pane fade" id="spell-7" role="tabpanel" aria-labelledby="spell-7-tab">
+            </div>
+            <div class="tab-pane fade" id="spell-8" role="tabpanel" aria-labelledby="spell-8-tab">
+            </div>
+            <div class="tab-pane fade" id="spell-9" role="tabpanel" aria-labelledby="spell-9-tab">
+            </div>
 
-
-
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 

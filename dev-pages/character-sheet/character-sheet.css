@@ -8,6 +8,24 @@ label {
   padding-left: 1px;
 }
 
+#label,
+.column-label,
+label,
+.cluster-heading,
+.modal-title,
+th,
+.button-symbol {
+  color: white;
+}
+
+.modal-content {
+  background-color: #343a40;
+}
+
+.container {
+  max-width: 96%;
+}
+
 .navbar-brand {
   font-size: 30px;
 }
@@ -28,4 +46,13 @@ label {
 img {
   width: 400px;
   height: 400px;
+}
+
+.scroll-table {
+  max-height: 22em;
+  overflow: auto;
+}
+.table-delete {
+  display: inline-block;
+  vertical-align: middle;
 }
