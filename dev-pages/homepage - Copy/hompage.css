@@ -6,6 +6,15 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+header { 
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.navbar-brand {
+    font-size: 30px;
+}
+
 .top-buffer, .bottom-buffer {
     margin-top: 170px;
 }
