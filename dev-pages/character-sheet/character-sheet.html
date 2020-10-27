@@ -38,11 +38,11 @@
   <!-- Navigation bar -->
   <header class="navbar navbar-dark bg-dark">
     <!-- TODO: Add a logo for or website and redirect href link-->
-    <a class="navbar-brand" href="#homepage#">EURYALE</a>
+    <a class="navbar-brand" href="homepage">EURYALE</a>
 
     <div class="nav navbar-nav navbar-right">
-      <li class="nav-item dropdown">
-        <!-- Dropdown trigger --->
+      <div class="nav-item dropdown">
+        <!-- Dropdown trigger -->
         <div class="user-text text-white">
           (Username Placeholder)
           <a class="nav-link dropdown-toggle fas fa-user fa-lg mx-3" role="button" id="userDropdownMenu"
@@ -53,7 +53,7 @@
         <div class="dropdown-menu" aria-labelledby="userDropdownMenu">
           <a class="dropdown-item" href="#">Settings</a>
         </div>
-      </li>
+      </div>
     </div>
   </header>
 
@@ -100,7 +100,7 @@
         </div>
         <div class="row mt-2"><button type="submit" class="btn btn-top btn-danger btn-sm"
             id="export-btn">Export</button></div>
-        <div class="row mt-2"><button type="submit" class="btn btn-top btn-danger btn-sm" id="export-btn">Reset</button>
+        <div class="row mt-2"><button type="submit" class="btn btn-top btn-danger btn-sm" id="reset-btn">Reset</button>
         </div>
       </div>
     </div>
@@ -533,8 +533,8 @@
         <div class="row">
           <div class="col-3 pr-1">
             <div class="form-group">
-              <label for="wisdom">Wisdom</label>
-              <input type="text" name="wisdom" id="wisdom" class="form-control" aria-label="wisdom">
+              <label for="charisma">Charisma</label>
+              <input type="text" name="charisma" id="charisma" class="form-control" aria-label="charisma">
             </div>
           </div>
 
@@ -645,7 +645,7 @@
         <!-- Center image  and center cluster-->
         <div class="row">
           <div class="col user-img mt-2">
-            <img src="./default.jpg" class="border border-dark">
+            <img src="./default.jpg" class="border border-dark" alt="Character Image">
             <div class="row">
               <button type="submit" class="btn btn-danger mt-2 float-right" id="change-img-btn">Change Image</button>
             </div>
@@ -739,11 +739,11 @@
               </div>
               <!-- popup buttons -->
               <div class="row px-auto mx-auto popup-buttons">
-                <a name="inventory" id="inventoryButton" class="btn btn-primary mx-1" role="button" data-toggle="modal"
+                <a id="inventoryButton" class="btn btn-primary mx-1" role="button" data-toggle="modal"
                   data-target="#inv-modal">Inventory</a>
-                <a name="information" id="informationButton" class="btn btn-primary mx-1" role="button"
-                  data-toggle="modal" data-target="#info-modal">Information</a>
-                <a name="spells" id="spellsButton" class="btn btn-primary mx-1" role="button" data-toggle="modal"
+                <a id="informationButton" class="btn btn-primary mx-1" role="button" data-toggle="modal"
+                  data-target="#info-modal">Information</a>
+                <a id="spellsButton" class="btn btn-primary mx-1" role="button" data-toggle="modal"
                   data-target="#spells-modal">Spells</a>
               </div>
             </div>
@@ -752,14 +752,15 @@
           <div class="col">
             <div class="row main-text">
               <div class="col-md-12 mt-7">
-                <div id="label">Spell Slots</div>
+                <div class="label">Spell Slots</div>
                 <div class="dropdown-divider"></div>
                 <div class="row mt-3">
                   <div class="col-sm mx-1 px-2">
                     <div class="spell-slots-text column-label">Max:</div>
                     <!-- fix this cause I don't know what the limit is-->
-                    <input class="form-control mt-1" type="number" min="1" max="10" id="max1">
-                    <input class="form-control mt-2" id="max2">
+                    <input class="form-control mt-1" type="number" min="1" max="10" id="max0">
+                    <input class="form-control mt-2" id="max1">
+                    <input class="form-control mt-0" id="max2">
                     <input class="form-control mt-0" id="max3">
                     <input class="form-control mt-0" id="max4">
                     <input class="form-control mt-0" id="max5">
@@ -767,14 +768,13 @@
                     <input class="form-control mt-0" id="max7">
                     <input class="form-control mt-0" id="max8">
                     <input class="form-control mt-0" id="max9">
-                    <input class="form-control mt-0" id="max9">
 
                   </div>
                   <div class="col-sm mx-1 px-4">
                     <div class="spell-slots-text column-label">Used:</div>
                     <!-- fix this cause I don't know what the limit is so I didn't add any numbers next to the text inputs-->
-                    <input class="form-control mt-1" type="number" min="1" max="10" id="used1">
-                    <input class="form-control mt-2" id="used">
+                    <input class="form-control mt-1" type="number" min="1" max="10" id="used0">
+                    <input class="form-control mt-2" id="used1">
                     <input class="form-control mt-0" id="used2">
                     <input class="form-control mt-0" id="used3">
                     <input class="form-control mt-0" id="used4">
@@ -786,7 +786,7 @@
                   </div>
                 </div><br>
                 <div class="col-md-12 mt-7">
-                  <div id="label">Attacks</div>
+                  <div class="label">Attacks</div>
                   <div class="dropdown-divider"></div>
                   <div class="row mt-3">
                     <div class="col-sm-4 mx-1 px-2">
@@ -890,11 +890,9 @@
       </div>
     </div>
   </div>
-  </div>
-  </div>
 
   <!-- Inventory Modal -->
-  <div class="modal fade" id="inv-modal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal fade" id="inv-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -977,7 +975,7 @@
                       <tbody>
                         <!-- extra rows added for testing, remove for actual use -->
                         <tr>
-                          <td scope="row" class="col-9">
+                          <td class="col-9">
                             <input type="text" name="inv-name-1" id="inv-name-1" class="form-control">
                           </td>
                           <td>
@@ -996,9 +994,10 @@
                         </tr>
 
                         <tr>
-                          <td scope="row">
+                          <!-- this row is 1 column wide and gives a warning, which is intentional -->
+                          <td>
                             <button type="button" class="close" aria-label="Delete Item">
-                              <span aria-hidden="true" , class="button-symbol">&plus;</span>
+                              <span aria-hidden="true" class="button-symbol">&plus;</span>
                             </button>
                           </td>
                         </tr>
@@ -1015,7 +1014,7 @@
   </div>
 
   <!-- Character Info Modal -->
-  <div class="modal fade" id="info-modal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal fade" id="info-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -1125,8 +1124,7 @@
     </div>
   </div>
   <!-- spells modal -->
-  <div class="modal fade" id="spells-modal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
-    aria-hidden="true">
+  <div class="modal fade" id="spells-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
