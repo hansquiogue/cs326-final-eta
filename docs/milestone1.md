@@ -78,20 +78,17 @@ A tabbed pop-up screen to keep track of spells.
 
 Below are the same screens as the wireframe as currently implemented in HTML and CSS. A lot of polish is still required, however much of this is simply due to the fact that the majority of each page is high functional and at least partially will depend on the in-depth JS implementation. Additionally, due to the nature of how many inputs and how much structure is required for this project, a lot of alignment, spacing, and coloring had to be left for the next milestone.
 
-
-![Homepage](milestone1-img/homepage-real.png)
+![Homepage](milestone1-img/homepage-real.PNG)
 
 ![Sign-in](milestone1-img/signin-real.png)
 
 ![Registration](milestone1-img/register-real.png)
 
-![Selector](milestone1-img/selector-real.png)
+![Selector](milestone1-img/selector-real.PNG)
 
-Character sheet page:
+(Unpolished) Character Sheet Page:
 
-![Character Sheet Page 1](milestone1-img/char-page-part1.png)
-
-![Character Sheet Page 2](milestone1-img/char-page-part2.png)
+![Character Sheet Page](milestone1-img/char-page.png)
 
 Pop-ups created with modals:
 
