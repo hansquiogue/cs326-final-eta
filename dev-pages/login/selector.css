@@ -1,0 +1,21 @@
+header { 
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.navbar-brand {
+    font-size: 30px;
+}
+
+.main-text {
+    font-size: 24px;
+    color: white;
+}
+
+img {
+    width: 400px;
+    height: 400px;
+}
+
+#play-btn {
+    margin: auto;
+}
