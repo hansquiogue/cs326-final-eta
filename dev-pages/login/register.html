@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>Euryale - Create a New Account</title>
 
@@ -14,19 +14,18 @@
             crossorigin="anonymous">
         
         <!-- Personal CSS -->
-        <link rel="stylesheet" href="register.css">
+        <link rel="stylesheet" href="login-register.css">
 
         <!-- Google font-->
         <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet"> 
     </head>
-    <body>
-        <div class="bg"></div>
+    <body class="bg-register">
         <header class="navbar navbar-expand-xl- navbar-dark bg-dark">
             <!-- TODO: Add a logo for or website and redirect href link-->
-            <a class="navbar-brand" href="#homepage#">EURYALE</a>
+            <a class="navbar-brand" href="#homepage">EURYALE</a>
         </header>
         <div class="top-buffer"></div>
-        <div class="container border border-danger rounded bg-dark">
+        <div class="container border border-danger rounded bg-dark" id="register-container">
             <div class="row">
                 <div class="col mt-5">
                     <p class="register-text mx-4">Create a New Account</p>
@@ -48,14 +47,14 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="form-group" id="password">
+                    <div class="form-group" id="password-confirm">
                         <label for="pass-input">Confirm Password:</label>
-                        <input type="password" id="pass-input" class="form-control">
+                        <input type="password" id="pass-confirm-input" class="form-control">
                     </div>
                 </div>
             </div>
             <!-- TODO: Redirect href link-->
-            <a class="signin mx-4" href="#signin#">Already have an account?</a>
+            <a class="signin mx-4" href="#signin">Already have an account?</a>
             <div class="row mx-4">
                 <div class="col mt-3">
                     <button type="submit" class="btn btn-danger btn-lg float-right">Register</button>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>Euryale - Sign In</title>
 
@@ -14,19 +14,18 @@
             crossorigin="anonymous">
         
         <!-- Personal CSS -->
-        <link rel="stylesheet" href="login.css">
+        <link rel="stylesheet" href="login-register.css">
 
         <!-- Google font-->
         <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet"> 
     </head>
-    <body>
-        <div class="bg"></div>
+    <body class="bg-signin">
         <header class="navbar navbar-expand-xl navbar-dark bg-dark">
             <!-- TODO: Add a logo for or website and redirect href link-->
-            <a class="navbar-brand" href="#homepage#">EURYALE</a>
+            <a class="navbar-brand" href="#homepage">EURYALE</a>
         </header>
         <div class="top-buffer"></div>
-        <div class="container border border-danger rounded bg-dark">
+        <div class="container border border-danger rounded bg-dark" id="signin-container">
             <div class="row">
                 <div class="col mt-5">
                     <p class="sign-in-text mx-5">Sign In</p>
@@ -41,11 +40,11 @@
                 <input type="password" id="pass-input" class="form-control">
             </div>
             <!-- TODO: Redirect href link-->
-            <a class="forgot mx-5" href="#forgot#">Forgot your username or password?</a>
+            <a class="forgot mx-5" href="#forgot">Forgot your username or password?</a>
             <div class="row">
                 <div class="col mt-5">
                     <!-- TODO: Redirect href link-->
-                    <a class="register mx-5" href="#register#">Create a new account</p>
+                    <a class="register mx-5" href="#register">Create a new account</a>
                 </div>
                 <div class="col mt-5 mx-3">
                     <button type="submit" class="btn btn-danger btn-lg">Sign In</button>
