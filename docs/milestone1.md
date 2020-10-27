@@ -2,21 +2,17 @@
 
 ## Group ETA
 
----
-
 - Jackson Callaghan: *[jackson-callaghan-school](https://github.com/jackson-callaghan-school)*
 
 - John Tan: *[weijohntan](https://github.com/weijohntan)*
 
 - Hans Quiogue: *[hansquiogue](https://github.com/hansquiogue)*
 
----
+
 
 ## Project Euryale
 
 ### *Online Dungeons & Dragons Character Sheet Tool*
-
----
 
 ### **Innovative Idea**
 
@@ -35,7 +31,6 @@ To summarize, user data interactions will be as follows:
 - Exporting character sheets as either PDF or JSON
 
 ## **Wireframes**
----
 
 Here is the Euryale homepage:
 
@@ -99,7 +94,7 @@ Pop-ups created with modals:
 ![Modal 3](milestone1-img/modal3.png)
 
 ## **Division of Labor** 
----
+
 John: 
 - Homepage HTML/CSS/Wireframe 
 - Character Sheet Wireframe
