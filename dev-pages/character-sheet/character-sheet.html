@@ -60,49 +60,63 @@
   <div class="container rounded bg-dark mt-4 sheet-container px-0 mx-auto my-1 p-1">
 
     <!-- Top cluster -->
-    <div class="row top-cluster container section-container rounded p-3 mx-auto">
-      <div class="col-sm-3 mt-4 mx-2 form-group">
-        <div class="text text-white">Character Name:</div>
-        <input class="form-control mt-2" id="char-name">
+    <div class="row p-0 mx-auto">
+      <!-- dice placeholder -->
+      <div class="col-3 container section-container rounded p-3 mr-1">
+        Dice placeholder
       </div>
-      <div class="col-sm-7 mt-2 container">
-        <div class="row mt-2">
-          <div class="col-sm-3 mx-1">
-            <div class="top-cluster-mid-text">Level:</div>
-            <input class="form-control" id="level">
+      <!-- top cluster -->
+      <div class="col top-cluster container section-container rounded p-3 ml-1">
+        <div class="row">
+          <div class="col-sm-3 mt-4 mx-2 form-group">
+            <div class="text text-white">Character Name:</div>
+            <input class="form-control mt-2" id="char-name">
           </div>
-          <div class="col-sm-4">
-            <div class="top-cluster-mid-text">Class:</div>
-            <input class="form-control" id="class">
-          </div>
-          <div class="col-sm-4">
-            <div class="top-cluster-mid-text">Race:</div>
-            <input class="form-control" id="race">
-          </div>
-          <div class="row mx-1 mt-2">
-            <div class="col-sm-4">
-              <div class="top-cluster-mid-text">Alignment:</div>
-              <input class="form-control" id="alignment">
+          <div class="col-sm-7 mt-2 container">
+            <div class="row mt-2">
+              <div class="col-sm-3 mx-1">
+                <div class="top-cluster-mid-text">Level:</div>
+                <input class="form-control" id="level">
+              </div>
+              <div class="col-sm-4">
+                <div class="top-cluster-mid-text">Class:</div>
+                <input class="form-control" id="class">
+              </div>
+              <div class="col-sm-4">
+                <div class="top-cluster-mid-text">Race:</div>
+                <input class="form-control" id="race">
+              </div>
+              <div class="row mx-1 mt-2">
+                <div class="col-sm-4">
+                  <div class="top-cluster-mid-text">Alignment:</div>
+                  <input class="form-control" id="alignment">
+                </div>
+                <div class="col-sm-3">
+                  <div class="top-cluster-mid-text">Experience Points:</div>
+                  <input class="form-control" id="exp-points">
+                </div>
+                <div class="col-sm-4 mt-2">
+                  <div class="top-cluster-mid-text">Experience Points Range:</div>
+                  <input type="range" class="custom-range" id="exp-range">
+                </div>
+              </div>
             </div>
-            <div class="col-sm-3">
-              <div class="top-cluster-mid-text">Experience Points:</div>
-              <input class="form-control" id="exp-points">
+          </div>
+          <div class="col-sm-1 mt-2 justify-content-center">
+            <div class="row mt-2 "><button type="submit" class="btn btn-top btn-danger btn-sm"
+                id="save-btn">Save</button>
             </div>
-            <div class="col-sm-4 mt-2">
-              <div class="top-cluster-mid-text">Experience Points Range:</div>
-              <input type="range" class="custom-range" id="exp-range">
+            <div class="row mt-2"><button type="submit" class="btn btn-top btn-danger btn-sm"
+                id="export-btn">Export</button>
+            </div>
+            <div class="row mt-2"><button type="submit" class="btn btn-top btn-danger btn-sm"
+                id="reset-btn">Reset</button>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-sm-1 mt-2 justify-content-center">
-        <div class="row mt-2 "><button type="submit" class="btn btn-top btn-danger btn-sm" id="save-btn">Save</button>
-        </div>
-        <div class="row mt-2"><button type="submit" class="btn btn-top btn-danger btn-sm"
-            id="export-btn">Export</button></div>
-        <div class="row mt-2"><button type="submit" class="btn btn-top btn-danger btn-sm" id="reset-btn">Reset</button>
-        </div>
-      </div>
+
+
     </div>
 
     <!-- TODO: THE REST -->
