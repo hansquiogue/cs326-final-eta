@@ -22,7 +22,7 @@ th,
   background-color: #343a40;
 }
 
-.container {
+.sheet-container {
   max-width: 96%;
 }
 
@@ -44,8 +44,10 @@ th,
 }
 
 img {
-  width: 400px;
-  height: 400px;
+  max-width: 100%;
+  max-height: 100%;
+  /* width: 400px;
+  height: 400px; */
 }
 
 .scroll-table {
@@ -55,4 +57,34 @@ img {
 .table-delete {
   display: inline-block;
   vertical-align: middle;
+}
+
+.section-container {
+  background-color: #3f474e;
+}
+
+.dropdown-divider {
+  background-color: red;
+}
+
+/* Ability Score and Skill Section */
+
+.skill > * > .input-group-text {
+  font-size: smaller;
+}
+
+.skill > .form-control {
+  padding: 5px;
+  text-align: center;
+}
+
+/* Attack and spell slots section */
+.attack-slots-text,
+.spell-slots-text {
+  font-size: small;
+}
+
+/* Active features section */
+.active-features-text {
+  font-size: small;
 }
