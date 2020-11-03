@@ -57,7 +57,7 @@
     </div>
   </header>
 
-  <div class="container rounded bg-dark mt-4 sheet-container px-0 mx-auto my-1">
+  <div class="container rounded bg-dark mt-4 sheet-container px-0 mx-auto my-1 p-1">
 
     <!-- Top cluster -->
     <div class="row top-cluster container section-container rounded p-3 mx-auto">
@@ -645,7 +645,9 @@
       <div class="col px-0 my-0 ml-1">
         <!-- Center image  and center cluster-->
         <div class="row mb-0 mt-0 mx-0 p-0">
+          <!-- middle column -->
           <div class="col user-img mr-1 ml-0 my-0 p-0">
+            <!-- character image -->
             <div class="row container section-container rounded mt-0 mx-0 mb-1 p-3">
               <img src="./default.jpg" class="border border-dark" alt="Character Image">
               <div class="row">
@@ -653,37 +655,31 @@
                 <button type="submit" class="btn btn-danger mt-2 float-right" id="change-img-btn">Change Image</button>
               </div>
             </div>
+            <!-- center cluster -->
             <div class="row p-3 mx-0 mt-1 mb-0 container section-container rounded">
               <div class="row px-3">
-                <div class="col-1 px-1">
+                <div class="col px-1">
                   <div class="form-group">
                     <label for="ac">AC</label>
                     <input type="text" name="ac" id="ac" class="form-control" aria-label="ac">
                   </div>
                 </div>
-                <div class="col-2 px-1">
+                <div class="col px-1">
                   <div class="form-group">
                     <label for="hpMax">HP Max.</label>
                     <input type="text" name="hpMax" id="hpMax" class="form-control" aria-label="hpMax">
                   </div>
                 </div>
-                <div class="col-2 px-1">
+                <div class="col px-1">
                   <div class="form-group">
                     <label for="tempHp">Temp HP</label>
                     <input type="text" name="tempHp" id="tempHp" class="form-control" aria-label="tempHp">
                   </div>
                 </div>
-                <div class="col-2 px-1">
+                <div class="col px-1">
                   <div class="form-group">
                     <label for="hp">Current HP</label>
                     <input type="text" name="hp" id="hp" class="form-control" aria-label="hp">
-                  </div>
-                </div>
-                <div class="col px-1">
-                  <div class="form-group">
-                    <label for="hp-range">Current HP</label>
-                    <!-- TODO programatically set min/max/step -->
-                    <input type="range" name="hp-range" id="hp-range" class="custom-range" aria-label="hp-range">
                   </div>
                 </div>
               </div>
@@ -734,10 +730,6 @@
                       </div>
                     </div>
                   </div>
-
-                </div>
-                <!-- dice placeholder -->
-                <div class="col px-1">
 
                 </div>
               </div>
