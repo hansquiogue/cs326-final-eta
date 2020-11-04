@@ -68,11 +68,11 @@
       <!-- top cluster -->
       <div class="col top-cluster container section-container rounded p-3 ml-1">
         <div class="row">
-          <div class="col-sm-3 mt-4 mx-2 form-group">
+          <div class="col-sm-3 mx-2 form-group">
             <div class="text text-white">Character Name:</div>
             <input class="form-control mt-2" id="char-name">
           </div>
-          <div class="col-sm-7 mt-2 container">
+          <div class="col-sm-7 mt-n3 container">
             <div class="row mt-2">
               <div class="col-sm-3 mx-1">
                 <div class="top-cluster-mid-text">Level:</div>
@@ -92,52 +92,52 @@
                   <input class="form-control" id="alignment">
                 </div>
                 <div class="col-sm-3">
-                  <div class="top-cluster-mid-text">Experience Points:</div>
+                  <div class="top-cluster-mid-text">Exp. Points:</div>
                   <input class="form-control" id="exp-points">
                 </div>
                 <div class="col-sm-4 mt-2">
-                  <div class="top-cluster-mid-text">Experience Points Range:</div>
+                  <div class="top-cluster-mid-text">Exp. Points Range:</div>
                   <input type="range" class="custom-range" id="exp-range">
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-sm-1 mt-2 justify-content-center">
-            <div class="row mt-2 "><button type="submit" class="btn btn-top btn-danger btn-sm"
+          <div class="col-sm-1">
+            <div class="row mt-2 mx-n5"><button type="submit" class="btn btn-top btn-danger btn-sm"
                 id="save-btn">Save</button>
             </div>
-            <div class="row mt-2"><button type="submit" class="btn btn-top btn-danger btn-sm"
+            <div class="row mt-2 mx-n5"><button type="submit" class="btn btn-top btn-danger btn-sm"
                 id="export-btn">Export</button>
             </div>
-            <div class="row mt-2"><button type="submit" class="btn btn-top btn-danger btn-sm"
+            <div class="row mt-2 mx-n5"><button type="submit" class="btn btn-top btn-danger btn-sm"
                 id="reset-btn">Reset</button>
             </div>
           </div>
         </div>
       </div>
-
-
     </div>
 
     <!-- TODO: THE REST -->
     <div class="row m-1 p-0">
       <!-- (Center) Left side skills-->
-      <div class="col-4 container section-container rounded p-3 mr-1 my-0">
-        <div class="row px-3">
+      <div class="col-4 container-fluid section-container rounded p-3 mr-1 my-0">
+        <div class="row px-4">
           <div class="input-group mb-3">
             <input type="text" class="form-control" aria-label="Proficiency" id="proficiencyBonus">
-            <div class="input-group-append">
+            <div class="input-group-append" id="proficiency-append">
               <span class="input-group-text" id="proficiency-label">Proficiency Bonus</span>
             </div>
           </div>
           <div class="input-group mb-3">
             <input type="text" class="form-control" aria-label="Inspiration" id="inspiration">
-            <div class="input-group-append">
+            <div class="input-group-append" id="inspiration-append">
               <span class="input-group-text" id="inspiration-label">Inspiration</span>
             </div>
           </div>
         </div>
+
         <div class="dropdown-divider"></div>
+
         <!-- Strength -->
         <div class="row">
           <div class="col-3 pr-0 mr-2">
@@ -146,7 +146,7 @@
               <input type="text" name="strength" id="strength" class="form-control" aria-label="Strength">
             </div>
           </div>
-          <div class="col px-1">
+          <div class="col mx-3 px-1">
             <!-- Strength Saving Throws -->
             <div class="skill input-group">
               <input type="text" class="form-control col-2" id="strSave">
@@ -160,7 +160,7 @@
                   <input type="checkbox" name="strSaveExp" id="strSaveExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Saving Throws</span>
               </div>
             </div>
@@ -178,7 +178,7 @@
                   <input type="checkbox" name="athleticsExp" id="athleticsExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Athletics</span>
               </div>
             </div>
@@ -196,7 +196,7 @@
               <input type="text" name="dexterity" id="dexterity" class="form-control" aria-label="dexterity">
             </div>
           </div>
-          <div class="col px-1">
+          <div class="col mx-3 px-1">
             <!-- Saving Throw -->
             <div class="skill input-group">
               <input type="text" class="form-control col-2" id="dexSave">
@@ -210,7 +210,7 @@
                   <input type="checkbox" name="dexSaveExp" id="dexSaveExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Saving Throw</span>
               </div>
             </div>
@@ -228,7 +228,7 @@
                   <input type="checkbox" name="acrobaticsExp" id="acrobaticsExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Acrobatics</span>
               </div>
             </div>
@@ -246,7 +246,7 @@
                   <input type="checkbox" name="sleightOfHandExp" id="sleightOfHandExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Sleight of Hand</span>
               </div>
             </div>
@@ -264,7 +264,7 @@
                   <input type="checkbox" name="stealthExp" id="stealthExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Stealth</span>
               </div>
             </div>
@@ -281,7 +281,7 @@
               <input type="text" name="constitution" id="constitution" class="form-control" aria-label="constitution">
             </div>
           </div>
-          <div class="col px-1">
+          <div class="col mx-3 mt-4 px-1">
             <!-- conSave -->
             <div class="skill input-group">
               <input type="text" class="form-control col-2" id="conSave">
@@ -295,7 +295,7 @@
                   <input type="checkbox" name="conSaveExp" id="conSaveExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Saving Throw</span>
               </div>
             </div>
@@ -312,7 +312,7 @@
             </div>
           </div>
 
-          <div class="col px-1">
+          <div class="col mx-3 px-1">
             <!-- intSave -->
             <div class="skill input-group">
               <input type="text" class="form-control col-2" id="intSave">
@@ -326,7 +326,7 @@
                   <input type="checkbox" name="intSaveExp" id="intSaveExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Saving Throw</span>
               </div>
             </div>
@@ -344,7 +344,7 @@
                   <input type="checkbox" name="arcanaExp" id="arcanaExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Arcana</span>
               </div>
             </div>
@@ -362,7 +362,7 @@
                   <input type="checkbox" name="historyExp" id="historyExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">History</span>
               </div>
             </div>
@@ -380,7 +380,7 @@
                   <input type="checkbox" name="investigationExp" id="investigationExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Investigation</span>
               </div>
             </div>
@@ -398,7 +398,7 @@
                   <input type="checkbox" name="natureExp" id="natureExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Nature</span>
               </div>
             </div>
@@ -416,7 +416,7 @@
                   <input type="checkbox" name="religionExp" id="religionExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Religion</span>
               </div>
             </div>
@@ -433,7 +433,7 @@
             </div>
           </div>
 
-          <div class="col px-1">
+          <div class="col mx-3 px-1">
             <!-- wisSave -->
             <div class="skill input-group">
               <input type="text" class="form-control col-2" id="wisSave">
@@ -447,7 +447,7 @@
                   <input type="checkbox" name="wisSaveExp" id="wisSaveExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Saving Throw</span>
               </div>
             </div>
@@ -465,7 +465,7 @@
                   <input type="checkbox" name="animalHandlingExp" id="animalHandlingExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Animal Handling</span>
               </div>
             </div>
@@ -483,7 +483,7 @@
                   <input type="checkbox" name="insightExp" id="insightExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Insight</span>
               </div>
             </div>
@@ -501,7 +501,7 @@
                   <input type="checkbox" name="medicineExp" id="medicineExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Medicine</span>
               </div>
             </div>
@@ -519,7 +519,7 @@
                   <input type="checkbox" name="perceptionExp" id="perceptionExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Perception</span>
               </div>
             </div>
@@ -537,13 +537,15 @@
                   <input type="checkbox" name="survivalExp" id="survivalExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Survival</span>
               </div>
             </div>
           </div>
         </div>
+
         <div class="dropdown-divider"></div>
+
         <div class="row">
           <div class="col-3 pr-0 mr-2">
             <div class="form-group">
@@ -552,7 +554,7 @@
             </div>
           </div>
 
-          <div class="col px-1">
+          <div class="col mx-3 px-1">
             <!-- chaSave -->
             <div class="skill input-group">
               <input type="text" class="form-control col-2" id="chaSave">
@@ -566,7 +568,7 @@
                   <input type="checkbox" name="chaSaveExp" id="chaSaveExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Saving Throw</span>
               </div>
             </div>
@@ -584,7 +586,7 @@
                   <input type="checkbox" name="deceptionExp" id="deceptionExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Deception</span>
               </div>
             </div>
@@ -602,7 +604,7 @@
                   <input type="checkbox" name="intimidationExp" id="intimidationExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Intimidation</span>
               </div>
             </div>
@@ -620,7 +622,7 @@
                   <input type="checkbox" name="performanceExp" id="performanceExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Performance</span>
               </div>
             </div>
@@ -638,21 +640,12 @@
                   <input type="checkbox" name="persuasionExp" id="persuasionExp">
                 </div>
               </div>
-              <div class="input-group-append">
+              <div class="input-group-append skill-name">
                 <span class="input-group-text">Persuasion</span>
               </div>
             </div>
-
-
           </div>
-
-
-
-
-
         </div>
-
-
       </div>
 
       <!-- right-hand parts -->
@@ -662,12 +655,12 @@
           <!-- middle column -->
           <div class="col user-img mr-1 ml-0 my-0 p-0">
             <!-- character image -->
-            <div class="row container section-container rounded mt-0 mx-0 mb-1 p-3">
+            <div class="row container section-container rounded mt-0 mx-0 mb-1 p-3" id="user-image">
               <img src="./default.jpg" class="border border-dark" alt="Character Image">
-              <div class="row">
-                <!-- TODO fix button placement -->
+              <button type="submit" class="btn btn-danger mt-2" id="change-img-btn">Change Image</button>
+              <!-- <div class="col">
                 <button type="submit" class="btn btn-danger mt-2 float-right" id="change-img-btn">Change Image</button>
-              </div>
+              </div> -->
             </div>
             <!-- center cluster -->
             <div class="row p-3 mx-0 mt-1 mb-0 container section-container rounded">
@@ -765,7 +758,7 @@
                 <div class="label">Spell Slots</div>
                 <div class="dropdown-divider"></div>
                 <div class="row mt-3">
-                  <div class="col-sm mx-1 px-1">
+                  <div class="col-sm mx-2 px-1">
                     <div class="spell-slots-text column-label">Max:</div>
                     <!-- fix this cause I don't know what the limit is-->
                     <input class="form-control mt-1" type="number" min="1" max="10" id="max0">
@@ -795,9 +788,9 @@
                     <input class="form-control mt-0" id="used9">
                   </div>
                 </div><br>
-                <div class="col-md-12 mt-7">
-                  <div class="label">Attacks</div>
-                  <div class="dropdown-divider"></div>
+                <div class="col-md-12 mx-n2 mt-6">
+                  <div class="label mx-n1">Attacks</div>
+                  <div class="dropdown-divider mx-n1"></div>
                   <div class="row mt-3">
                     <div class="col-sm-4 mx-1 px-1">
                       <div class="attack-slots-text column-label">Name </div>
@@ -833,7 +826,7 @@
         <!-- active features -->
         <div class="row mt-1 mx-0 p-3 container section-container rounded">
           <div class="row main-text">
-            <div class="col-md-12 mt-3 cluster-heading">Active Features</div>
+            <div class="col-md-12 cluster-heading">Active Features</div>
           </div>
           <div class="dropdown-divider"></div>
           <div class="row mt-3">

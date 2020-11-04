@@ -43,17 +43,11 @@ th,
   font-size: 15px;
 }
 
-img {
-  max-width: 100%;
-  max-height: 100%;
-  /* width: 400px;
-  height: 400px; */
-}
-
 .scroll-table {
   max-height: 22em;
   overflow: auto;
 }
+
 .table-delete {
   display: inline-block;
   vertical-align: middle;
@@ -87,4 +81,35 @@ img {
 /* Active features section */
 .active-features-text {
   font-size: small;
+}
+
+/* User image */
+img {
+  max-width: 100%;
+  max-height: 100%;
+  /* width: 400px;
+  height: 400px; */
+}
+
+#user-image {
+  position: relative;
+}
+
+#change-img-btn {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+}
+
+/* Skills aligning */
+#proficiency-append, #inspiration-append, .input-group > .skill-name {
+  min-width: 50%;
+}
+
+/* .input-group > .input-group-append {
+  flex: 0 0 20%;
+} */
+
+.input-group .input-group-text {
+  width: 100%;
 }
