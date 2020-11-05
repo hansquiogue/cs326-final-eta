@@ -103,6 +103,7 @@ function createSpellRow(spell, tableBody) {
     cellContent.name = attr;
     cellContent.id = spell.name + "-" + attr;
     cellContent.classList.add("form-control");
+    cellContent.classList.add("special-save");
     cellContent.value = spell[attr];
 
     cell.appendChild(cellContent);

@@ -29,6 +29,7 @@
 
   <!-- Personal script -->
   <script defer src="spells.js"></script>
+  <script defer src="character-sheet.js"></script>
 
   <!-- Google font-->
   <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
@@ -57,10 +58,10 @@
     </div>
   </header>
 
-  <div class="container rounded bg-dark mt-4 sheet-container px-0 mx-auto my-1 p-1">
+  <div class="container rounded bg-dark my-4 sheet-container px-0 mx-auto p-1">
 
     <!-- Top cluster -->
-    <div class="row p-0 mx-auto">
+    <div class="row p-0 m-1">
       <!-- dice placeholder -->
       <div class="col-3 container section-container rounded p-3 mr-1">
         Dice placeholder
@@ -760,76 +761,71 @@
           </div>
           <!-- (Center) Right side spell slots-->
           <div class="col container section-container rounded p-3 ml-1 my-0">
-            <div class="row main-text">
-              <div class="col-md-12 mt-7">
-                <div class="label">Spell Slots</div>
-                <div class="dropdown-divider"></div>
-                <div class="row mt-3">
-                  <div class="col-sm mx-1 px-1">
-                    <div class="spell-slots-text column-label">Max:</div>
-                    <!-- fix this cause I don't know what the limit is-->
-                    <input class="form-control mt-1" type="number" min="1" max="10" id="max0">
-                    <input class="form-control mt-2" id="spellSlotMax1">
-                    <input class="form-control mt-0" id="spellSlotMax2">
-                    <input class="form-control mt-0" id="spellSlotMax3">
-                    <input class="form-control mt-0" id="spellSlotMax4">
-                    <input class="form-control mt-0" id="spellSlotMax5">
-                    <input class="form-control mt-0" id="spellSlotMax6">
-                    <input class="form-control mt-0" id="spellSlotMax7">
-                    <input class="form-control mt-0" id="spellSlotMax8">
-                    <input class="form-control mt-0" id="spellSlotMax9">
+            <div class="label">Spell Slots</div>
+            <div class="dropdown-divider"></div>
+            <div class="row mt-3">
+              <div class="col-sm mx-1 px-1">
+                <div class="spell-slots-text column-label">Max:</div>
+                <!-- fix this cause I don't know what the limit is-->
+                <input class="form-control mt-1" type="number" min="1" max="10" id="max0">
+                <input class="form-control mt-2" id="spellSlotMax1">
+                <input class="form-control mt-0" id="spellSlotMax2">
+                <input class="form-control mt-0" id="spellSlotMax3">
+                <input class="form-control mt-0" id="spellSlotMax4">
+                <input class="form-control mt-0" id="spellSlotMax5">
+                <input class="form-control mt-0" id="spellSlotMax6">
+                <input class="form-control mt-0" id="spellSlotMax7">
+                <input class="form-control mt-0" id="spellSlotMax8">
+                <input class="form-control mt-0" id="spellSlotMax9">
 
-                  </div>
-                  <div class="col-sm mx-1 px-1">
-                    <div class="spell-slots-text column-label">Used:</div>
-                    <!-- fix this cause I don't know what the limit is so I didn't add any numbers next to the text inputs-->
-                    <input class="form-control mt-1" type="number" min="1" max="10" id="used0">
-                    <input class="form-control mt-2" id="spellSlotUsed1">
-                    <input class="form-control mt-0" id="spellSlotUsed2">
-                    <input class="form-control mt-0" id="spellSlotUsed3">
-                    <input class="form-control mt-0" id="spellSlotUsed4">
-                    <input class="form-control mt-0" id="spellSlotUsed5">
-                    <input class="form-control mt-0" id="spellSlotUsed6">
-                    <input class="form-control mt-0" id="spellSlotUsed7">
-                    <input class="form-control mt-0" id="spellSlotUsed8">
-                    <input class="form-control mt-0" id="spellSlotUsed9">
-                  </div>
-                </div><br>
-                <div class="col-md-12 mt-7">
-                  <div class="label">Attacks</div>
-                  <div class="dropdown-divider"></div>
-                  <div class="row mt-3">
-                    <div class="col-sm-4 mx-1 px-1">
-                      <div class="attack-slots-text column-label">Name </div>
-                      <input class="form-control mt-1" type="text" id="attackName0">
-                      <input class="form-control mt-1" type="text" id="attackName1">
-                      <input class="form-control mt-1" type="text" id="attackName2">
-                      <input class="form-control mt-1" type="text" id="attackName3">
-                      <input class="form-control mt-1" type="text" id="attackName4">
-                    </div5
-                    <div class="col-sm-3 mx-0 px-1">
-                      <div class="attack-slots-text column-label">Bonus </div>
-                      <input class="form-control mt-1" type="text" id="attackBonus0">
-                      <input class="form-control mt-1" type="text" id="attackBonus1">
-                      <input class="form-control mt-1" type="text" id="attackBonus2">
-                      <input class="form-control mt-1" type="text" id="attackBonus3">
-                      <input class="form-control mt-1" type="text" id="attackBonus4">
-                    </div>
-                    <div class="col-sm mx-1 px-1">
-                      <div class="attack-slots-text column-label">DMG </div>
-                      <input class="form-control mt-1" type="text" id="attackDMG0">
-                      <input class="form-control mt-1" type="text" id="attackDMG1">
-                      <input class="form-control mt-1" type="text" id="attackDMG2">
-                      <input class="form-control mt-1" type="text" id="attackDMG3">
-                      <input class="form-control mt-1" type="text" id="attackDMG4">
-                    </div>
-                  </div>
+              </div>
+              <div class="col-sm mx-1 px-1">
+                <div class="spell-slots-text column-label">Used:</div>
+                <!-- fix this cause I don't know what the limit is so I didn't add any numbers next to the text inputs-->
+                <input class="form-control mt-1" type="number" min="1" max="10" id="used0">
+                <input class="form-control mt-2" id="spellSlotUsed1">
+                <input class="form-control mt-0" id="spellSlotUsed2">
+                <input class="form-control mt-0" id="spellSlotUsed3">
+                <input class="form-control mt-0" id="spellSlotUsed4">
+                <input class="form-control mt-0" id="spellSlotUsed5">
+                <input class="form-control mt-0" id="spellSlotUsed6">
+                <input class="form-control mt-0" id="spellSlotUsed7">
+                <input class="form-control mt-0" id="spellSlotUsed8">
+                <input class="form-control mt-0" id="spellSlotUsed9">
+              </div>
+            </div>
+            <div class="row-md-12 mt-7">
+              <div class="label">Attacks</div>
+              <div class="dropdown-divider"></div>
+              <div class="row mt-3">
+                <div class="col-sm-4 mx-1 px-1">
+                  <div class="attack-slots-text column-label">Name </div>
+                  <input class="form-control mt-1" type="text" id="attackName0">
+                  <input class="form-control mt-1" type="text" id="attackName1">
+                  <input class="form-control mt-1" type="text" id="attackName2">
+                  <input class="form-control mt-1" type="text" id="attackName3">
+                  <input class="form-control mt-1" type="text" id="attackName4">
+                </div>
+                <div class="col-sm-3 mx-0 px-1">
+                  <div class="attack-slots-text column-label">Bonus </div>
+                  <input class="form-control mt-1" type="text" id="attackBonus0">
+                  <input class="form-control mt-1" type="text" id="attackBonus1">
+                  <input class="form-control mt-1" type="text" id="attackBonus2">
+                  <input class="form-control mt-1" type="text" id="attackBonus3">
+                  <input class="form-control mt-1" type="text" id="attackBonus4">
+                </div>
+                <div class="col-sm mx-1 px-1">
+                  <div class="attack-slots-text column-label">DMG </div>
+                  <input class="form-control mt-1" type="text" id="attackDMG0">
+                  <input class="form-control mt-1" type="text" id="attackDMG1">
+                  <input class="form-control mt-1" type="text" id="attackDMG2">
+                  <input class="form-control mt-1" type="text" id="attackDMG3">
+                  <input class="form-control mt-1" type="text" id="attackDMG4">
                 </div>
               </div>
             </div>
           </div>
         </div>
-
         <!-- active features -->
         <div class="row mt-1 mx-0 p-3 container section-container rounded">
           <div class="row main-text">
@@ -899,6 +895,9 @@
         </div>
       </div>
     </div>
+
+  </div>
+  </div>
   </div>
 
   <!-- Inventory Modal -->
@@ -986,13 +985,13 @@
                         <!-- extra rows added for testing, remove for actual use -->
                         <tr>
                           <td class="col-9">
-                            <input type="text" name="inv-name-1" id="inv-name-1" class="form-control">
+                            <input type="text" name="inv-name-1" id="inv-name-1" class="form-control special-save">
                           </td>
                           <td>
-                            <input type="text" name="inv-qty-1" id="inv-qty-1" class="form-control">
+                            <input type="text" name="inv-qty-1" id="inv-qty-1" class="form-control special-save">
                           </td>
                           <td>
-                            <input type="text" name="inv-wgt-1" id="inv-wgt-1" class="form-control">
+                            <input type="text" name="inv-wgt-1" id="inv-wgt-1" class="form-control special-save">
                             <span>
                             </span>
                           </td>
