@@ -13,12 +13,6 @@ function processGET (request, response, options) {
     // Manage .. API endpoint
     if (parsed.pathname === '/manage-sheets-get') {
 
-    // Manage .. API endpoint
-    } else if (parsed.pathname === '/manage-sheets-add') {
-    
-    // Manage .. API end point
-    } else if (parsed.pathname === '/manage-sheets-delete') {
-    
     // Character sheet .. API end point
     } else if (parsed.pathname === '/char-sheets-get') {
 
@@ -63,11 +57,19 @@ function processPOST (request, response, options) {
     switch (parsed.pathname) {
         // Login attempt API endpoint
         case '/login-attempt':
-            checkRequest(options, ["user", "pass"]);
+            checkRequest(options, ["user", "pass"], true);
             break;
         // Register attempt API endpoint 
         case '/register-attempt':
-            checkRequest(options, ["user", "pass", "email"]);
+            checkRequest(options, ["user", "pass", "email"], true);
+            break;
+        // Adding new character API endpoint
+        case '/manage-sheets-add':
+            checkRequest(options, ["user", "char", "url"], false);
+            break;
+        // Deleting characters API endpoint
+        case '/manage-sheets-delete':
+            checkRequest(options, ["user", "char"], false);
             break;
         // Path not found
         default:
@@ -75,15 +77,20 @@ function processPOST (request, response, options) {
             response.write("404: You seem to be a bit lost adventurer..");
     }
 
-    function checkRequest (opt, keys) {
+    function checkRequest (opt, keys, writeToJSON) {
         // Request invalid
         if (!requestCriteriaValid(opt, keys)) {
             badRequest();
         // Request Valid
         } else {
-            response.writeHead(200, {"Content-Type" : "application/json"});
-            fs.writeFileSync('./client/temp-storage.json', JSON.stringify(opt));
-            response.write(JSON.stringify(opt));
+            if (writeToJSON) {
+                response.writeHead(200, {"Content-Type" : "application/json"});
+                fs.writeFileSync('./client/temp-storage.json', JSON.stringify(opt));
+                response.write(JSON.stringify(opt));
+            } else {
+                response.writeHead(200, {"Content-Type" : "application/json"});
+                response.write(JSON.stringify(opt));
+            }
         }
     }
 
