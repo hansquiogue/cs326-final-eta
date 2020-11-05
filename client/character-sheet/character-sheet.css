@@ -24,6 +24,7 @@ th,
 
 .sheet-container {
   max-width: 96%;
+  min-width: 65em;
 }
 
 .navbar-brand {
@@ -51,9 +52,11 @@ img {
 }
 
 .scroll-table {
-  max-height: 22em;
-  overflow: auto;
+  margin-bottom: 3em;
+  max-height: 20em;
+  overflow-y: auto;
 }
+
 .table-delete {
   display: inline-block;
   vertical-align: middle;
@@ -87,4 +90,24 @@ img {
 /* Active features section */
 .active-features-text {
   font-size: small;
+}
+
+/* Inventory */
+#inv-add-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.name,
+.qty,
+.wgt {
+  /* padding: 2px; */
+}
+
+/* Spells list */
+#spell-add-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
