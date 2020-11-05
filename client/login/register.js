@@ -24,16 +24,14 @@ document.getElementById('register').addEventListener("click", async function() {
         body: JSON.stringify(data),
     });
 
-    // Response error message printed
-    if (!response.ok) {
+    // Response went okay
+    if (response.ok) {
+        const body = await response.json();
+        alert("Account registered " + JSON.stringify(body));
+        window.location.href = "signin.html";
+    } else {
         alert(response.statusText);
         return;
     }
-
-    // Temporary: retrieve user credentials and redirect to character selector page
-    const temp_response = await fetch("../temp-storage.json");
-    const temp_json = await temp_response.json();
-    alert("Account registered " + JSON.stringify(temp_json));
-    window.location.href = "signin.html";
 });
 

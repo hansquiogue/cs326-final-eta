@@ -2,6 +2,7 @@ import * as url from "url";
 import * as http from "http";
 import * as fs from "fs";
 import {join} from 'path';
+import { type } from "os";
 
 // This function processes what happens when a GET Request is called. 
 function processGET (request, response, options) {
@@ -59,52 +60,61 @@ function processPOST (request, response, options) {
     // Parsed requests
     const parsed = url.parse(request.url, true);
 
-    // Login attempt API endpoint
-    if (parsed.pathname === '/login-attempt') {
-        // Requests are not valid
-        if (typeof(options) !== 'object') {
+    switch (parsed.pathname) {
+        // Login attempt API endpoint
+        case '/login-attempt':
+            checkRequest(options, ["user", "pass"]);
+            break;
+        // Register attempt API endpoint 
+        case '/register-attempt':
+            checkRequest(options, ["user", "pass", "email"]);
+            break;
+        // Path not found
+        default:
+            response.writeHead(404);
+            response.write("404: You seem to be a bit lost adventurer..");
+    }
+
+    function checkRequest (opt, keys) {
+        // Request invalid
+        if (!requestCriteriaValid(opt, keys)) {
             badRequest();
-        } else if (Object.keys(options).length !== 2) {
-            badRequest();
-        } else if (!Object.keys(options).includes("user") || !Object.keys(options).includes("pass")) {
-            badRequest();
-        } else if (typeof(options.user) !== 'string' || typeof(options.pass) !== 'string') {
-            badRequest();
-        // TODO: Authentication later?
+        // Request Valid
         } else {
-            response.writeHead(200, {"Content-Type" : "text/javascript"});
-            fs.writeFileSync('./client/temp-storage.json', JSON.stringify(options));
+            response.writeHead(200, {"Content-Type" : "application/json"});
+            fs.writeFileSync('./client/temp-storage.json', JSON.stringify(opt));
+            response.write(JSON.stringify(opt));
         }
-    // Register attempt API endpoint
-    } else if (parsed.pathname === '/register-attempt') {
-        // Requests are not valid
-        if (typeof(options) !== 'object') {
-            badRequest();
-        } else if (Object.keys(options).length !== 3) {
-            badRequest();
-        } else if (!Object.keys(options).includes("user") || !Object.keys(options).includes("pass") ||
-                   !Object.keys(options).includes("email")) {
-            badRequest();
-        } else if (typeof(options.user) !== 'string' || typeof(options.pass) !== 'string' ||
-                   typeof(options.email) !== 'string') {
-            badRequest();
-        // Request valid (for now) 
-        } else {
-            response.writeHead(200, {"Content-Type" : "text/javascript"});
-            fs.writeFileSync('./client/temp-storage.json', JSON.stringify(options));
-        }
-    
-    } else {
-        response.writeHead(404);
-        response.write("404: Page not found!");
     }
 
     function badRequest() {
         response.writeHead(400);
-        response.write("Bad request");
+        response.write("400: Request does not match criteria");
     }
 
     response.end();
+}
+
+// Function that checks if response criteria is met
+function requestCriteriaValid (req, keys) {
+    let valid = true;
+    if (typeof(req) !== 'object') {
+        return !valid;
+    } else if (Object.keys(req).length !== keys.length) {
+        return !valid;
+    // Request includes proper keys
+    } else if (!requestContentsValid(req, keys, (r, k) => Object.keys(r).includes(k))) {
+        return !valid;
+    // Request includes proper values
+    } else if (!requestContentsValid(req, keys, (r, k) => typeof(r[k]) === 'string')) {
+        return !valid;
+    } else {
+        return valid;
+    }
+    // Helper function that checks if quest contents are valid
+    function requestContentsValid (resp, keys, condition) {
+        return keys.filter(key => condition(resp, key)).length === keys.length;
+    }
 }
 
 // Creates the server

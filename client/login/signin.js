@@ -10,21 +10,19 @@ document.getElementById('sign-in').addEventListener("click", async function() {
     }
 
     const data = { user: user, pass: pass };
-
     const response = await fetch("http://localhost:8080/login-attempt", {
         method: 'post',
         body: JSON.stringify(data),
     });
 
-    // Response error message printed
-    if (!response.ok) {
+    // Everything went okay
+    if (response.ok) {
+        const body = await response.json();
+        alert("Credentials Recieved" + JSON.stringify(body));
+        window.location.href = "selector.html";
+    // Response error
+    } else {
         alert(response.statusText);
         return;
     }
-
-    // Temporary: retrieve user credentials and redirect to character selector page
-    const temp_response = await fetch("../temp-storage.json");
-    const temp_json = await temp_response.json();
-    alert("Credentials Recieved" + JSON.stringify(temp_json));
-    window.location.href = "selector.html";
 });
