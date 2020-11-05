@@ -1,17 +1,24 @@
 // Sends POST Request when Sign In button is clicked
 document.getElementById('sign-in').addEventListener("click", async function() {
-    const data = {
-        user: document.getElementById('user-input').value,
-        pass: document.getElementById('pass-input').value
-    };
+    const user = document.getElementById('user-input').value;
+    const pass = document.getElementById('pass-input').value;
+    
+    // Checks if there are entries for all fields
+    if (user.length === 0 || pass.length === 0) {
+        alert("Every field must be filled");
+        return;
+    }
+
+    const data = { user: user, pass: pass };
 
     const response = await fetch("http://localhost:8080/login-attempt", {
         method: 'post',
         body: JSON.stringify(data),
     });
 
+    // Response error message printed
     if (!response.ok) {
-        console.log(response.error);
+        alert(response.statusText);
         return;
     }
 
@@ -21,4 +28,3 @@ document.getElementById('sign-in').addEventListener("click", async function() {
     alert("Credentials Recieved" + JSON.stringify(temp_json));
     window.location.href = "selector.html";
 });
-

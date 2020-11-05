@@ -3,6 +3,9 @@
     <head>
         <title>Euryale - Create a New Account</title>
 
+        <!-- Loads in script -->
+        <script type="module" src="register.js" defer></script>
+
         <!-- Required Bootstrap meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -48,7 +51,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group" id="password-confirm">
-                        <label for="pass-input">Confirm Password:</label>
+                        <label for="pass-confirm-input">Confirm Password:</label>
                         <input type="password" id="pass-confirm-input" class="form-control">
                     </div>
                 </div>
@@ -57,7 +60,7 @@
             <div class="row mx-4">
                 <div class="col mt-3">
                     <!-- Request when button is hit -->
-                    <button type="submit" class="btn btn-danger btn-lg float-right">Register</button>
+                    <button type="submit" class="btn btn-danger btn-lg float-right" id="register">Register</button>
                 </div>
             </div>
         </div>

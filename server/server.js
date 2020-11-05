@@ -70,16 +70,29 @@ function processPOST (request, response, options) {
             badRequest();
         } else if (typeof(options.user) !== 'string' || typeof(options.pass) !== 'string') {
             badRequest();
-        // Request valid (for now) 
         // TODO: Authentication later?
         } else {
             response.writeHead(200, {"Content-Type" : "text/javascript"});
             fs.writeFileSync('./client/temp-storage.json', JSON.stringify(options));
         }
-
     // Register attempt API endpoint
     } else if (parsed.pathname === '/register-attempt') {
-
+        // Requests are not valid
+        if (typeof(options) !== 'object') {
+            badRequest();
+        } else if (Object.keys(options).length !== 3) {
+            badRequest();
+        } else if (!Object.keys(options).includes("user") || !Object.keys(options).includes("pass") ||
+                   !Object.keys(options).includes("email")) {
+            badRequest();
+        } else if (typeof(options.user) !== 'string' || typeof(options.pass) !== 'string' ||
+                   typeof(options.email) !== 'string') {
+            badRequest();
+        // Request valid (for now) 
+        } else {
+            response.writeHead(200, {"Content-Type" : "text/javascript"});
+            fs.writeFileSync('./client/temp-storage.json', JSON.stringify(options));
+        }
     
     } else {
         response.writeHead(404);
