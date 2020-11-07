@@ -5,16 +5,21 @@ document.getElementById('register').addEventListener("click", async function() {
     const pass = document.getElementById('pass-input').value;
     const conf_pass = document.getElementById('pass-confirm-input').value;
     
+    // TODO: Validate code server side
     // Checks if passwords match
     if (pass !== conf_pass) {
         alert("Your password and confirmation password do not match");
         return;
     } 
-    // TODO: Make email valid entry
+    // Username can only include number and letters
+    if (!user.match(/[A-Za-z0-9]+/)) {
+        alert("Username can only include numbers and letters");
+        return;
+    }
 
     // Inputs must not be empty
     if (email.length === 0 || user.length === 0 || pass.length === 0 || conf_pass.length === 0) {
-        alert("Every field must be filled");
+        alert("All field entries must be completed");
         return;
     }
 

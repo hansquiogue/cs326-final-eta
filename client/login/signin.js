@@ -3,11 +3,12 @@ document.getElementById('sign-in').addEventListener("click", async function() {
     const user = document.getElementById('user-input').value;
     const pass = document.getElementById('pass-input').value;
     
+    // TODO: Validate code server side
     // Checks if there are entries for all fields
     if (user.length === 0 || pass.length === 0) {
-        alert("Every field must be filled");
+        alert("All field entries must be completed");
         return;
-    }
+    } 
 
     const data = { user: user, pass: pass };
     const response = await fetch("http://localhost:8080/login-attempt", {
