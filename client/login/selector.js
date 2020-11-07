@@ -17,11 +17,11 @@ window.addEventListener('load', async function() {
 
         // Character name needs to be letters and numbers
         if (name.match(/[A-Za-z0-9 ]+/)) {
-            const data = { user: user, char: name, url: user + '?name=' + name };
+            const data = { user: user, char: name };
             // New request for character
             const add_resp = await fetch("http://localhost:8080/manage-sheets-add", {
                 method: 'post',
-                body: JSON.stringify(data),
+                body: JSON.stringify(data)
             });
             
             if (add_resp.ok) {
@@ -48,14 +48,45 @@ window.addEventListener('load', async function() {
         
         const delete_resp = await fetch('http://localhost:8080/manage-sheets-delete', {
             method: 'post',
-            body: JSON.stringify(data),
+            body: JSON.stringify(data)
         });
 
         if (delete_resp.ok) {
             const body = await delete_resp.json();
-            alert("Chacter deleted" + JSON.stringify(body));
+            alert("Chacter deleted request recieved" + JSON.stringify(body));
 
             deleteCharInGallery();
+        }
+    });
+
+    // Whenever play button is clicked
+    document.getElementById('play-btn').addEventListener('click', async function() {
+        const char = getSelectedCharacter().value;
+        const data = { user: user, char: char };
+
+        const get_resp = await fetch('http://localhost:8080/manage-sheets-get', {
+            method: 'post',
+            body: JSON.stringify(data)
+        });
+
+        if (get_resp.ok) {
+            const body = await get_resp.json();
+            alert("Get character request recieved" + JSON.stringify(body));
+            window.location.href = "../character-sheet/character-sheet.html";
+        }
+    });
+
+    // Whenever log out is clicked
+    document.getElementById('logout').addEventListener('click', async function() {
+        const logout_resp = await fetch('http://localhost:8080/logout-attempt', {
+            method: 'post',
+            body: JSON.stringify({ user: user})
+        });
+
+        if (logout_resp.ok) {
+            const body = await logout_resp.json();
+            alert("User logged out request recieved" + JSON.stringify(body));
+            window.location.href = "/";
         }
     });
 });
