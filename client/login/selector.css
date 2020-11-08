@@ -6,16 +6,25 @@ header {
     font-size: 30px;
 }
 
+.navbar-nav .dropdown-menu {
+    position: absolute;
+    min-width: 100%;
+}
+
 .main-text {
     font-size: 24px;
     color: white;
 }
 
 img {
-    width: 400px;
-    height: 400px;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 #play-btn {
     margin: auto;
+}
+
+.modal-content {
+    background-color: #343a40;
 }

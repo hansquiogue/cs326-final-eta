@@ -3,6 +3,8 @@
     <head>
         <title>Euryale - Sign In</title>
 
+        <!-- Loads in script -->
+        <script type="module" src="signin.js" defer></script>
         <!-- Required Bootstrap meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,8 +23,8 @@
     </head>
     <body class="bg-signin">
         <header class="navbar navbar-expand-xl navbar-dark bg-dark">
-            <!-- TODO: Add a logo for or website and redirect href link-->
-            <a class="navbar-brand" href="#homepage">EURYALE</a>
+            <!-- TODO: New logo? -->
+            <a class="navbar-brand" href="/">EURYALE</a>
         </header>
         <div class="top-buffer"></div>
         <div class="container border border-danger rounded bg-dark" id="signin-container">
@@ -40,20 +42,19 @@
                 <input type="password" id="pass-input" class="form-control">
             </div>
             <!-- TODO: Redirect href link-->
-            <a class="forgot mx-5" href="#forgot">Forgot your username or password?</a>
+            <!-- <a class="forgot mx-5" href="#forgot">Forgot your username or password?</a> -->
             <div class="row">
-                <div class="col mt-5">
-                    <!-- TODO: Redirect href link-->
-                    <a class="register mx-5" href="#register">Create a new account</a>
+                <div class="col-md-8 mt-5">
+                    <a class="register mx-5" href="register.html">Create a new account</a>
                 </div>
-                <div class="col mt-5 mx-3">
-                    <button type="submit" class="btn btn-danger btn-lg">Sign In</button>
+                <div class="col-md-4 mt-5">
+                    <!-- TODO: POST Request for signing in (Authentication?) -->
+                    <button type="submit" class="btn btn-danger btn-lg" id="sign-in">Sign In</button>
                 </div>
             </div>
         </div>
         <div class="bottom-buffer"></div>
         <div class="navbar navbar-expand-xlW navbar-dark bg-dark">
-            <a class="navbar-brand" href="link"></a>
         </div>
     </body>
 </html>
