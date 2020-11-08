@@ -24,6 +24,7 @@ th,
 
 .sheet-container {
   max-width: 96%;
+  min-width: 65em;
 }
 
 .navbar-brand {
@@ -43,9 +44,17 @@ th,
   font-size: 15px;
 }
 
+img {
+  max-width: 100%;
+  max-height: 100%;
+  /* width: 400px;
+  height: 400px; */
+}
+
 .scroll-table {
+  margin-bottom: 3em;
   max-height: 22em;
-  overflow: auto;
+  overflow-y: auto;
 }
 
 .table-delete {
@@ -81,6 +90,26 @@ th,
 /* Active features section */
 .active-features-text {
   font-size: small;
+}
+
+/* Inventory */
+#inv-add-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.name,
+.qty,
+.wgt {
+  /* padding: 2px; */
+}
+
+/* Spells list */
+#spell-add-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
 /* User image */

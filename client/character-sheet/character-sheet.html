@@ -28,7 +28,8 @@
   <link rel="stylesheet" href="character-sheet.css">
 
   <!-- Personal script -->
-  <script defer src="spells.js"></script>
+  <!-- <script defer src="spells.js"></script> -->
+  <script defer src="character-sheet.js"></script>
 
   <!-- Google font-->
   <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
@@ -38,7 +39,7 @@
   <!-- Navigation bar -->
   <header class="navbar navbar-dark bg-dark">
     <!-- TODO: Add a logo for or website and redirect href link-->
-    <a class="navbar-brand" href="/">EURYALE</a>
+    <a class="navbar-brand" href="../homepage/homepage.html">EURYALE</a>
 
     <div class="nav navbar-nav navbar-right">
       <div class="nav-item dropdown">
@@ -57,10 +58,9 @@
     </div>
   </header>
 
-  <div class="container rounded bg-dark mt-4 sheet-container px-0 mx-auto my-1 p-1">
-
+  <div class="container rounded bg-dark my-4 sheet-container px-0 mx-auto p-1">
     <!-- Top cluster -->
-    <div class="row p-0 mx-auto">
+    <div class="row p-0 m-1">
       <!-- dice placeholder -->
       <div class="col-3 container section-container rounded p-3 mr-1">
         Dice placeholder
@@ -69,47 +69,50 @@
       <div class="col top-cluster container section-container rounded p-3 ml-1">
         <div class="row">
           <div class="col-sm-3 mx-2 form-group">
-            <div class="text text-white">Character Name:</div>
-            <input class="form-control mt-2" id="char-name">
+            <label for="name">Character Name</label>
+            <input class="form-control" id="char-name">
+            <label for="name">Player Name</label>
+            <input class="form-control" id="player-name">
           </div>
-          <div class="col-sm-7 mt-n3 container">
-            <div class="row mt-2">
-              <div class="col-sm-3 mx-1">
-                <div class="top-cluster-mid-text">Level:</div>
+          <div class="col-sm-7 container">
+            <div class="row">
+              <div class="col-sm-3 px-2">
+                <label for="level">Level</label>
                 <input class="form-control" id="level">
               </div>
-              <div class="col-sm-4">
-                <div class="top-cluster-mid-text">Class:</div>
+              <div class="col-sm px-2">
+                <label for="class">Class</label>
                 <input class="form-control" id="class">
               </div>
-              <div class="col-sm-4">
-                <div class="top-cluster-mid-text">Race:</div>
+              <div class="col-sm-4 px-2">
+                <label for="race">Race</label>
                 <input class="form-control" id="race">
               </div>
-              <div class="row mx-1 mt-2">
-                <div class="col-sm-4">
-                  <div class="top-cluster-mid-text">Alignment:</div>
-                  <input class="form-control" id="alignment">
-                </div>
-                <div class="col-sm-3">
-                  <div class="top-cluster-mid-text">Exp. Points:</div>
-                  <input class="form-control" id="exp-points">
-                </div>
-                <div class="col-sm-4 mt-2">
-                  <div class="top-cluster-mid-text">Exp. Points Range:</div>
-                  <input type="range" class="custom-range" id="exp-range">
-                </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 px-2">
+                <label for="alignment">Alignment</label>
+                <input class="form-control" id="alignment">
+              </div>
+              <div class="col-sm-3 px-2">
+                <label for="exp-points">EXP to next LVL</label>
+                <input class="form-control" id="exp-points">
+              </div>
+              <div class="col-sm px-2">
+                <label for="exp-range">Experience Points</label>
+                <input type="range" class="custom-range my-2" id="exp-range">
               </div>
             </div>
+
           </div>
-          <div class="col-sm-1">
-            <div class="row mt-2 mx-n5"><button type="submit" class="btn btn-top btn-danger btn-sm"
+          <div class="col-sm-1 justify-content-center mx-2">
+            <div class="row my-1"><button type="submit" class="btn btn-top btn-danger btn-sm"
                 id="save-btn">Save</button>
             </div>
-            <div class="row mt-2 mx-n5"><button type="submit" class="btn btn-top btn-danger btn-sm"
+            <div class="row my-2"><button type="submit" class="btn btn-top btn-danger btn-sm"
                 id="export-btn">Export</button>
             </div>
-            <div class="row mt-2 mx-n5"><button type="submit" class="btn btn-top btn-danger btn-sm"
+            <div class="row my-2"><button type="submit" class="btn btn-top btn-danger btn-sm"
                 id="reset-btn">Reset</button>
             </div>
           </div>
@@ -117,14 +120,14 @@
       </div>
     </div>
 
-    <!-- TODO: THE REST -->
+    <!-- THE REST -->
     <div class="row m-1 p-0">
       <!-- (Center) Left side skills-->
-      <div class="col-4 container-fluid section-container rounded p-3 mr-1 my-0">
-        <div class="row px-4">
+      <div class="col-4 container section-container rounded p-3 mr-1 my-0">
+        <div class="row px-3">
           <div class="input-group mb-3">
             <input type="text" class="form-control" aria-label="Proficiency" id="proficiencyBonus">
-            <div class="input-group-append" id="proficiency-append">
+            <div class="input-group-append">
               <span class="input-group-text" id="proficiency-label">Proficiency Bonus</span>
             </div>
           </div>
@@ -135,9 +138,7 @@
             </div>
           </div>
         </div>
-
         <div class="dropdown-divider"></div>
-
         <!-- Strength -->
         <div class="row">
           <div class="col-3 pr-0 mr-2">
@@ -543,9 +544,7 @@
             </div>
           </div>
         </div>
-
         <div class="dropdown-divider"></div>
-
         <div class="row">
           <div class="col-3 pr-0 mr-2">
             <div class="form-group">
@@ -650,7 +649,7 @@
 
       <!-- right-hand parts -->
       <div class="col px-0 my-0 ml-1">
-        <!-- Center image  and center cluster-->
+        <!-- Center image and center cluster-->
         <div class="row mb-0 mt-0 mx-0 p-0">
           <!-- middle column -->
           <div class="col user-img mr-1 ml-0 my-0 p-0">
@@ -685,7 +684,7 @@
                 </div>
                 <div class="col px-1">
                   <div class="form-group">
-                    <label for="hp">Current HP</label>
+                    <label for="hp">HP</label>
                     <input type="text" name="hp" id="hp" class="form-control" aria-label="hp">
                   </div>
                 </div>
@@ -753,76 +752,67 @@
           </div>
           <!-- (Center) Right side spell slots-->
           <div class="col container section-container rounded p-3 ml-1 my-0">
-            <div class="row main-text">
-              <div class="col-md-12 mt-7">
-                <div class="label">Spell Slots</div>
-                <div class="dropdown-divider"></div>
-                <div class="row mt-3">
-                  <div class="col-sm mx-2 px-1">
-                    <div class="spell-slots-text column-label">Max:</div>
-                    <!-- fix this cause I don't know what the limit is-->
-                    <input class="form-control mt-1" type="number" min="1" max="10" id="max0">
-                    <input class="form-control mt-2" id="max1">
-                    <input class="form-control mt-0" id="max2">
-                    <input class="form-control mt-0" id="max3">
-                    <input class="form-control mt-0" id="max4">
-                    <input class="form-control mt-0" id="max5">
-                    <input class="form-control mt-0" id="max6">
-                    <input class="form-control mt-0" id="max7">
-                    <input class="form-control mt-0" id="max8">
-                    <input class="form-control mt-0" id="max9">
+            <div class="label">Spell Slots</div>
+            <div class="dropdown-divider"></div>
+            <div class="row mt-3">
+              <div class="col-sm mx-1 px-1">
+                <div class="spell-slots-text column-label">Max:</div>
+                <input class="form-control my-1" id="spellSlotMax1" type="number" min="0" max="10">
+                <input class="form-control my-1" id="spellSlotMax2" type="number" min="0" max="10">
+                <input class="form-control my-1" id="spellSlotMax3" type="number" min="0" max="10">
+                <input class="form-control my-1" id="spellSlotMax4" type="number" min="0" max="10">
+                <input class="form-control my-1" id="spellSlotMax5" type="number" min="0" max="10">
+                <input class="form-control my-1" id="spellSlotMax6" type="number" min="0" max="10">
+                <input class="form-control my-1" id="spellSlotMax7" type="number" min="0" max="10">
+                <input class="form-control my-1" id="spellSlotMax8" type="number" min="0" max="10">
+                <input class="form-control my-1" id="spellSlotMax9" type="number" min="0" max="10">
 
-                  </div>
-                  <div class="col-sm mx-1 px-1">
-                    <div class="spell-slots-text column-label">Used:</div>
-                    <!-- fix this cause I don't know what the limit is so I didn't add any numbers next to the text inputs-->
-                    <input class="form-control mt-1" type="number" min="1" max="10" id="used0">
-                    <input class="form-control mt-2" id="used1">
-                    <input class="form-control mt-0" id="used2">
-                    <input class="form-control mt-0" id="used3">
-                    <input class="form-control mt-0" id="used4">
-                    <input class="form-control mt-0" id="used5">
-                    <input class="form-control mt-0" id="used6">
-                    <input class="form-control mt-0" id="used7">
-                    <input class="form-control mt-0" id="used8">
-                    <input class="form-control mt-0" id="used9">
-                  </div>
-                </div><br>
-                <div class="col-md-12 mx-n2 mt-6">
-                  <div class="label mx-n1">Attacks</div>
-                  <div class="dropdown-divider mx-n1"></div>
-                  <div class="row mt-3">
-                    <div class="col-sm-4 mx-1 px-1">
-                      <div class="attack-slots-text column-label">Name </div>
-                      <input class="form-control mt-1" type="text">
-                      <input class="form-control mt-1" type="text">
-                      <input class="form-control mt-1" type="text">
-                      <input class="form-control mt-1" type="text">
-                      <input class="form-control mt-1" type="text">
-                    </div>
-                    <div class="col-sm-3 mx-0 px-1">
-                      <div class="attack-slots-text column-label">Bonus </div>
-                      <input class="form-control mt-1" type="text">
-                      <input class="form-control mt-1" type="text">
-                      <input class="form-control mt-1" type="text">
-                      <input class="form-control mt-1" type="text">
-                      <input class="form-control mt-1" type="text">
-                    </div>
-                    <div class="col-sm mx-1 px-1">
-                      <div class="attack-slots-text column-label">DMG </div>
-                      <input class="form-control mt-1" type="text">
-                      <input class="form-control mt-1" type="text">
-                      <input class="form-control mt-1" type="text">
-                      <input class="form-control mt-1" type="text">
-                      <input class="form-control mt-1" type="text">
-                    </div>
-                  </div>
+              </div>
+              <div class="col-sm mx-1 px-1">
+                <div class="spell-slots-text column-label">Used:</div>
+                <input class="form-control my-1" id="spellSlotUsed1" type="number" min="0" max="10">
+                <input class="form-control my-1" id="spellSlotUsed2" type="number" min="0" max="10">
+                <input class="form-control my-1" id="spellSlotUsed3" type="number" min="0" max="10">
+                <input class="form-control my-1" id="spellSlotUsed4" type="number" min="0" max="10">
+                <input class="form-control my-1" id="spellSlotUsed5" type="number" min="0" max="10">
+                <input class="form-control my-1" id="spellSlotUsed6" type="number" min="0" max="10">
+                <input class="form-control my-1" id="spellSlotUsed7" type="number" min="0" max="10">
+                <input class="form-control my-1" id="spellSlotUsed8" type="number" min="0" max="10">
+                <input class="form-control my-1" id="spellSlotUsed9" type="number" min="0" max="10">
+              </div>
+            </div>
+            <div class="row-md-12 mt-7">
+              <div class="label">Attacks</div>
+              <div class="dropdown-divider"></div>
+              <div class="row mt-3">
+                <div class="col-sm-4 mx-1 px-1">
+                  <div class="attack-slots-text column-label">Name </div>
+                  <input class="form-control mt-1" type="text" id="attackName0">
+                  <input class="form-control mt-1" type="text" id="attackName1">
+                  <input class="form-control mt-1" type="text" id="attackName2">
+                  <input class="form-control mt-1" type="text" id="attackName3">
+                  <input class="form-control mt-1" type="text" id="attackName4">
+                </div>
+                <div class="col-sm-3 mx-0 px-1">
+                  <div class="attack-slots-text column-label">Bonus </div>
+                  <input class="form-control mt-1" type="text" id="attackBonus0">
+                  <input class="form-control mt-1" type="text" id="attackBonus1">
+                  <input class="form-control mt-1" type="text" id="attackBonus2">
+                  <input class="form-control mt-1" type="text" id="attackBonus3">
+                  <input class="form-control mt-1" type="text" id="attackBonus4">
+                </div>
+                <div class="col-sm mx-1 px-1">
+                  <div class="attack-slots-text column-label">DMG </div>
+                  <input class="form-control mt-1" type="text" id="attackDMG0">
+                  <input class="form-control mt-1" type="text" id="attackDMG1">
+                  <input class="form-control mt-1" type="text" id="attackDMG2">
+                  <input class="form-control mt-1" type="text" id="attackDMG3">
+                  <input class="form-control mt-1" type="text" id="attackDMG4">
                 </div>
               </div>
             </div>
           </div>
         </div>
-
         <!-- active features -->
         <div class="row mt-1 mx-0 p-3 container section-container rounded">
           <div class="row main-text">
@@ -888,10 +878,10 @@
           <div class="row mt-4">
             <div class="col-md-12"></div>
           </div>
-
         </div>
       </div>
     </div>
+  </div>
   </div>
 
   <!-- Inventory Modal -->
@@ -900,7 +890,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Character Inventory</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="inv-modal-close">
             <span aria-hidden="true" class="button-symbol">&times;</span>
           </button>
         </div>
@@ -955,7 +945,7 @@
                   <div class="col my-auto px-1">
                     <div class="form-group">
                       <label for="inv-copper">Copper</label>
-                      <input type="number" name="inv-copper" id="inv-copper" class="form-control" placeholder="100">
+                      <input type="number" name="inv-copper" id="inv-copper" class="form-control">
                     </div>
                   </div>
                 </div>
@@ -973,40 +963,13 @@
                   </table>
                   <!-- TODO figure out a way to set dynamic max-height -->
                   <!-- Table body -->
-                  <div class="scroll-table">
-                    <table class="table table-sm table-borderless">
-                      <tbody>
-                        <!-- extra rows added for testing, remove for actual use -->
-                        <tr>
-                          <td class="col-9">
-                            <input type="text" name="inv-name-1" id="inv-name-1" class="form-control">
-                          </td>
-                          <td>
-                            <input type="text" name="inv-qty-1" id="inv-qty-1" class="form-control">
-                          </td>
-                          <td>
-                            <input type="text" name="inv-wgt-1" id="inv-wgt-1" class="form-control">
-                            <span>
-                            </span>
-                          </td>
-                          <td>
-                            <button type="button" class="close" id="inv-delete-1">
-                              <span aria-hidden="true" class="table-delete button-symbol">&times;</span>
-                            </button>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <!-- this row is 1 column wide and gives a warning, which is intentional -->
-                          <td>
-                            <button type="button" class="close" aria-label="Delete Item">
-                              <span aria-hidden="true" class="button-symbol">&plus;</span>
-                            </button>
-                          </td>
-                        </tr>
-                      </tbody>
+                  <div class="scroll-table container">
+                    <table class="table table-sm table-borderless" id="inventory-table">
                     </table>
                   </div>
+                </div>
+                <div class="row">
+                  <button class="btn btn-outline-primary" id="inv-add-btn">Add Item</button>
                 </div>
               </div>
             </div>
@@ -1126,65 +1089,71 @@
       </div>
     </div>
   </div>
-  <!-- spells modal -->
+
+  <!-- Spells modal -->
   <div class="modal fade" id="spells-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Character Spells</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="spell-modal-close">
             <span aria-hidden="true" class="button-symbol">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <!-- Tab bar -->
-          <nav>
-            <div class="nav nav-tabs" id="spell-tab" role="tablist">
-              <a class="nav-link active" id="spell-cantrip-tab" data-toggle="tab" href="#spell-0" role="tab"
-                aria-controls="spell-0" aria-selected="true">Cantrips</a>
-              <a class="nav-link" id="spell-1-tab" data-toggle="tab" href="#spell-1" role="tab" aria-controls="spell-1"
-                aria-selected="false">Level 1</a>
-              <a class="nav-link" id="spell-2-tab" data-toggle="tab" href="#spell-2" role="tab" aria-controls="spell-2"
-                aria-selected="false">Level 2</a>
-              <a class="nav-link" id="spell-3-tab" data-toggle="tab" href="#spell-3" role="tab" aria-controls="spell-3"
-                aria-selected="false">Level 3</a>
-              <a class="nav-link" id="spell-4-tab" data-toggle="tab" href="#spell-4" role="tab" aria-controls="spell-4"
-                aria-selected="false">Level 4</a>
-              <a class="nav-link" id="spell-5-tab" data-toggle="tab" href="#spell-5" role="tab" aria-controls="spell-5"
-                aria-selected="false">Level 5</a>
-              <a class="nav-link" id="spell-6-tab" data-toggle="tab" href="#spell-6" role="tab" aria-controls="spell-6"
-                aria-selected="false">Level 6</a>
-              <a class="nav-link" id="spell-7-tab" data-toggle="tab" href="#spell-7" role="tab" aria-controls="spell-7"
-                aria-selected="false">Level 7</a>
-              <a class="nav-link" id="spell-8-tab" data-toggle="tab" href="#spell-8" role="tab" aria-controls="spell-8"
-                aria-selected="false">Level 8</a>
-              <a class="nav-link" id="spell-9-tab" data-toggle="tab" href="#spell-9" role="tab" aria-controls="spell-9"
-                aria-selected="false">Level 9</a>
-            </div>
-          </nav>
-          <!-- Tab contents -->
-          <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="spell-0" role="tabpanel" aria-labelledby="spell-cantrip-tab">
-            </div>
-            <div class="tab-pane fade" id="spell-1" role="tabpanel" aria-labelledby="spell-1-tab">
-            </div>
-            <div class="tab-pane fade" id="spell-2" role="tabpanel" aria-labelledby="spell-2-tab">
-            </div>
-            <div class="tab-pane fade" id="spell-3" role="tabpanel" aria-labelledby="spell-3-tab">
-            </div>
-            <div class="tab-pane fade" id="spell-4" role="tabpanel" aria-labelledby="spell-4-tab">
-            </div>
-            <div class="tab-pane fade" id="spell-5" role="tabpanel" aria-labelledby="spell-5-tab">
-            </div>
-            <div class="tab-pane fade" id="spell-6" role="tabpanel" aria-labelledby="spell-6-tab">
-            </div>
-            <div class="tab-pane fade" id="spell-7" role="tabpanel" aria-labelledby="spell-7-tab">
-            </div>
-            <div class="tab-pane fade" id="spell-8" role="tabpanel" aria-labelledby="spell-8-tab">
-            </div>
-            <div class="tab-pane fade" id="spell-9" role="tabpanel" aria-labelledby="spell-9-tab">
-            </div>
+          <div class="row">
+            <nav>
+              <div class="nav nav-tabs" id="spell-tab" role="tablist">
+                <a class="nav-link active" id="spell-tab-0" data-toggle="tab" href="#spell-0" role="tab"
+                  aria-controls="spell-0" aria-selected="true">Cantrips</a>
+                <a class="nav-link" id="spell-tab-1" data-toggle="tab" href="#spell-1" role="tab"
+                  aria-controls="spell-1" aria-selected="false">1st</a>
+                <a class="nav-link" id="spell-tab-2" data-toggle="tab" href="#spell-2" role="tab"
+                  aria-controls="spell-2" aria-selected="false">2nd</a>
+                <a class="nav-link" id="spell-tab-3" data-toggle="tab" href="#spell-3" role="tab"
+                  aria-controls="spell-3" aria-selected="false">3rd</a>
+                <a class="nav-link" id="spell-tab-4" data-toggle="tab" href="#spell-4" role="tab"
+                  aria-controls="spell-4" aria-selected="false">4th</a>
+                <a class="nav-link" id="spell-tab-5" data-toggle="tab" href="#spell-5" role="tab"
+                  aria-controls="spell-5" aria-selected="false">5th</a>
+                <a class="nav-link" id="spell-tab-6" data-toggle="tab" href="#spell-6" role="tab"
+                  aria-controls="spell-6" aria-selected="false">6th</a>
+                <a class="nav-link" id="spell-tab-7" data-toggle="tab" href="#spell-7" role="tab"
+                  aria-controls="spell-7" aria-selected="false">7th</a>
+                <a class="nav-link" id="spell-tab-8" data-toggle="tab" href="#spell-8" role="tab"
+                  aria-controls="spell-8" aria-selected="false">8th</a>
+                <a class="nav-link" id="spell-tab-9" data-toggle="tab" href="#spell-9" role="tab"
+                  aria-controls="spell-9" aria-selected="false">9th</a>
+              </div>
+            </nav>
+            <!-- Tab contents -->
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="spell-0" role="tabpanel" aria-labelledby="spell-tab-0">
+              </div>
+              <div class="tab-pane fade" id="spell-1" role="tabpanel" aria-labelledby="spell-tab-1">
+              </div>
+              <div class="tab-pane fade" id="spell-2" role="tabpanel" aria-labelledby="spell-tab-2">
+              </div>
+              <div class="tab-pane fade" id="spell-3" role="tabpanel" aria-labelledby="spell-tab-3">
+              </div>
+              <div class="tab-pane fade" id="spell-4" role="tabpanel" aria-labelledby="spell-tab-4">
+              </div>
+              <div class="tab-pane fade" id="spell-5" role="tabpanel" aria-labelledby="spell-tab-5">
+              </div>
+              <div class="tab-pane fade" id="spell-6" role="tabpanel" aria-labelledby="spell-tab-6">
+              </div>
+              <div class="tab-pane fade" id="spell-7" role="tabpanel" aria-labelledby="spell-tab-7">
+              </div>
+              <div class="tab-pane fade" id="spell-8" role="tabpanel" aria-labelledby="spell-tab-8">
+              </div>
+              <div class="tab-pane fade" id="spell-9" role="tabpanel" aria-labelledby="spell-tab-9">
+              </div>
 
+            </div>
+          </div>
+          <div class="row m-3">
+            <button class="btn btn-outline-primary m-3" id="spell-add-btn">Add Item</button>
           </div>
         </div>
       </div>
