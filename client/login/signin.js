@@ -20,7 +20,9 @@ document.getElementById('sign-in').addEventListener("click", async function() {
     if (response.ok) {
         const body = await response.json();
         alert("Credentials Recieved" + JSON.stringify(body));
-        window.location.href = "selector.html";
+        
+        // Redirects with GET request query to a character selection gallery
+        window.location.href = "selector.html?user=" + user + '&token=' + 'TODO-AUTHORIZATION';
     // Response error
     } else {
         alert(response.statusText);

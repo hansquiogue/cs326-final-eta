@@ -66,14 +66,13 @@ function processPOST (request, response, options) {
         case '/logout-attempt':
             checkRequest(options, ["user"], false);
             break;
+        case '/manage-sheets-load':
+            checkRequest(options, ["user", "token"], false);
+            break;
         // Get character API endpoint
-        case '/manage-sheets-get':
-            checkRequest(options, ["user", "char"], false);
-            break
+        case '/manage-sheets-select':
         // Adding new character API endpoint
         case '/manage-sheets-add':
-            checkRequest(options, ["user", "char"], false);
-            break;
         // Deleting characters API endpoint
         case '/manage-sheets-delete':
             checkRequest(options, ["user", "char"], false);
