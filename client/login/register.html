@@ -3,6 +3,9 @@
     <head>
         <title>Euryale - Create a New Account</title>
 
+        <!-- Loads in script -->
+        <script type="module" src="register.js" defer></script>
+
         <!-- Required Bootstrap meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,7 +25,7 @@
     <body class="bg-register">
         <header class="navbar navbar-expand-xl- navbar-dark bg-dark">
             <!-- TODO: Add a logo for or website and redirect href link-->
-            <a class="navbar-brand" href="#homepage">EURYALE</a>
+            <a class="navbar-brand" href="/">EURYALE</a>
         </header>
         <div class="top-buffer"></div>
         <div class="container border border-danger rounded bg-dark" id="register-container">
@@ -48,16 +51,16 @@
                 </div>
                 <div class="col">
                     <div class="form-group" id="password-confirm">
-                        <label for="pass-input">Confirm Password:</label>
+                        <label for="pass-confirm-input">Confirm Password:</label>
                         <input type="password" id="pass-confirm-input" class="form-control">
                     </div>
                 </div>
             </div>
-            <!-- TODO: Redirect href link-->
-            <a class="signin mx-4" href="#signin">Already have an account?</a>
+            <a class="signin mx-4" href="signin.html">Already have an account?</a>
             <div class="row mx-4">
                 <div class="col mt-3">
-                    <button type="submit" class="btn btn-danger btn-lg float-right">Register</button>
+                    <!-- Request when button is hit -->
+                    <button type="submit" class="btn btn-danger btn-lg float-right" id="register">Register</button>
                 </div>
             </div>
         </div>
