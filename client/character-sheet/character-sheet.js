@@ -147,10 +147,10 @@ function periodicSaveAll() {
  * @param  {} sheet=null The sheet to use, if null window.characterSheet is used.
  */
 function updateFromObj(sheet = null) {
-  sheet === null ? (sheet = window.characterSheet) : (sheet = sheet);
-  for (item in sheet) {
+  sheet === null ? (sheet = window.characterSheet) : null;
+  for (const item in sheet) {
     if (!["inventory", "spells"].includes(item)) {
-      document.getElementById(item).value = characterSheet[item];
+      document.getElementById(item).value = window.characterSheet[item];
     }
   }
 }
@@ -172,7 +172,7 @@ function createInventoryRow(item) {
     qtyCell = row.insertCell(),
     wgtCell = row.insertCell(),
     closeCell = row.insertCell(),
-    rowNum = window.characterSheet["inventory"].length - 1,
+    // rowNum = window.characterSheet["inventory"].length - 1,
     nameInput = document.createElement("input"),
     qtyInput = document.createElement("input"),
     wgtInput = document.createElement("input"),
@@ -211,7 +211,7 @@ function createInventoryRow(item) {
 /**
  * Add a row to the inventory list.
  */
-function addInventoryItem(e) {
+function addInventoryItem() {
   const blank = templateCopy(invItemTemplate);
   window.characterSheet["inventory"].push(blank);
   createInventoryRow(blank);
@@ -249,8 +249,10 @@ function deleteInventoryItem(e) {
   row.remove();
 }
 
-function addSpell(e) {
-  window.characterSheet["spells"][currentSpellTab].push(templateCopy());
+function addSpell() {
+  window.characterSheet["spells"][currentSpellTab].push(
+    templateCopy(spellTemplate)
+  );
   const table = document.getElementById("spell-table-body-" + currentSpellTab);
   createSpellRow(templateCopy(spellTemplate), table);
 }
@@ -259,7 +261,7 @@ function createSpellTables() {
   // create and populate tables
   for (let level = 0; level < 10; level++) {
     // delete previous spell table (if exists)
-    targetElement = document.getElementById("spell-" + level);
+    const targetElement = document.getElementById("spell-" + level);
     while (targetElement.firstChild) {
       targetElement.removeChild(targetElement.lastChild);
     }
@@ -279,7 +281,7 @@ function createSpellTables() {
     tableBodyWrapper.appendChild(tableBody);
 
     // Populate the table with saved spells
-    for (let spell of window.characterSheet["spells"][level]) {
+    for (const spell of window.characterSheet["spells"][level]) {
       createSpellRow(spell, tableBody);
     }
 
@@ -297,10 +299,10 @@ function createSpellRow(spell, tableBody) {
   // add new row
   const row = tableBody.insertRow();
   // create cells for each attribute of the spell
-  for (attr in spell) {
+  for (const attr in spell) {
     const cell = row.insertCell();
     cell.classList.add("col-" + cellSizes[attr]);
-    cellContent = document.createElement("input");
+    const cellContent = document.createElement("input");
     cellContent.type = "text";
     cellContent.name = attr;
     cellContent.id = spell.name + "-" + attr;
@@ -332,8 +334,8 @@ function saveSpell(e) {
 }
 
 function saveAllSpells() {
-  for (level - 0; level < 10; level++) {
-    table = document.getElementById("spell-table-body-" + i);
+  for (let level = 0; level < 10; level++) {
+    const table = document.getElementById("spell-table-body-" + level);
     for (let i = 0; i < table.rows.length; i++) {
       const row = table.rows[i];
       for (let j = 0; j < row.cells.length; j++) {
@@ -377,7 +379,7 @@ async function exportSheet() {
   };
 
   saveSheet();
-  const file = await fetch("/char-sheets-export");
+  const file = await fetch("/char-sheets-export", options);
 
   if (file.ok) {
     const fileParse = await file.json();
