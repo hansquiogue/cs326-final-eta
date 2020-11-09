@@ -31,6 +31,11 @@ th,
   font-size: 30px;
 }
 
+.navbar-nav .dropdown-menu {
+  position: absolute;
+  min-width: 100%;
+}
+
 .fa-user {
   color: grey;
 }
@@ -134,10 +139,6 @@ img {
 #proficiency-append, #inspiration-append, .input-group > .skill-name {
   min-width: 50%;
 }
-
-/* .input-group > .input-group-append {
-  flex: 0 0 20%;
-} */
 
 .input-group .input-group-text {
   width: 100%;
