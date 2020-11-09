@@ -101,12 +101,6 @@ document
 document.getElementById("dice-notation").addEventListener("input", checkDice);
 document.getElementById("rollBtn").addEventListener("mouseup", rollDice);
 
-// keep track of current spell tab pane
-let currentSpellTab = "0";
-$('a[data-toggle="tab"]').on("shown.bs.tab", (e) => {
-  currentSpellTab = e.target.id.split("-")[2];
-});
-
 // update whole sheet
 updateSheetValues();
 
@@ -115,7 +109,7 @@ updateSheetValues();
 // setTimeout(periodicSaveAll, 60000);
 
 // debug
-document.getElementById("export-btn").addEventListener("mouseup", (e) => {
+document.getElementById("export-btn").addEventListener("mouseup", () => {
   console.log(window.characterSheet);
 });
 
@@ -253,11 +247,23 @@ function deleteInventoryItem(e) {
   row.remove();
 }
 
+function getActiveSpellTab() {
+  // Overcomplicated function because we're not allowed jquery
+  for (const child of document.getElementById("nav-tabContent").children) {
+    if (child.classList.contains("active")) {
+      return child.id.split("-")[1];
+    }
+  }
+  return -1;
+}
+
 function addSpell() {
-  window.characterSheet["spells"][currentSpellTab].push(
+  window.characterSheet["spells"][getActiveSpellTab()].push(
     templateCopy(spellTemplate)
   );
-  const table = document.getElementById("spell-table-body-" + currentSpellTab);
+  const table = document.getElementById(
+    "spell-table-body-" + getActiveSpellTab()
+  );
   createSpellRow(templateCopy(spellTemplate), table);
 }
 
@@ -332,7 +338,7 @@ function createSpellRow(spell, tableBody) {
 
 function saveSpell(e) {
   const row = this.parentElement.parentElement;
-  window.characterSheet["spells"][currentSpellTab][row.rowIndex][
+  window.characterSheet["spells"][getActiveSpellTab()][row.rowIndex][
     this.classList[0]
   ] = this.value;
 }
@@ -354,7 +360,7 @@ function saveAllSpells() {
 function deleteSpell() {
   const row = this.parentElement.parentElement;
   // remove inventory item from memory obj
-  window.characterSheet["spells"][currentSpellTab].splice(row.rowIndex, 1);
+  window.characterSheet["spells"][getActiveSpellTab()].splice(row.rowIndex, 1);
   row.remove();
 }
 
@@ -406,7 +412,12 @@ async function resetSheet() {
     )
   ) {
     // clear checkboxes
-    $("input[type=checkbox]").prop("checked", false);
+    const inputs = document.getElementsById("input");
+    for (const input of inputs) {
+      if (input.type.toLowerCase() === "checkbox") {
+        input.checked = false;
+      }
+    }
     // clear basic inputs
     for (const input of docInputs) {
       if (!input.classList.contains("special-save")) {
@@ -448,18 +459,26 @@ async function resetSheet() {
   }
 }
 
+function toggleDiceParseErrorFormatting() {
+  const input = document.getElementById("dice-notation");
+  if (input.classList.contains("is-invalid")) {
+    input.classList.remove("is-invalid");
+    input.classList.remove("text-danger");
+  } else {
+    input.classList.add("is-invalid");
+    input.classList.add("text-danger");
+  }
+}
+
 function checkDice() {
   try {
     window.Dice.parse(document.getElementById("dice-notation").value);
-    $("input#dice-notation").removeClass("is-invalid");
-    $("input#dice-notation").removeClass("text-danger");
+    toggleDiceParseErrorFormatting();
   } catch {
     if (document.getElementById("dice-notation").value === "") {
-      $("input#dice-notation").removeClass("is-invalid");
-      $("input#dice-notation").removeClass("text-danger");
+      toggleDiceParseErrorFormatting();
     } else {
-      $("input#dice-notation").addClass("is-invalid");
-      $("input#dice-notation").addClass("text-danger");
+      toggleDiceParseErrorFormatting();
     }
   }
 }
@@ -472,12 +491,10 @@ function rollDice() {
     let result = "" + roll.result + " (" + roll.rolls.join(" + ") + ")";
     result += roll.modifier ? " + " + roll.modifier : "";
     document.getElementById("roll-result").value = result;
-    $("input#dice-notation").removeClass("is-invalid");
-    $("input#dice-notation").removeClass("text-danger");
+    toggleDiceParseErrorFormatting();
   } catch (error) {
     // console.log(error);
-    $("input#dice-notation").addClass("is-invalid");
-    $("input#dice-notation").addClass("text-danger");
+    toggleDiceParseErrorFormatting();
     return;
   }
 }
