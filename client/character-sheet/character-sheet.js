@@ -459,26 +459,31 @@ async function resetSheet() {
   }
 }
 
-function toggleDiceParseErrorFormatting() {
+function diceError() {
+  const input = document.getElementById("dice-notation");
+  if (!input.classList.contains("is-invalid")) {
+    input.classList.add("is-invalid");
+    input.classList.add("text-danger");
+  }
+}
+
+function diceNoError() {
   const input = document.getElementById("dice-notation");
   if (input.classList.contains("is-invalid")) {
     input.classList.remove("is-invalid");
     input.classList.remove("text-danger");
-  } else {
-    input.classList.add("is-invalid");
-    input.classList.add("text-danger");
   }
 }
 
 function checkDice() {
   try {
     window.Dice.parse(document.getElementById("dice-notation").value);
-    toggleDiceParseErrorFormatting();
+    diceNoError();
   } catch {
     if (document.getElementById("dice-notation").value === "") {
-      toggleDiceParseErrorFormatting();
+      diceNoError();
     } else {
-      toggleDiceParseErrorFormatting();
+      diceError();
     }
   }
 }
@@ -491,10 +496,10 @@ function rollDice() {
     let result = "" + roll.result + " (" + roll.rolls.join(" + ") + ")";
     result += roll.modifier ? " + " + roll.modifier : "";
     document.getElementById("roll-result").value = result;
-    toggleDiceParseErrorFormatting();
+    diceNoError();
   } catch (error) {
     // console.log(error);
-    toggleDiceParseErrorFormatting();
+    diceError();
     return;
   }
 }
@@ -558,7 +563,9 @@ window.addEventListener("load", async () => {
   // Token from url param
   const token = url_params.get("token");
 
-  const response = await fetch("/char-sheets-load?user=" + user + "&char=" + char + "&token=" + token);
+  const response = await fetch(
+    "/char-sheets-load?user=" + user + "&char=" + char + "&token=" + token
+  );
 
   if (response.ok) {
     const body = await response.json();
