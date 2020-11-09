@@ -24,6 +24,10 @@
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
     integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
+  <!-- Dice parsing script -->
+  <script src="https://cdn.jsdelivr.net/gh/chapelr/dice-notation@latest/dist/dice.min.js" type="text/javascript"
+    defer></script>
+
   <!-- Personal CSS -->
   <link rel="stylesheet" href="character-sheet.css">
 
@@ -63,7 +67,17 @@
     <div class="row p-0 m-1">
       <!-- dice placeholder -->
       <div class="col-3 container section-container rounded p-3 mr-1">
-        Dice placeholder
+        <div class="mx-2 form-group">
+          <label for="name">Roll (Dice Notation)</label>
+          <div class="input-group" id="dice-input">
+            <input type="text" class="form-control" id="dice-notation">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" id="rollBtn">Roll!</button>
+            </div>
+          </div>
+          <label for="name">Result</label>
+          <input class="form-control" id="roll-result">
+        </div>
       </div>
       <!-- top cluster -->
       <div class="col top-cluster container section-container rounded p-3 ml-1">

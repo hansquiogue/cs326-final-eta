@@ -97,6 +97,10 @@ document
   .getElementById("spell-modal-close")
   .addEventListener("mouseup", saveAllSpells);
 
+// dice roller
+document.getElementById("dice-notation").addEventListener("input", checkDice);
+document.getElementById("rollBtn").addEventListener("mouseup", rollDice);
+
 // keep track of current spell tab pane
 let currentSpellTab = "0";
 $('a[data-toggle="tab"]').on("shown.bs.tab", (e) => {
@@ -371,8 +375,14 @@ async function saveSheet() {
     body: JSON.stringify(window.characterSheet),
   };
 
-  await fetch("/char-sheets-save", options);
+  const response = await fetch("/char-sheets-save", options);
+
+  if (response.ok) {
+    const body = await response.text();
+    alert("Sheet accepted" + JSON.stringify(body));
+  }
 }
+
 async function exportSheet() {
   const options = {
     method: "GET",
@@ -383,12 +393,96 @@ async function exportSheet() {
 
   if (file.ok) {
     const fileParse = await file.json();
-    console.log("Got file:");
-    console.log(fileParse);
+    alert("Exported file (placeholder)" + JSON.stringify(fileParse));
+    // console.log("Got file:");
+    // console.log(fileParse);
   }
 }
 async function resetSheet() {
-  // TODO add a confirmation dialog and strip all data
+  // check that user didn't click accidentally
+  if (
+    window.confirm(
+      "Are you sure? This will delete your character sheet forever."
+    )
+  ) {
+    // clear checkboxes
+    $("input[type=checkbox]").prop("checked", false);
+    // clear basic inputs
+    for (const input of docInputs) {
+      if (!input.classList.contains("special-save")) {
+        input.value = ""; // on-page
+        window.characterSheet[input.id] = ""; // in-memory
+      }
+    }
+    // clear spells
+    for (let level = 0; level < 10; level++) {
+      // delete previous spell table (if exists)
+      const targetElement = document.getElementById(
+        "spell-table-body-" + level
+      );
+      while (targetElement.firstChild) {
+        targetElement.removeChild(targetElement.lastChild);
+      }
+    }
+    // clear inventory
+    const targetElement = document.getElementById("inventory-table");
+    while (targetElement.firstChild) {
+      targetElement.removeChild(targetElement.lastChild);
+    }
+    // clear in-memory spells & inventory
+    window.characterSheet["inventory"] = [];
+    window.characterSheet["spells"] = {
+      0: [],
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+      5: [],
+      6: [],
+      7: [],
+      8: [],
+      9: [],
+    };
+
+    saveSheet();
+  }
 }
 
-function getNewImage() {}
+function checkDice() {
+  try {
+    window.Dice.parse(document.getElementById("dice-notation").value);
+    $("input#dice-notation").removeClass("is-invalid");
+    $("input#dice-notation").removeClass("text-danger");
+  } catch {
+    if (document.getElementById("dice-notation").value === "") {
+      $("input#dice-notation").removeClass("is-invalid");
+      $("input#dice-notation").removeClass("text-danger");
+    } else {
+      $("input#dice-notation").addClass("is-invalid");
+      $("input#dice-notation").addClass("text-danger");
+    }
+  }
+}
+
+function rollDice() {
+  try {
+    const roll = window.Dice.detailed(
+      document.getElementById("dice-notation").value
+    );
+    let result = "" + roll.result + " (" + roll.rolls.join(" + ") + ")";
+    result += roll.modifier ? " + " + roll.modifier : "";
+    document.getElementById("roll-result").value = result;
+    $("input#dice-notation").removeClass("is-invalid");
+    $("input#dice-notation").removeClass("text-danger");
+  } catch (error) {
+    // console.log(error);
+    $("input#dice-notation").addClass("is-invalid");
+    $("input#dice-notation").addClass("text-danger");
+    return;
+  }
+}
+
+function getNewImage() {
+  null;
+  // waiting for database to implement this because it's too database-dependent
+}
