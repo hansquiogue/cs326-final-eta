@@ -11,7 +11,7 @@ document.getElementById('sign-in').addEventListener("click", async function() {
     } 
 
     const data = { user: user, pass: pass };
-    const response = await fetch("http://localhost:8080/login-attempt", {
+    const response = await fetch("/login-attempt", {
         method: 'post',
         body: JSON.stringify(data),
     });

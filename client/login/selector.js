@@ -7,7 +7,7 @@ const token = url_params.get("token");
 
 window.addEventListener("load", async function () {
   // TODO: User needs to be authorized when page loads
-  const load_resp = await fetch("http://localhost:8080/manage-sheets-load?user=" + user + "&token=" + token);
+  const load_resp = await fetch("/manage-sheets-load?user=" + user + "&token=" + token);
 
   // Page can't load
   if (!load_resp.ok) {
@@ -30,7 +30,7 @@ window.addEventListener("load", async function () {
       const data = { user: user, char: name };
       // New request for character
       const add_resp = await fetch(
-        "http://localhost:8080/manage-sheets-add",
+        "/manage-sheets-add",
         {
           method: "post",
           body: JSON.stringify(data),
@@ -58,7 +58,7 @@ window.addEventListener("load", async function () {
         const data = { user: user, char: char };
 
         const delete_resp = await fetch(
-          "http://localhost:8080/manage-sheets-delete",
+          "/manage-sheets-delete",
           {
             method: "post",
             body: JSON.stringify(data),
@@ -85,7 +85,7 @@ window.addEventListener("load", async function () {
         const query = "?user=" + user + "&char=" + char;
 
         const get_resp = await fetch(
-          "http://localhost:8080/manage-sheets-select",
+          "/manage-sheets-select",
           {
             method: "post",
             body: JSON.stringify(data),
@@ -109,7 +109,7 @@ document
 .getElementById("logout")
 .addEventListener("click", async function () {
   const logout_resp = await fetch(
-    "http://localhost:8080/logout-attempt",
+    "/logout-attempt",
     {
       method: "post",
       body: JSON.stringify({ user: user }),

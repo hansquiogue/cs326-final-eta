@@ -510,7 +510,7 @@ document.getElementById("logout").addEventListener("click", async function () {
   const url_params = new URLSearchParams(window.location.search);
   // User retrieved from url parameter
   const user = url_params.get("user");
-  const logout_resp = await fetch("http://localhost:8080/logout-attempt", {
+  const logout_resp = await fetch("/logout-attempt", {
     method: "post",
     body: JSON.stringify({ user: user }),
   });
@@ -558,7 +558,7 @@ window.addEventListener("load", async () => {
   // Token from url param
   const token = url_params.get("token");
 
-  const response = await fetch("http://localhost:8080/char-sheets-load?user=" + user + "&char=" + char + "&token=" + token);
+  const response = await fetch("/char-sheets-load?user=" + user + "&char=" + char + "&token=" + token);
 
   if (response.ok) {
     const body = await response.json();

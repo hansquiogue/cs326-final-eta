@@ -24,7 +24,7 @@ document.getElementById('register').addEventListener("click", async function() {
     }
 
     const data = { user: user, pass: pass, email: email };
-    const response = await fetch("http://localhost:8080/register-attempt", {
+    const response = await fetch("/register-attempt", {
         method: 'post',
         body: JSON.stringify(data),
     });
