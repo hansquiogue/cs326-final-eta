@@ -1,16 +1,13 @@
-window.addEventListener("load", async function () {
-  // Parameters from url
-  const url_params = new URLSearchParams(window.location.search);
-  // User retrieved from url parameter
-  const user = url_params.get("user");
-  // Authorization token from url parameter
-  const token = url_params.get("token");
+// Parameters from url
+const url_params = new URLSearchParams(window.location.search);
+// User retrieved from url parameter
+const user = url_params.get("user");
+// Authorization token from url parameter
+const token = url_params.get("token");
 
+window.addEventListener("load", async function () {
   // TODO: User needs to be authorized when page loads
-  const load_resp = await fetch("http://localhost:8080/manage-sheets-load", {
-    method: "post",
-    body: JSON.stringify({ user: user, token: token }),
-  });
+  const load_resp = await fetch("http://localhost:8080/manage-sheets-load?user=" + user + "&token=" + token);
 
   // Page can't load
   if (!load_resp.ok) {
@@ -19,41 +16,36 @@ window.addEventListener("load", async function () {
     window.location.href = "/";
     // Page able to load and can perform actions
   } else {
-    const load_body = await load_resp.json();
-    alert("Page loaded and user authorized" + JSON.stringify(load_body));
-
     // Welcome message to logged in user
     document.getElementById("welcome").innerText = "Welcome " + user + "!";
 
+    const load_body = await load_resp.json();
+  
+    alert("Page loaded and user authorized" + JSON.stringify(load_body));
+    
     // Functionality when create a character button is clicked in modal
-    $("#create-char").click(async function () {
+    document.getElementById('create-char').addEventListener('click', async function () {
       const name = document.getElementById("new-char-name").value;
-
-      // Character name needs to be letters and numbers
-      if (name.match(/[A-Za-z0-9 ]+/)) {
-        const data = { user: user, char: name };
-        // New request for character
-        const add_resp = await fetch(
-          "http://localhost:8080/manage-sheets-add",
-          {
-            method: "post",
-            body: JSON.stringify(data),
-          }
-        );
-
-        if (add_resp.ok) {
-          // New character is generated in gallery
-          createNewCharInGallery(name);
-          const body = await add_resp.json();
-          alert("New character recieved" + JSON.stringify(body));
-
-          // Modal is hiden
-          $("#create-modal").modal("hide");
-        } else {
-          alert("Something went wrong..");
+      
+      const data = { user: user, char: name };
+      // New request for character
+      const add_resp = await fetch(
+        "http://localhost:8080/manage-sheets-add",
+        {
+          method: "post",
+          body: JSON.stringify(data),
         }
-      } else {
-        alert("Invalid character name");
+      );
+
+      if (add_resp.ok) {
+        const body = await add_resp.json();
+        alert("New character recieved" + JSON.stringify(body));
+
+        // New character is generated in gallery
+        createNewCharInGallery(name);
+
+        // Modal is hiden
+        $("#create-modal").modal("hide");
       }
     });
 
@@ -78,6 +70,9 @@ window.addEventListener("load", async function () {
           alert("Chacter deleted request recieved" + JSON.stringify(body));
 
           deleteCharInGallery();
+
+          document.getElementById("curr-selected-text").innerText =
+            "Current Character Selected: None";
         }
       });
 
@@ -106,35 +101,25 @@ window.addEventListener("load", async function () {
             "&token=TOKEN-TODO";
         }
       });
+  }
+});
 
-    // Whenever log out is clicked
-    document
-      .getElementById("logout")
-      .addEventListener("click", async function () {
-        const logout_resp = await fetch(
-          "http://localhost:8080/logout-attempt",
-          {
-            method: "post",
-            body: JSON.stringify({ user: user }),
-          }
-        );
+// Whenever log out is clicked
+document
+.getElementById("logout")
+.addEventListener("click", async function () {
+  const logout_resp = await fetch(
+    "http://localhost:8080/logout-attempt",
+    {
+      method: "post",
+      body: JSON.stringify({ user: user }),
+    }
+  );
 
-        if (logout_resp.ok) {
-          const body = await logout_resp.json();
-          alert("User logged out request recieved" + JSON.stringify(body));
-          window.location.href = "/";
-        }
-      });
-
-    // Whenever different characters are selected
-    // TODO: New characters cannot be selected
-    $('input[name="charselect"]').change(function (e) {
-      // Current radio button value
-      const curr_char = $(this).val();
-      console.log(document.getElementsByName("charselect"));
-      document.getElementById("curr-selected-text").innerText =
-        "Current Character Selected: " + curr_char;
-    });
+  if (logout_resp.ok) {
+    const body = await logout_resp.json();
+    alert("User logged out request recieved" + JSON.stringify(body));
+    window.location.href = "/";
   }
 });
 
@@ -149,10 +134,9 @@ function createNewCharInGallery(name) {
 
   // New div for col created underneath
   const newCol = document.createElement("div");
-  $(newCol).attr({
-    class: "col mx-3 btn-group btn-group-toggle",
-    "data-toggle": "buttons",
-  });
+  // Adding attributes to newCol
+  newCol.setAttribute("class", "col mx-3 btn-group btn-group-toggle");
+  newCol.setAttribute("data-toggle", "buttons");
   newRow.appendChild(newCol);
 
   // New label for button design created underneath
@@ -164,14 +148,13 @@ function createNewCharInGallery(name) {
   // New input underneath
   const newInput = document.createElement("input");
   const numChar = document.getElementsByClassName("radio-char").length + 1;
-  $(newInput).attr({
-    class: "radio-char",
-    type: "radio",
-    name: "charselect",
-    autocomplete: "off",
-    id: "char" + numChar.toString(),
-    value: name,
-  });
+  // Adding new attributes
+  newInput.setAttribute("class", "radio-char");
+  newInput.setAttribute("type", "radio");
+  newInput.setAttribute("name", "charselect");
+  newInput.setAttribute("autocomplete", "off");
+  newInput.setAttribute("id", "char" + numChar.toString());
+  newInput.setAttribute("value", name);
   newLabel.appendChild(newInput);
 }
 
@@ -188,3 +171,10 @@ function deleteCharInGallery() {
     .getElementById(id)
     .parentElement.parentElement.parentElement.remove();
 }
+
+// Updates current selected character text whenever new selection is made
+window.addEventListener('change', () => {
+  const curr_char = getSelectedCharacter().value;
+  document.getElementById("curr-selected-text").innerText =
+    "Current Character Selected: " + curr_char;
+});

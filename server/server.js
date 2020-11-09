@@ -13,9 +13,13 @@ function processGET(request, response, options) {
   // TODO: Seperate GET and POST Requests
   // Manage .. API endpoint
   switch (parsed.pathname) {
-    case "/manage-sheets-get":
+    case "/manage-sheets-load":
+      response.writeHead(200, { "Content-Type": "application/json" });
+      response.end(JSON.stringify("Char loaded [" + ["Nutmeg", "Noob"] + "]"));
       break;
     case "/char-sheets-get":
+      response.writeHead(200, { "Content-Type": "application/json" });
+      response.end(JSON.stringify("Placeholder " + "{char. json will go here}"));
       break;
     case "/char-sheets-export":
       response.writeHead(200, { "Content-Type": "application/json" });
@@ -65,56 +69,38 @@ function processPOST(request, response, options) {
   switch (parsed.pathname) {
     // Login attempt API endpoint
     case "/login-attempt":
-      checkRequest(options, ["user", "pass"], true);
+      checkRequest(options, ["user", "pass"]);
       break;
     // Register attempt API endpoint
     case "/register-attempt":
-      checkRequest(options, ["user", "pass", "email"], true);
+      checkRequest(options, ["user", "pass", "email"]);
       break;
+    // Logout attempt API endpoint
     case "/logout-attempt":
-      checkRequest(options, ["user"], false);
+      checkRequest(options, ["user"]);
       break;
-    case "/manage-sheets-load":
-      checkRequest(options, ["user", "token"], false);
-      break;
-    // Get character API endpoint
-    case "/manage-sheets-select":
-      break;
-    // Adding new character API endpoint
-    case "/manage-sheets-add":
-      break;
-    // Deleting characters API endpoint
-    case "/manage-sheets-delete":
-      checkRequest(options, ["user", "char"], false);
+    // Character selection API endpoints
+    case "/manage-sheets-select": case "/manage-sheets-add": case "/manage-sheets-delete":
+      checkRequest(options, ["user", "char"]);
       break;
     case "/char-sheets-save":
       response.writeHead(200);
       response.write("Sheet saved");
-      break;
-    // Initial loading for char sheet API endpoint
-    case "/char-sheets-load":
-      checkRequest(options, ["user", "char", "token"], false);
       break;
     // Path not found
     default:
       response.writeHead(404);
       response.write("404: You seem to be a bit lost adventurer..");
   }
-
-  function checkRequest(opt, keys, writeToJSON) {
+  // Checks the endpoint request
+  function checkRequest(opt, keys) {
     // Request invalid
     if (!requestCriteriaValid(opt, keys)) {
       badRequest();
       // Request Valid
     } else {
-      if (writeToJSON) {
-        response.writeHead(200, { "Content-Type": "application/json" });
-        fs.writeFileSync("./client/temp-storage.json", JSON.stringify(opt));
-        response.write(JSON.stringify(opt));
-      } else {
         response.writeHead(200, { "Content-Type": "application/json" });
         response.write(JSON.stringify(opt));
-      }
     }
   }
 
@@ -122,7 +108,6 @@ function processPOST(request, response, options) {
     response.writeHead(400);
     response.write("400: Request does not match criteria");
   }
-
   response.end();
 }
 
