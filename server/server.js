@@ -91,6 +91,10 @@ function processPOST(request, response, options) {
       response.writeHead(200);
       response.write("Sheet saved");
       break;
+    // Initial loading for char sheet API endpoint
+    case "/char-sheets-load":
+      checkRequest(options, ["user", "char", "token"], false);
+      break;
     // Path not found
     default:
       response.writeHead(404);
@@ -124,7 +128,7 @@ function processPOST(request, response, options) {
 
 // Function that checks if response criteria is met
 function requestCriteriaValid(req, keys) {
-  let valid = true;
+  const valid = true;
   if (typeof req !== "object") {
     return !valid;
   } else if (Object.keys(req).length !== keys.length) {

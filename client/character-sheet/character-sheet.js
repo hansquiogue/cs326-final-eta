@@ -486,3 +486,73 @@ function getNewImage() {
   null;
   // waiting for database to implement this because it's too database-dependent
 }
+
+// Whenever log out is clicked
+document.getElementById("logout").addEventListener("click", async function () {
+  // User retrieved from url parameter
+  const user = url_params.get("user");
+  const logout_resp = await fetch("http://localhost:8080/logout-attempt", {
+    method: "post",
+    body: JSON.stringify({ user: user }),
+  });
+
+  if (logout_resp.ok) {
+    const body = await logout_resp.json();
+    alert("User logged out request recieved" + JSON.stringify(body));
+    window.location.href = "/";
+  }
+});
+
+// Whenever character gallery button is clicked
+document.getElementById("gallery").addEventListener("click", async function () {
+  // Parameters from url
+  const url_params = new URLSearchParams(window.location.search);
+  // User retrieved from url parameter
+  const user = url_params.get("user");
+  // Token from url parameter
+  const token = url_params.get("token");
+
+  // Redirects with GET request query to a character selection gallery
+  window.location.href =
+    "../login/selector.html?user=" + user + "&token=" + token;
+});
+
+// Slider
+document.getElementById("exp-points").addEventListener("input", () => {
+  // Exp to next level
+  const exp = document.getElementById("exp-points").value;
+  // There is an input for exp to next level
+  if (exp !== "") {
+    const range = document.getElementById("exp-range");
+    range.setAttribute("max", exp);
+  }
+});
+
+// When page loads
+window.addEventListener("load", async () => {
+  // Parameters from url
+  const url_params = new URLSearchParams(window.location.search);
+  // User retrieved from url parameter
+  const user = url_params.get("user");
+  // Player name from url param
+  const char = url_params.get("char");
+  // Token from url param
+  const token = url_params.get("token");
+
+  const response = await fetch("http://localhost:8080/char-sheets-load", {
+    method: "post",
+    body: JSON.stringify({ user: user, char: char, token: token }),
+  });
+
+  if (response.ok) {
+    const body = await response.json();
+    alert("Character loaded " + JSON.stringify(body));
+
+    // Temp
+    document.getElementById("char-name").value = char;
+    document.getElementById("player-name").value = user;
+  } else {
+    alert("Not authorized to view page");
+    window.location.href = "/";
+  }
+});

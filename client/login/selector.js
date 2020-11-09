@@ -101,7 +101,9 @@ window.addEventListener("load", async function () {
           const body = await get_resp.json();
           alert("Character request recieved" + JSON.stringify(body));
           window.location.href =
-            "../character-sheet/character-sheet.html" + query;
+            "../character-sheet/character-sheet.html" +
+            query +
+            "&token=TOKEN-TODO";
         }
       });
 
@@ -128,61 +130,61 @@ window.addEventListener("load", async function () {
     // TODO: New characters cannot be selected
     $('input[name="charselect"]').change(function (e) {
       // Current radio button value
-      let curr_char = $(this).val();
+      const curr_char = $(this).val();
       console.log(document.getElementsByName("charselect"));
       document.getElementById("curr-selected-text").innerText =
         "Current Character Selected: " + curr_char;
     });
-
-    function createNewCharInGallery(name) {
-      // Parent
-      const parent = document.getElementById("char-gallery");
-
-      // New div for row created underneath
-      const newRow = document.createElement("div");
-      newRow.className = "row mt-2";
-      parent.appendChild(newRow);
-
-      // New div for col created underneath
-      const newCol = document.createElement("div");
-      $(newCol).attr({
-        class: "col mx-3 btn-group btn-group-toggle",
-        "data-toggle": "buttons",
-      });
-      newRow.appendChild(newCol);
-
-      // New label for button design created underneath
-      const newLabel = document.createElement("label");
-      newLabel.className = "btn btn-secondary";
-      newLabel.innerText = name;
-      newCol.appendChild(newLabel);
-
-      // New input underneath
-      const newInput = document.createElement("input");
-      const numChar = document.getElementsByClassName("radio-char").length + 1;
-      $(newInput).attr({
-        class: "radio-char",
-        type: "radio",
-        name: "charselect",
-        autocomplete: "off",
-        id: "char" + numChar.toString(),
-        value: name,
-      });
-      newLabel.appendChild(newInput);
-    }
-
-    function getSelectedCharacter() {
-      let char_list = document.getElementsByName("charselect");
-      char_list = Array.from(char_list);
-      return char_list.filter((char) => char.checked)[0];
-    }
-
-    // TODO: Update character selected
-    function deleteCharInGallery() {
-      const id = getSelectedCharacter().id;
-      document
-        .getElementById(id)
-        .parentElement.parentElement.parentElement.remove();
-    }
   }
 });
+
+function createNewCharInGallery(name) {
+  // Parent
+  const parent = document.getElementById("char-gallery");
+
+  // New div for row created underneath
+  const newRow = document.createElement("div");
+  newRow.className = "row mt-2";
+  parent.appendChild(newRow);
+
+  // New div for col created underneath
+  const newCol = document.createElement("div");
+  $(newCol).attr({
+    class: "col mx-3 btn-group btn-group-toggle",
+    "data-toggle": "buttons",
+  });
+  newRow.appendChild(newCol);
+
+  // New label for button design created underneath
+  const newLabel = document.createElement("label");
+  newLabel.className = "btn btn-secondary";
+  newLabel.innerText = name;
+  newCol.appendChild(newLabel);
+
+  // New input underneath
+  const newInput = document.createElement("input");
+  const numChar = document.getElementsByClassName("radio-char").length + 1;
+  $(newInput).attr({
+    class: "radio-char",
+    type: "radio",
+    name: "charselect",
+    autocomplete: "off",
+    id: "char" + numChar.toString(),
+    value: name,
+  });
+  newLabel.appendChild(newInput);
+}
+
+function getSelectedCharacter() {
+  let char_list = document.getElementsByName("charselect");
+  char_list = Array.from(char_list);
+  return char_list.filter((char) => char.checked)[0];
+}
+
+// TODO: Update character selected
+function deleteCharInGallery() {
+  const id = getSelectedCharacter().id;
+  document
+    .getElementById(id)
+    .parentElement.parentElement.parentElement.remove();
+}
