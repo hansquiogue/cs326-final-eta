@@ -1,8 +1,7 @@
 import * as url from "url";
 import * as http from "http";
 import * as fs from "fs";
-import {join} from 'path';
-import { type } from "os";
+import { join } from 'path';
 
 // This function processes what happens when a GET Request is called. 
 function processGET (request, response, options) {
@@ -76,6 +75,10 @@ function processPOST (request, response, options) {
         // Deleting characters API endpoint
         case '/manage-sheets-delete':
             checkRequest(options, ["user", "char"], false);
+            break;
+        // Initial loading for char sheet API endpoint
+        case '/char-sheets-load':
+            checkRequest(options, ["user", "char", "token"], false);
             break;
         // Path not found
         default:

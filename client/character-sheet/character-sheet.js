@@ -435,15 +435,30 @@ document.getElementById('exp-points').addEventListener('input', () => {
 });
 
 // When page loads
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
   // Parameters from url
   const url_params = new URLSearchParams(window.location.search);
   // User retrieved from url parameter
   const user = url_params.get('user');
   // Player name from url param
   const char = url_params.get('char');
+  // Token from url param
+  const token = url_params.get('token');
 
-  // Temp 
-  document.getElementById('char-name').value = char;
-  document.getElementById('player-name').value = user;
+  const response = await fetch('http://localhost:8080/char-sheets-load', {
+    method: 'post',
+    body: JSON.stringify({user: user, char: char, token: token})
+  });
+
+  if (response.ok) {
+    const body = await response.json();
+    alert("Character loaded " + JSON.stringify(body));
+
+    // Temp 
+    document.getElementById('char-name').value = char;
+    document.getElementById('player-name').value = user;
+  } else {
+    alert("Not authorized to view page");
+    window.location.href = "/";
+  }  
 });
