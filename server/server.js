@@ -17,7 +17,7 @@ function processGET(request, response, options) {
       response.writeHead(200, { "Content-Type": "application/json" });
       response.end(JSON.stringify("Char loaded [" + ["Nutmeg", "Noob"] + "]"));
       break;
-    case "/char-sheets-get":
+    case "/char-sheets-load":
       response.writeHead(200, { "Content-Type": "application/json" });
       response.end(JSON.stringify("Placeholder " + "{char. json will go here}"));
       break;
