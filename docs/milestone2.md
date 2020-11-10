@@ -17,6 +17,7 @@
 
 - [Euryale Website Link](https://pacific-cove-11560.herokuapp.com/)
 
+NOTE: At the character selection gallery webpage, make sure you select a character first before performing a CRUD operation. There is currently no warning or message that states if you have selected a character or not, so it might seem like the operations are not working. In reality, nothing would occur because no character has been selected.
 
 ## **Application Structure**
 
