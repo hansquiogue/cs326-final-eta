@@ -67,7 +67,7 @@ for (let level = 0; level < 10; level++) {
   tableBodyWrapper.appendChild(tableBody);
 
   // Populate the table with saved spells
-  for (let spell of exampleLayout[level]) {
+  for (const spell of exampleLayout[level]) {
     createSpellRow(spell, tableBody);
   }
 
@@ -95,10 +95,10 @@ function createSpellRow(spell, tableBody) {
   // add new row
   const row = tableBody.insertRow();
   // create cells for each attribute of the spell
-  for (attr in spell) {
+  for (const attr in spell) {
     const cell = row.insertCell();
     cell.classList.add("col-" + cellSizes[attr]);
-    cellContent = document.createElement("input");
+    const cellContent = document.createElement("input");
     cellContent.type = "text";
     cellContent.name = attr;
     cellContent.id = spell.name + "-" + attr;

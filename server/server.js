@@ -4,7 +4,7 @@ import * as fs from "fs";
 import { join } from "path";
 
 // This function processes what happens when a GET Request is called.
-function processGET(request, response, options) {
+function processGET(request, response) {
   // Parsed requests
   const parsed = url.parse(request.url, true);
 

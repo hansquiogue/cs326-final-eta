@@ -45,7 +45,7 @@ window.addEventListener("load", async function () {
         createNewCharInGallery(name);
 
         // Modal is hiden
-        $("#create-modal").modal("hide");
+        document.getElementById('create-modal').click();
       }
     });
 

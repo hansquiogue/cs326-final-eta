@@ -10,9 +10,6 @@
         "http-server": "^0.12.3"
     },
     "eslintConfig": {
-        "globals": {
-            "$": true
-        },
         "env": {
             "browser": true,
             "es2021": true,

@@ -121,25 +121,25 @@ function templateCopy(template) {
  * Save an input to the characterSheet obj by id
  * @param  {} e
  */
-function genericInputSave(e) {
+function genericInputSave() {
   window.characterSheet[this.id] = this.value;
 }
 
-function saveAllGenerics() {
-  for (const input of docInputs) {
-    if (!input.classList.contains("special-save")) {
-      window.characterSheet[input.id] = input.value;
-    }
-  }
-}
+// function saveAllGenerics() {
+//   for (const input of docInputs) {
+//     if (!input.classList.contains("special-save")) {
+//       window.characterSheet[input.id] = input.value;
+//     }
+//   }
+// }
 
-function periodicSaveAll() {
-  saveAllGenerics();
-  saveInv();
-  saveAllSpells();
-  saveSheet();
-  setTimeout(periodicSaveAll, 60000);
-}
+// function periodicSaveAll() {
+//   saveAllGenerics();
+//   saveInv();
+//   saveAllSpells();
+//   saveSheet();
+//   setTimeout(periodicSaveAll, 60000);
+// }
 /**
  * Update the rendered sheet from the given sheet, or window.characterSheet.
  * @param  {} sheet=null The sheet to use, if null window.characterSheet is used.
@@ -218,7 +218,7 @@ function addInventoryItem() {
  * Save changes to the window.characterSheet obj.
  * @param  {} e
  */
-function saveInventoryItem(e) {
+function saveInventoryItem() {
   const row = this.parentElement.parentElement;
   window.characterSheet["inventory"][row.rowIndex][
     this.classList[0]
@@ -240,7 +240,7 @@ function saveInv() {
  * Delete a row from the rendered sheet and window.characterSheet obj.
  * @param  {} e
  */
-function deleteInventoryItem(e) {
+function deleteInventoryItem() {
   const row = this.parentElement.parentElement;
   // remove inventory item from memory obj
   window.characterSheet["inventory"].splice(row.rowIndex, 1);
@@ -336,7 +336,7 @@ function createSpellRow(spell, tableBody) {
   deleteButtonCell.appendChild(deleteButton);
 }
 
-function saveSpell(e) {
+function saveSpell() {
   const row = this.parentElement.parentElement;
   window.characterSheet["spells"][getActiveSpellTab()][row.rowIndex][
     this.classList[0]
@@ -504,10 +504,10 @@ function rollDice() {
   }
 }
 
-function getNewImage() {
-  null;
-  // waiting for database to implement this because it's too database-dependent
-}
+// function getNewImage() {
+//   null;
+//   // waiting for database to implement this because it's too database-dependent
+// }
 
 // Whenever log out is clicked
 document.getElementById("logout").addEventListener("click", async function () {
