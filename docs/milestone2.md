@@ -11,55 +11,95 @@
 
 ## **Project Euryale**
 
-### *Online Dungeons & Dragons Character Sheet Tool*
+### *Online Dungeons & Dragons (DnD) Character Sheet Tool*
 
-[Euryale Website Link](https://pacific-cove-11560.herokuapp.com/)
+---
 
-### **API Flow Chart**
-
-![Flowchart](milestone2-img/endpoints-diagram.jpg)
+- [Euryale Website Link](https://pacific-cove-11560.herokuapp.com/)
 
 
-### **Client Interface**
+## **Application Structure**
+
+The purpose of Euryale is to store and manage a user's DnD character sheets as a web application. To start implementing this, our group split up our application structure into these main components:
+
+- **User Objects** - each has these fields: username, email, password, and a list of characters. 
+
+- **Character Sheet Objects** - each has a multitude of fields a character sheet can have. [Here is a template](https://github.com/hansquiogue/cs326-final-eta/blob/master/character-sheet-template.json) of what the fields will look like. 
+
+- **Session Objects** - each has these fields: username and a hashed password. Perhaps there will be a token field to help with authentication. 
+
+- **Manage-Sheets** - a relationship between **one user** and **multiple characters sheets** that belong to the user. As the name implies, this relationship will help manage a user's gallery of character sheets. 
+
+## **Project API Planing**
+
+![Flowchart](milestone2-img/diagram.png)
+
+Above is a flowchart of all the APIs our server will provide. 
+
+Here are some example endpoints we will be using:
+
+- **/user** will be a user's page that contains their character sheet collection. When the page loads, a request will be sent and return an array of the user's characters.
+- **/manage-sheets-create** will create a new character sheet for a user. It will return a character sheet with blank fields except for the character's new name.
+- **/char-sheet?user=guest&char=Ayxl** will load user guest's character Axyl. (Assuming the user and character sheet exists and that the user has been authenticated as well). In our implementation, we currently have a token as an addition to the GET query.
+
+Note: We have added or did not tokens for certain endpoints because we are currently unsure of how we are implementing user authentication for this milestone.
+
+Due to time constraints and other factors, some of our endpoint names in our server are named differently from our proposed implentation. Outside of that, everything should work fine. We will change everything accordingly to be consistent with everything for the next milestone.
+
+## **Client Interface**
+
+To display our CRUD operations and to show that a client can recieve responses from our server, we have displayed alerts that will contain what we believe should be the responses or outputs into a database. We will be removing these alerts before the release of the final product.
 
 #### *Create*
-![Create](milestone2-img/create.PNG)
-- **char_sheet_export** - Creates a downloadable text doucment that the user can use outside of the website.
-- **create_char** - Creates a new character profile.
-- **register_account** - Creates a new user account to keep all character sheets.
+![Create](milestone2-img/c.png)
+
+- **manage-sheets-create** - Creates a new character sheet for a user. The response should actually contain a character sheet object with empty fields except for the character name. Since we have not implemented the database however, we used "user" and "char" keys as a placeholder.
+
+- **register-attempt** - Creates a new user account.
+
 #### *Read*
-![Read](milestone2-img/read.PNG)
--**char_sheet_popup** - Reads in the user/pass credentials and redirects user to the character selection page.
+![Read](milestone2-img/r.png)
 
--**log_out** - Will take the user out of the current page and puts them back into the homepage.
+-**/signin** - The sign in page.
 
--**manage_sheets_load** - Whenever a user is signed in, they will get directed to the character selection gallery webpage. When this page loads, a GET request is sent to the server to retrieve an array of the user’s characters. All elements in the array will be used to generate a list of characters a user can select.
+-**/login-attempt** - Clicking the sign in button will send a POST request to authenticate a user’s credentials. If they are valid, the user will be redirected to their respective character selection gallery.
 
--**play_button** - When the play button is clicked, a POST request is sent to the server to retrieve a user’s character. 
+-**/user** - Loads a user's page that stores their character sheet gallery. When the page loads, a response will be retrieved of an array of the user's characters. 
 
--**sign_in** - Clicking the sign in button will send a POST request to authenticate a user’s credentials. If they are valid, the user will be redirected to their respective character selection gallery.
+-**/char-sheet** - Loads a character sheet. When the page loads, a response will be retrieved from the database which contains a JSON file of the character's fields.
 
--**log_out** - Reads the users credentials (username/password) and logs them out of the website
+-**logout-attempt** - Will take the user out of the current page and puts them back into the homepage.
+
+-**/register** - The register page.
+
+-**/char-sheet-export** - For now, this endpoint will output a JSON file of all the fields of the character sheet. We might change this implementation later to create a PDF with the fields perhaps.
+
+-**manage-sheets-select** - When a user clicks a character, a POST request will be sent to retrieve a user’s character. Depending on how we implement **/user** when creating the database in the next milestone, we might not need this endpoint. 
 
 #### *Update*
+
 ![Update](milestone2-img/update.PNG)
-- **char_sheet_save** - Whenever a user saves their character, a POST request will be sent to the server with all the information plugged in the character sheet inputs.
+
+- **char-sheet-save** - Whenever a user saves their character sheet, a POST request will be sent to the server with all the information a user plugged in the character sheet inputs. The character sheet's fields will be updated based on the inputs a user made. In the actual implementation, the response a database shoud be recieving is the JSON that contains the all the new character sheet inputs. Since we didn't have the database implementation, we used a placeholder string that states when a character sheet is saved if the response to server was successful.  
+
 #### *Delete*
 ![Delete](milestone2-img/delete.PNG)
--**char_select_delete** -
+
+-**char-select-delete** - Deletes a specified character sheet in the character selection page.
+
 ## **Division of Labor**
 
 Hans:
-- Front-end implementation
-- Back-end skeleton
-- Sever code 
+- Front-end implementation (Manage Sheets)
+- Back-end skeleton (Manage Sheets/User/Session Endpoints)
+- Writeup editing 
 
 Jackson:
-- Front- end Implementation
-- Back-End Skeleton
-- Server code
+- Front-end implementation (Character Sheet)
+- Back-end skeleton (Character Sheet Endpoints)
+- Writeup
 
 John:
-- Writeup Edition
+- Writeup
 - Heroku Deployment
-- Front-End Implementation
+- Front-end implementation (Homepage/Login/Register)
