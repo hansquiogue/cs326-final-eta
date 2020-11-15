@@ -8,10 +8,12 @@ body {
 
 .bg-signin {
     background-image: url('login-pic.jpg');
+    background-attachment: fixed;
 }
 
 .bg-register {
     background-image: url('register-pic.jpg');
+    background-attachment: fixed;
 }
 
 header {
