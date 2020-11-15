@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Euryale - Create a New Account</title>
+
+        <!-- Loads in script -->
+        <!-- <script type="module" src="register/register.js" defer></script> -->
+        <!-- Required Bootstrap meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Loads in Bootstrap CSS -->
+        <link rel="stylesheet" 
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" 
+            integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" 
+            crossorigin="anonymous">
+        
+        <!-- Personal CSS -->
+        <link rel="stylesheet" href="register/login-register.css">
+
+        <!-- Google font-->
+        <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet"> 
+
+        <!-- Fav Icon-->
+        <link rel = "fav icon" href = "dndfavicon.png">
+    </head>
+    <body class="bg-register">
+        <header class="navbar navbar-expand-xl- navbar-dark bg-dark">
+            <!-- TODO: Add a logo for or website and redirect href link-->
+            <a class="navbar-brand" href="/">EURYALE</a>
+        </header>
+        <div class="top-buffer"></div>
+        <div class="container border border-danger rounded bg-dark" id="register-container">
+            <div class="row">
+                <div class="col mt-5">
+                    <p class="register-text mx-4">Create a New Account</p>
+                </div>
+            </div>
+            <form action="/register" method="post">
+                <div class="form-group mt-4 mx-4">
+                    <label for="email-input">Email Address:</label>
+                    <input class="form-control" name="email">
+                </div>
+                <div class="form-group mx-4">
+                    <label for="user-input">Username:</label>
+                    <input class="form-control" name="username">
+                </div>
+                <div class="row mx-2">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="pass-input">Password:</label>
+                            <input type="password" name="password" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="pass-confirm-input">Confirm Password:</label>
+                            <input type="password" name="confirm-password" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <a class="signin mx-4" href="/login">Already have an account?</a>
+                <div class="row mx-4">
+                    <div class="col mt-3">
+                        <!-- Request when button is hit -->
+                        <button type="submit" class="btn btn-danger btn-lg float-right" id="register">Register</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="bottom-buffer"></div>
+    </body>
+</html>

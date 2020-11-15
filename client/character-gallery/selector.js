@@ -2,27 +2,11 @@
 const url_params = new URLSearchParams(window.location.search);
 // User retrieved from url parameter
 const user = url_params.get("user");
-// Authorization token from url parameter
-const token = url_params.get("token");
 
 window.addEventListener("load", async function () {
-  // TODO: User needs to be authorized when page loads
-  const load_resp = await fetch("/manage-sheets-load?user=" + user + "&token=" + token);
-
-  // Page can't load
-  if (!load_resp.ok) {
-    alert("You are not authorized to view this page");
-    // Redirect to not authorized page
-    window.location.href = "/";
-    // Page able to load and can perform actions
-  } else {
     // Welcome message to logged in user
     document.getElementById("welcome").innerText = "Welcome " + user + "!";
 
-    const load_body = await load_resp.json();
-  
-    alert("Page loaded and user authorized" + JSON.stringify(load_body));
-    
     // Functionality when create a character button is clicked in modal
     document.getElementById('create-char').addEventListener('click', async function () {
       const name = document.getElementById("new-char-name").value;
@@ -81,27 +65,18 @@ window.addEventListener("load", async function () {
       .getElementById("play-btn")
       .addEventListener("click", async function () {
         const char = getSelectedCharacter().value;
-        const data = { user: user, char: char };
-        const query = "?user=" + user + "&char=" + char;
+        const data = { user:"user", char: char };
+        
+        window.location.href = "/gallery/user/USERNAME-TODO/character/" + char;
 
-        const get_resp = await fetch(
-          "/manage-sheets-select",
-          {
-            method: "post",
-            body: JSON.stringify(data),
-          }
-        );
-
-        if (get_resp.ok) {
-          const body = await get_resp.json();
-          alert("Character request recieved" + JSON.stringify(body));
-          window.location.href =
-            "../character-sheet/character-sheet.html" +
-            query +
-            "&token=TOKEN-TODO";
-        }
-      });
-  }
+        // await fetch("/" + "user" + "/gallery/" + char,
+        //   {
+        //     method: "post",
+        //     body: JSON.stringify(data),
+        //   }
+        // );
+    });
+  
 });
 
 // Whenever log out is clicked

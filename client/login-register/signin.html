@@ -4,7 +4,8 @@
         <title>Euryale - Sign In</title>
 
         <!-- Loads in script -->
-        <script type="module" src="signin.js" defer></script>
+        <!-- <script type="module" src="login/signin.js" defer></script> -->
+        
         <!-- Required Bootstrap meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,7 +17,7 @@
             crossorigin="anonymous">
         
         <!-- Personal CSS -->
-        <link rel="stylesheet" href="login-register.css">
+        <link rel="stylesheet" href="login/login-register.css">
 
         <!-- Fav Icon-->
         <link rel = "fav icon" href = "dndfavicon.png">
@@ -36,25 +37,26 @@
                     <p class="sign-in-text mx-5">Sign In</p>
                 </div>
             </div>
-            <div class="form-group mt-4 mx-5" id="username">
-                <label for="user-input">Username:</label>
-                <input id="user-input" class="form-control">
-            </div>
-            <div class="form-group mx-5" id="password">
-                <label for="pass-input">Password:</label>
-                <input type="password" id="pass-input" class="form-control">
-            </div>
-            <!-- TODO: Redirect href link-->
-            <!-- <a class="forgot mx-5" href="#forgot">Forgot your username or password?</a> -->
-            <div class="row">
-                <div class="col-md-8 mt-5">
-                    <a class="register mx-5" href="register.html">Create a new account</a>
+            <form action="/login" method="post">
+                <div class="form-group mt-4 mx-5">
+                    <label for="user-input">Username:</label>
+                    <input name="username" class="form-control">
                 </div>
-                <div class="col-md-4 mt-5">
-                    <!-- TODO: POST Request for signing in (Authentication?) -->
-                    <button type="submit" class="btn btn-danger btn-lg" id="sign-in">Sign In</button>
+                <div class="form-group mx-5">
+                    <label for="pass-input">Password:</label>
+                    <input type="password" name="password" class="form-control">
                 </div>
-            </div>
+                <!-- <a class="forgot mx-5" href="#forgot">Forgot your username or password?</a> -->
+                <div class="row">
+                    <div class="col-md-8 mt-5">
+                        <a class="register mx-5" href="/register">Create a new account</a>
+                    </div>
+                    <div class="col-md-4 mt-5">
+                        <!-- TODO: POST Request for signing in (Authentication?) -->
+                        <button type="submit" class="btn btn-danger btn-lg" id="sign-in">Sign In</button>
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="bottom-buffer"></div>
         <div class="navbar navbar-expand-xlW navbar-dark bg-dark">

@@ -1,159 +1,113 @@
-import * as url from "url";
-import * as http from "http";
-import * as fs from "fs";
-import { join } from "path";
+//--------------------Server--------------------
 
-// This function processes what happens when a GET Request is called.
-function processGET(request, response) {
-  // Parsed requests
-  const parsed = url.parse(request.url, true);
+// Required libraries
+import * as _express from 'express';
+import expressSession from 'express-session';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-  let defaultOption = false;
+const express = _express['default'];
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-  // TODO: Seperate GET and POST Requests
-  // Manage .. API endpoint
-  switch (parsed.pathname) {
-    case "/manage-sheets-load":
-      response.writeHead(200, { "Content-Type": "application/json" });
-      response.end(JSON.stringify("Char loaded [" + ["Nutmeg", "Noob"] + "]"));
-      break;
-    case "/char-sheets-load":
-      response.writeHead(200, { "Content-Type": "application/json" });
-      response.end(JSON.stringify("Placeholder " + "{char. json will go here}"));
-      break;
-    case "/char-sheets-export":
-      response.writeHead(200, { "Content-Type": "application/json" });
-      response.write(JSON.stringify({ savedSheet: "Placeholder" }));
-      break;
-    default:
-      defaultOption = true;
-  }
-  if (defaultOption) {
-    // File name for homepage
-    const filename =
-      parsed.pathname === "/"
-        ? "homepage.html"
-        : parsed.pathname.replace("/", "");
-    // Path for different pages
-    const path = filename.includes("homepage")
-      ? join("client/homepage/", filename)
-      : join("client/", filename);
+const app = express();
+const port = process.env.PORT || 8080;
 
-    // Path exists
-    if (fs.existsSync(path)) {
-      if (filename.endsWith("html")) {
-        response.writeHead(200, { "Content-Type": "text/html" });
-      } else if (filename.endsWith("css")) {
-        response.writeHead(200, { "Content-Type": "text/css" });
-      } else if (filename.endsWith("js")) {
-        response.writeHead(200, { "Content-Type": "text/javascript" });
-      } else {
-        response.writeHead(200);
-      }
-      response.write(fs.readFileSync(path));
-    } else {
-      response.writeHead(404);
-      response.write(
-        "You seem to be a bit lost adventurer.. \n 404: Page not found!"
-      );
-    }
-  }
-  response.end();
-}
+// Session configuration
+const session = {
+    secret : process.env.SECRET || 'SECRET-CHANGE-TODO', 
+    resave : false,
+    saveUninitialized: false
+};
 
-// This function processes what happens when a POST Request is called.
-function processPOST(request, response, options) {
-  // Parsed requests
-  const parsed = url.parse(request.url, true);
+//--------------------Application--------------------
 
-  switch (parsed.pathname) {
-    // Login attempt API endpoint
-    case "/login-attempt":
-      checkRequest(options, ["user", "pass"]);
-      break;
-    // Register attempt API endpoint
-    case "/register-attempt":
-      checkRequest(options, ["user", "pass", "email"]);
-      break;
-    // Logout attempt API endpoint
-    case "/logout-attempt":
-      checkRequest(options, ["user"]);
-      break;
-    // Character selection API endpoints
-    case "/manage-sheets-select": case "/manage-sheets-add": case "/manage-sheets-delete":
-      checkRequest(options, ["user", "char"]);
-      break;
-    case "/char-sheets-save":
-      response.writeHead(200);
-      response.write("Sheet saved");
-      break;
-    // Path not found
-    default:
-      response.writeHead(404);
-      response.write("404: You seem to be a bit lost adventurer..");
-  }
-  // Checks the endpoint request
-  function checkRequest(opt, keys) {
-    // Request invalid
-    if (!requestCriteriaValid(opt, keys)) {
-      badRequest();
-      // Request Valid
-    } else {
-        response.writeHead(200, { "Content-Type": "application/json" });
-        response.write(JSON.stringify(opt));
-    }
-  }
+// App configuration
+app.use(expressSession(session));
 
-  function badRequest() {
-    response.writeHead(400);
-    response.write("400: Request does not match criteria");
-  }
-  response.end();
-}
+// Allows JSON and URLencoded data
+app.use(express.json()); 
+app.use(express.urlencoded({'extended' : true}));
 
-// Function that checks if response criteria is met
-function requestCriteriaValid(req, keys) {
-  const valid = true;
-  if (typeof req !== "object") {
-    return !valid;
-  } else if (Object.keys(req).length !== keys.length) {
-    return !valid;
-    // Request includes proper keys
-  } else if (
-    !requestContentsValid(req, keys, (r, k) => Object.keys(r).includes(k))
-  ) {
-    return !valid;
-    // Request includes proper values
-  } else if (
-    !requestContentsValid(req, keys, (r, k) => typeof r[k] === "string")
-  ) {
-    return !valid;
-  } else {
-    return valid;
-  }
-  // Helper function that checks if quest contents are valid
-  function requestContentsValid(resp, keys, condition) {
-    return keys.filter((key) => condition(resp, key)).length === keys.length;
-  }
-}
+/*** Application endpoints ***/ 
 
-// Creates the server
-const server = http.createServer((request, response) => {
-  // GET Request
-  if (request.method === "GET") {
-    const options = url.parse(request.url, true).query;
-    processGET(request, response, options);
-    // POST Request
-  } else {
-    let requestBody = "";
-    request.on("data", function (data) {
-      requestBody += data;
-    });
-    request.on("end", function () {
-      const options = JSON.parse(requestBody);
-      processPOST(request, response, options);
-    });
-  }
+// Get request to homepage
+app.get('/', (req, res) => {
+    res.sendFile(path.resolve('client/homepage/homepage.html'));
 });
 
-server.listen(process.env.PORT || 8080);
+// Allows homepage files to be used
+app.use('/', express.static(path.join(__dirname, '/../client/homepage')));
+
+// Get request to login page
+app.get('/login', (req, res) => {
+    res.sendFile(path.resolve('client/login-register/signin.html'));
+});
+
+// Post request when user attempts to login
+app.post('/login', (req, res) => {
+    const user = req.body['username'];
+    const pass = req.body['password'];
+
+    // TODO: Login stuff (Authenticate, etc.)
+    // If login stuff goes okay, redirects to the user's gallery page
+
+    res.redirect('/gallery/user/' + user);
+});
+
+// Allows login files to be used
+app.use('/login', express.static(path.join(__dirname, '/../client/login-register')));
+
+// Get request to registration page
+app.get('/register', (req, res) => {
+    res.sendFile(path.resolve('client/login-register/register.html'));
+});
+
+// Post request when user attempts to register
+app.post('/register', (req, res) => {
+    const user = req.body['username'];
+    const email = req.body['email'];
+	const pass = req.body['password'];
+    const confPass = req.body['confirm-password'];
+
+    // TODO: Register stuff goes here (Check if user in database, passwords the same, etc.)
+    // If register stuff goes okay, redirects to login page (Display message?)
+
+    res.redirect('/login');
+});
+
+// Allows register files to be used
+app.use('/register', express.static(path.join(__dirname, '/../client/login-register')));
+
+// TODO: Get request that submits a user's characters
+app.get('/user/:user', (req, res) => {
+
+});
+
+// Get request for a user's gallery page
+app.get('/gallery/user/:user/', (req, res) => {
+    res.sendFile(path.resolve('client/character-gallery/selector.html'));
+});
+
+// Allows gallery files to be used
+app.use('/gallery/user/:user', express.static(path.join(__dirname, '/../client/character-gallery')));
+
+// Get request for a user's character
+app.get('/gallery/user/:user/character/:character', (req, res) => {
+    res.sendFile(path.resolve('client/character-sheet/character-sheet.html'));
+});
+
+// Allows character files to be used
+app.use('/gallery/user/:user/character/:character', express.static(path.join(__dirname, '/../client/character-sheet')));
+
+// TODO: Other endpoints!
+//
+
+// Paths that do not exis
+// TODO: Make error page?
+app.get('*', (req, res) => {
+    res.send('You seem to be a bit lost adventurer...');
+});
+
+app.listen(port, () => {
+    console.log(`App now listening at port ${port}`);
+});

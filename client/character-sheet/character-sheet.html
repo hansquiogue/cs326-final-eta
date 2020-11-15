@@ -29,11 +29,11 @@
     defer></script>
 
   <!-- Personal CSS -->
-  <link rel="stylesheet" href="character-sheet.css">
+  <link rel="stylesheet" href="/gallery/user/:user/character/:character/character-sheet.css">
 
   <!-- Personal script -->
   <!-- <script defer src="spells.js"></script> -->
-  <script defer src="character-sheet.js"></script>
+  <script defer src="/gallery/user/:user/character/:character/character-sheet.js"></script>
 
   <!-- Google font-->
   <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
@@ -671,7 +671,7 @@
           <div class="col user-img mr-1 ml-0 my-0 p-0">
             <!-- character image -->
             <div class="row container section-container rounded mt-0 mx-0 mb-1 p-3" id="user-image">
-              <img src="./default.jpg" class="border border-dark" alt="Character Image">
+              <img src="/gallery/user/:user/default.jpg" class="border border-dark" alt="Character Image">
               <button type="submit" class="btn btn-danger mt-2" id="change-img-btn">Change Image</button>
               <!-- <div class="col">
                 <button type="submit" class="btn btn-danger mt-2 float-right" id="change-img-btn">Change Image</button>
