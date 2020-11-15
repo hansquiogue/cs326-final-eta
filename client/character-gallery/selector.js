@@ -67,7 +67,7 @@ window.addEventListener("load", async function () {
         const char = getSelectedCharacter().value;
         const data = { user:"user", char: char };
         
-        window.location.href = "/gallery/user/" + char;
+        window.location.href = "/gallery/user/USERNAME-TODO/character/" + char;
 
         // await fetch("/" + "user" + "/gallery/" + char,
         //   {

@@ -51,7 +51,7 @@ app.post('/login', (req, res) => {
     // TODO: Login stuff (Authenticate, etc.)
     // If login stuff goes okay, redirects to the user's gallery page
 
-    res.redirect('/gallery/' + user);
+    res.redirect('/gallery/user/' + user);
 });
 
 // Allows login files to be used
@@ -79,25 +79,28 @@ app.post('/register', (req, res) => {
 app.use('/register', express.static(path.join(__dirname, '/../client/login-register')));
 
 // TODO: Get request that submits a user's characters
-app.get('/:user', (req, res) => {
+app.get('/user/:user', (req, res) => {
 
 });
 
 // Get request for a user's gallery page
-app.get('/gallery/:user/', (req, res) => {
+app.get('/gallery/user/:user/', (req, res) => {
     res.sendFile(path.resolve('client/character-gallery/selector.html'));
 });
 
 // Allows gallery files to be used
-app.use('/gallery/:user', express.static(path.join(__dirname, '/../client/character-gallery')));
+app.use('/gallery/user/:user', express.static(path.join(__dirname, '/../client/character-gallery')));
 
 // Get request for a user's character
-app.get('/gallery/:user/:character', (req, res) => {
+app.get('/gallery/user/:user/character/:character', (req, res) => {
     res.sendFile(path.resolve('client/character-sheet/character-sheet.html'));
 });
 
 // Allows character files to be used
-app.use('/:user/gallery/:character', express.static(path.join(__dirname, '/../client/character-sheet')));
+app.use('/gallery/user/:user/character/:character', express.static(path.join(__dirname, '/../client/character-sheet')));
+
+// TODO: Other endpoints!
+//
 
 // Paths that do not exis
 // TODO: Make error page?
