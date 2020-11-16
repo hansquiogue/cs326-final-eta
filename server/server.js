@@ -33,7 +33,7 @@ const strategy = new LocalStrategy(
 	    // Delay to prevent brute forcing pass attempts
 	    await new Promise((r) => setTimeout(r, 2000));
 	    return done(null, false, { 'message' : 'Wrong password' });
-	}
+    }
 	// success!
 	// should create a user object here, associated with a unique identifier
 	return done(null, username);
@@ -49,6 +49,7 @@ app.use(passport.session());
 
 // Convert user object to a unique identifier
 passport.serializeUser((user, done) => {
+    console.log(user);
     done(null, user);
 });
 
@@ -83,14 +84,19 @@ app.get('/login', (req, res) => {
 });
 
 // Post request when user attempts to login
-app.post('/login', (req, res) => {
-    const user = req.body['username'];
+app.post('/login', 
     // Uses username/password authentication
-    passport.authenticate('local' , {     
-        'successRedirect' : '/gallery/user/' + user,   
-        'failureRedirect' : '/login'      
-    });
-});
+    passport.authenticate('local', 
+    {   
+        // TODO: Error message (username/password not valid)
+        failureRedirect : '/login',
+    // Successful and redirects to gallery
+    }), 
+    (req, res) => {
+        const user = req.body['username'];
+        res.redirect('/gallery/user/' + user);
+    }
+);
 
 // Allows login files to be used
 app.use('/login', express.static(path.join(__dirname, '/../client/login-register')));
@@ -107,40 +113,61 @@ app.post('/register', (req, res) => {
 	const pass = req.body['password'];
     const confPass = req.body['confirm-password'];
 
-    // TODO: Register stuff goes here (Check if user in database, passwords the same, etc.)
-    // If register stuff goes okay, redirects to login page (Display message?)
+    // TODO: (Helper function) Regex to see if fields are valid
 
-    res.redirect('/login');
+    if (pass !== confPass) {
+        // TODO: Error message
+        res.redirect('/register');
+    // Cannot add new user
+    } else if (!addUser(user, pass, email)) {
+        // TODO: Error message
+        res.redirect('/register');
+    // Can add new user
+    } else {
+        // TODO: Succesful registration page
+        res.redirect('/login');
+    }
 });
 
 // Allows register files to be used
 app.use('/register', express.static(path.join(__dirname, '/../client/login-register')));
 
 // TODO: Get request that submits a user's characters
-app.get('/user/:user', (req, res) => {
+// Will programmatically generate gallery page
+app.get('/user/:user', checkLoggedIn, (req, res) => {
 
 });
 
+// Get request and redirects user to their own page
+app.get('/gallery', checkLoggedIn, (req, res) => {
+    res.redirect('/gallery/user/' + req.user);
+});
+
 // Get request for a user's gallery page
-app.get('/gallery/user/:user/', (req, res) => {
-    res.sendFile(path.resolve('client/character-gallery/selector.html'));
+app.get('/gallery/user/:user/', checkLoggedIn, (req, res) => {
+    // Verify if correct user
+    if (req.params.user === req.user) {
+        res.sendFile(path.resolve('client/character-gallery/selector.html'));
+    } else {
+        res.redirect('/gallery');
+    }
 });
 
 // Allows gallery files to be used
 app.use('/gallery/user/:user', express.static(path.join(__dirname, '/../client/character-gallery')));
 
 // Get request for a user's character
-app.get('/gallery/user/:user/character/:character', (req, res) => {
+app.get('/gallery/user/:user/character/:character', checkLoggedIn, (req, res) => {
     res.sendFile(path.resolve('client/character-sheet/character-sheet.html'));
 });
 
 // Allows character files to be used
 app.use('/gallery/user/:user/character/:character', express.static(path.join(__dirname, '/../client/character-sheet')));
 
-// TODO: Other endpoints!
+// TODO: Other endpoints! Fix/include them
 //
 
-// Paths that do not exis
+// Paths that do not exist
 // TODO: Make error page?
 app.get('*', (req, res) => {
     res.send('You seem to be a bit lost adventurer...');
@@ -159,7 +186,7 @@ app.listen(port, () => {
  */
 function userExists(username) {
     // Checks users array if username exists
-    return database.filter(user_obj => user_obj.user === username).length > 0;
+    return database.filter(user_obj => user_obj.username === username).length > 0;
 }
 
 /**
@@ -175,7 +202,7 @@ function validatePass(username, password) {
         return !valid;
     }
     // Password is incorrect
-    if (database.find(user_obj => user_obj.user === username).password !== password) {
+    if (database.find(user_obj => user_obj.username === username).password !== password) {
         return !valid;
     }
     return valid;
@@ -198,7 +225,8 @@ function addUser(username, password, email) {
         password: password,
         email: email,
         characters: [] 
-    })
+    });
+    console.log('User created: ' + username);
 	return true;
 }
 
