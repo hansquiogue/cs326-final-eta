@@ -7,7 +7,7 @@ import passport from 'passport';
 import passportLocal from 'passport-local';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: __dirname + '/.env' });
@@ -154,8 +154,29 @@ app.get('/gallery/user/:user/character/:character', checkLoggedIn, (req, res) =>
     res.sendFile(path.resolve('client/character-sheet/character-sheet.html'));
 });
 
-// Allows character files to be used
+// Allows character sheet files to be used
 app.use('/gallery/user/:user/character/:character', express.static(path.join(__dirname, '/../client/character-sheet')));
+
+// Get request for creating a new chracter
+app.get('/character/create', checkLoggedIn, (req, res) => {
+    const username = req.user;
+    const charName = req.query['char-name'];
+    
+    // Queries cannot be empty
+    if (charName === undefined || username === undefined) {
+        res.status(400).redirect('/gallery');
+    } 
+    // User already exists
+    else if (charExists(username, charName)) {
+        // TODO: Error stating character exists
+        res.status(409).send('No duplicate characters allowed for a user');
+    // User can be created
+    } else {
+        // TODO: Import JSON character sheet template into user
+        res.send(200).status(charName + ' has been succesfully created');
+    }
+});
+
 
 // TODO: Other endpoints! Fix/include them
 //
@@ -182,7 +203,6 @@ function userExists(username) {
     return database.filter(user_obj => user_obj.username === username).length > 0;
 }
 
-
 /**
  * Checks if email exists in database
  * @param {string} email An email
@@ -191,6 +211,21 @@ function userExists(username) {
 function emailExists(email) {
     // Checks database array if email exists
     return database.filter(user_obj => user_obj.email === email).length > 0;
+}
+
+/**
+ * Checks if a user's character exists in the database
+ * @param {string} username A username
+ * @param {string} newCharacter The name of the new character
+ * @returns {boolean} Returns true if the character exists 
+ */
+function charExists(username, newCharacter) {
+    // Database is empty
+    if (!Object.keys(database).includes("characters")) {
+        return false;
+    }
+    const userIndex = database.findIndex(user_obj => user_obj.username === username);
+    return database[userIndex].characters.filter(char => char['char-name'] === newCharacter).length > 0;
 }
 
 /**
