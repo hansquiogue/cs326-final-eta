@@ -57,6 +57,10 @@ header {
     color: rgb(197, 13, 13);
 }
 
+.modal {
+    background-color: black;
+}
+
 .forgot {
     font-size: small;
     color: rgb(197, 13, 13);

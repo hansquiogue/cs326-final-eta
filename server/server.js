@@ -49,7 +49,6 @@ app.use(passport.session());
 
 // Convert user object to a unique identifier
 passport.serializeUser((user, done) => {
-    console.log(user);
     done(null, user);
 });
 
@@ -88,8 +87,7 @@ app.post('/login',
     // Uses username/password authentication
     passport.authenticate('local', 
     {   
-        // TODO: Error message (username/password not valid)
-        failureRedirect : '/login',
+        failureRedirect : '/login?attempt=failure',
     // Successful and redirects to gallery
     }), 
     (req, res) => {
