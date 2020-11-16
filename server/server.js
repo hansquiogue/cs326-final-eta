@@ -7,7 +7,7 @@ import passport from 'passport';
 import passportLocal from 'passport-local';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import * as dotenv from 'dotenv';
+import dotenv from 'dotenv';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: __dirname + '/.env' });
