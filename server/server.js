@@ -1,14 +1,17 @@
 //--------------------Server--------------------
 
 // Required libraries
-import * as _express from 'express';
+import express from 'express';
 import expressSession from 'express-session';
+import passport from 'passport';
+import passportLocal from 'passport-local';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import * as dotenv from 'dotenv';
 
-const express = _express['default'];
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
+dotenv.config({ path: __dirname + '/.env' });
+const LocalStrategy = passportLocal.Strategy;
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -19,14 +22,50 @@ const session = {
     saveUninitialized: false
 };
 
+const strategy = new LocalStrategy(
+    async (username, password, done) => {
+    // No user exists
+    if (!userExists(username)) {
+        return done(null, false, { 'message' : 'Wrong username' });
+    }
+    // Invalid password
+	if (!validatePass(username, password)) {
+        // Delay to prevent brute forcing pass attempts
+        await new Promise((r) => setTimeout(r, 2000));
+        return done(null, false, { 'message' : 'Wrong password' });
+    }
+	// success!
+	// should create a user object here, associated with a unique identifier
+	return done(null, username);
+});
+
 //--------------------Application--------------------
 
 // App configuration
 app.use(expressSession(session));
+passport.use(strategy);
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Convert user object to a unique identifier
+passport.serializeUser((user, done) => {
+    done(null, user);
+});
+
+// Convert a unique identifier to a user object
+passport.deserializeUser((uid, done) => {
+    done(null, uid);
+});
 
 // Allows JSON and URLencoded data
 app.use(express.json()); 
 app.use(express.urlencoded({'extended' : true}));
+
+
+//--- Temporary user storage (TODO: Replace/remove with MongoDB)
+// Type: user = { user, *encrypted* pass, email, characters[] }
+const database = [];
+//--------------------------------------------
 
 /*** Application endpoints ***/ 
 
@@ -44,15 +83,18 @@ app.get('/login', (req, res) => {
 });
 
 // Post request when user attempts to login
-app.post('/login', (req, res) => {
-    const user = req.body['username'];
-    const pass = req.body['password'];
-
-    // TODO: Login stuff (Authenticate, etc.)
-    // If login stuff goes okay, redirects to the user's gallery page
-
-    res.redirect('/gallery/user/' + user);
-});
+app.post('/login', 
+    // Uses username/password authentication
+    passport.authenticate('local', 
+    {   
+        failureRedirect : '/login?attempt=failure',
+    }), 
+    // Successful and redirects to gallery
+    (req, res) => {
+        const user = req.body['username'];
+        res.redirect('/gallery/user/' + user);
+    }
+);
 
 // Allows login files to be used
 app.use('/login', express.static(path.join(__dirname, '/../client/login-register')));
@@ -67,42 +109,79 @@ app.post('/register', (req, res) => {
     const user = req.body['username'];
     const email = req.body['email'];
 	const pass = req.body['password'];
-    const confPass = req.body['confirm-password'];
 
-    // TODO: Register stuff goes here (Check if user in database, passwords the same, etc.)
-    // If register stuff goes okay, redirects to login page (Display message?)
+    // TODO: (Helper function) Regex to see if fields are valid?
 
-    res.redirect('/login');
+    // Cannot add new user
+    if (!addUser(user, pass, email)) {
+        res.redirect('/register?error=user-exists');
+    // Can add new user
+    } else {
+        // TODO: Succesful registration page instead of redirecting to login page
+        res.redirect('/login');
+    }
 });
 
 // Allows register files to be used
 app.use('/register', express.static(path.join(__dirname, '/../client/login-register')));
 
 // TODO: Get request that submits a user's characters
-app.get('/user/:user', (req, res) => {
+// Will programmatically generate gallery page
+// app.get('/user/:user', checkLoggedIn, (req, res) => {
 
+// });
+
+// Get request and redirects user to their own page
+app.get('/gallery', checkLoggedIn, (req, res) => {
+    res.redirect('/gallery/user/' + req.user);
 });
 
 // Get request for a user's gallery page
-app.get('/gallery/user/:user/', (req, res) => {
-    res.sendFile(path.resolve('client/character-gallery/selector.html'));
+app.get('/gallery/user/:user/', checkLoggedIn, (req, res) => {
+    // Verify if correct user
+    if (req.params.user === req.user) {
+        res.sendFile(path.resolve('client/character-gallery/selector.html'));
+    } else {
+        res.redirect('/gallery');
+    }
 });
 
 // Allows gallery files to be used
 app.use('/gallery/user/:user', express.static(path.join(__dirname, '/../client/character-gallery')));
 
 // Get request for a user's character
-app.get('/gallery/user/:user/character/:character', (req, res) => {
+app.get('/gallery/user/:user/character/:character', checkLoggedIn, (req, res) => {
     res.sendFile(path.resolve('client/character-sheet/character-sheet.html'));
 });
 
-// Allows character files to be used
+// Allows character sheet files to be used
 app.use('/gallery/user/:user/character/:character', express.static(path.join(__dirname, '/../client/character-sheet')));
 
-// TODO: Other endpoints!
+// Get request for creating a new chracter
+app.get('/character/create', checkLoggedIn, (req, res) => {
+    const username = req.user;
+    const charName = req.query['char-name'];
+    
+    // Queries cannot be empty
+    if (charName === undefined || username === undefined) {
+        res.status(400).redirect('/gallery');
+    } 
+    // User already exists
+    else if (charExists(username, charName)) {
+        // TODO: Error stating character exists
+        res.status(409).send('No duplicate characters allowed for a user');
+    // User can be created
+    } else {
+        // TODO: Import JSON character sheet template into user
+        res.send(200).status(charName + ' has been succesfully created');
+    }
+});
+
+
+// TODO: Other endpoints! Fix/include them
 //
 
-// Paths that do not exis
+// Paths that do not exist
 // TODO: Make error page?
 app.get('*', (req, res) => {
     res.send('You seem to be a bit lost adventurer...');
@@ -111,3 +190,98 @@ app.get('*', (req, res) => {
 app.listen(port, () => {
     console.log(`App now listening at port ${port}`);
 });
+
+//--------------------Helper functions--------------------
+
+/**
+ * Checks if user exists in datavase
+ * @param {string} username A username
+ * @returns {boolean} Returns true if the username exists in the database
+*/
+function userExists(username) {
+    // Checks database array if username exists
+    return database.filter(user_obj => user_obj.username === username).length > 0;
+}
+
+/**
+ * Checks if email exists in database
+ * @param {string} email An email
+ * @returns {boolean} Returns true if the email exists in the database
+*/
+function emailExists(email) {
+    // Checks database array if email exists
+    return database.filter(user_obj => user_obj.email === email).length > 0;
+}
+
+/**
+ * Checks if a user's character exists in the database
+ * @param {string} username A username
+ * @param {string} newCharacter The name of the new character
+ * @returns {boolean} Returns true if the character exists 
+ */
+function charExists(username, newCharacter) {
+    // Database is empty
+    if (!Object.keys(database).includes("characters")) {
+        return false;
+    }
+    const userIndex = database.findIndex(user_obj => user_obj.username === username);
+    return database[userIndex].characters.filter(char => char['char-name'] === newCharacter).length > 0;
+}
+
+/**
+ * Validate password (Will need to encrypt later!)
+ * @param {string} username A username
+ * @param {string} password A hashed password (eventually!)
+ * @returns {boolean} Returns true if the password is valid
+*/
+function validatePass(username, password) {
+    const valid = true;
+    // User does not exists
+    if (!userExists(username)) {
+        return !valid;
+    }
+    // Password is incorrect
+    if (database.find(user_obj => user_obj.username === username).password !== password) {
+        return !valid;
+    }
+    return valid;
+}
+
+/**
+ * Adds a user to a database
+ * @param {string} username A username
+ * @param {string} password A hashed password
+ * @param {string} email An email address
+*/
+function addUser(username, password, email) {
+    // User or email should not exist in the database
+    if (userExists(username) || emailExists(email)) {
+		return false;
+    }
+    // Adds user to data base and returns true
+	database.push({
+        username: username, 
+        password: password,
+        email: email,
+        characters: [] 
+    });
+    console.log('New user created: ' + username);
+	return true;
+}
+
+/**
+ * Checks if a user is logged in and redirects them to the
+ * login page if they are not
+ * @param {Object<Request>} req A request made by a client
+ * @param {Object<Response>} res A response to send back to the client
+ * @param {function} next The next route
+*/
+function checkLoggedIn(req, res, next) {
+    // If we are authenticated, we run to the next route
+    if (req.isAuthenticated()) {
+        next();
+    // Otherwise, redirect to the login page
+    } else {
+        res.redirect('/login');
+    }
+}
