@@ -26,13 +26,13 @@ const strategy = new LocalStrategy(
     async (username, password, done) => {
     // No user exists
     if (!userExists(username)) {
-	    return done(null, false, { 'message' : 'Wrong username' });
+        return done(null, false, { 'message' : 'Wrong username' });
     }
     // Invalid password
 	if (!validatePass(username, password)) {
-	    // Delay to prevent brute forcing pass attempts
-	    await new Promise((r) => setTimeout(r, 2000));
-	    return done(null, false, { 'message' : 'Wrong password' });
+        // Delay to prevent brute forcing pass attempts
+        await new Promise((r) => setTimeout(r, 2000));
+        return done(null, false, { 'message' : 'Wrong password' });
     }
 	// success!
 	// should create a user object here, associated with a unique identifier
@@ -88,8 +88,8 @@ app.post('/login',
     passport.authenticate('local', 
     {   
         failureRedirect : '/login?attempt=failure',
-    // Successful and redirects to gallery
     }), 
+    // Successful and redirects to gallery
     (req, res) => {
         const user = req.body['username'];
         res.redirect('/gallery/user/' + user);
@@ -109,20 +109,15 @@ app.post('/register', (req, res) => {
     const user = req.body['username'];
     const email = req.body['email'];
 	const pass = req.body['password'];
-    const confPass = req.body['confirm-password'];
 
-    // TODO: (Helper function) Regex to see if fields are valid
+    // TODO: (Helper function) Regex to see if fields are valid?
 
-    if (pass !== confPass) {
-        // TODO: Error message
-        res.redirect('/register');
     // Cannot add new user
-    } else if (!addUser(user, pass, email)) {
-        // TODO: Error message
-        res.redirect('/register');
+    if (!addUser(user, pass, email)) {
+        res.redirect('/register?error=user-exists');
     // Can add new user
     } else {
-        // TODO: Succesful registration page
+        // TODO: Succesful registration page instead of redirecting to login page
         res.redirect('/login');
     }
 });
@@ -132,9 +127,9 @@ app.use('/register', express.static(path.join(__dirname, '/../client/login-regis
 
 // TODO: Get request that submits a user's characters
 // Will programmatically generate gallery page
-app.get('/user/:user', checkLoggedIn, (req, res) => {
+// app.get('/user/:user', checkLoggedIn, (req, res) => {
 
-});
+// });
 
 // Get request and redirects user to their own page
 app.get('/gallery', checkLoggedIn, (req, res) => {
@@ -178,13 +173,24 @@ app.listen(port, () => {
 //--------------------Helper functions--------------------
 
 /**
- * Checks if user exists
+ * Checks if user exists in datavase
  * @param {string} username A username
  * @returns {boolean} Returns true if the username exists in the database
- */
+*/
 function userExists(username) {
-    // Checks users array if username exists
+    // Checks database array if username exists
     return database.filter(user_obj => user_obj.username === username).length > 0;
+}
+
+
+/**
+ * Checks if email exists in database
+ * @param {string} email An email
+ * @returns {boolean} Returns true if the email exists in the database
+*/
+function emailExists(email) {
+    // Checks database array if email exists
+    return database.filter(user_obj => user_obj.email === email).length > 0;
 }
 
 /**
@@ -192,7 +198,7 @@ function userExists(username) {
  * @param {string} username A username
  * @param {string} password A hashed password (eventually!)
  * @returns {boolean} Returns true if the password is valid
- */
+*/
 function validatePass(username, password) {
     const valid = true;
     // User does not exists
@@ -211,10 +217,10 @@ function validatePass(username, password) {
  * @param {string} username A username
  * @param {string} password A hashed password
  * @param {string} email An email address
- */
+*/
 function addUser(username, password, email) {
-    // User should not exists in database
-    if (userExists(username)) {
+    // User or email should not exist in the database
+    if (userExists(username) || emailExists(email)) {
 		return false;
     }
     // Adds user to data base and returns true
@@ -224,7 +230,7 @@ function addUser(username, password, email) {
         email: email,
         characters: [] 
     });
-    console.log('User created: ' + username);
+    console.log('New user created: ' + username);
 	return true;
 }
 
@@ -234,13 +240,13 @@ function addUser(username, password, email) {
  * @param {Object<Request>} req A request made by a client
  * @param {Object<Response>} res A response to send back to the client
  * @param {function} next The next route
- */
+*/
 function checkLoggedIn(req, res, next) {
     // If we are authenticated, we run to the next route
     if (req.isAuthenticated()) {
-	    next();
+        next();
     // Otherwise, redirect to the login page
     } else {
-	    res.redirect('/login');
+        res.redirect('/login');
     }
 }

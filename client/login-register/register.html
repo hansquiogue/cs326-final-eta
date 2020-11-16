@@ -4,7 +4,8 @@
         <title>Euryale - Create a New Account</title>
 
         <!-- Loads in script -->
-        <!-- <script type="module" src="register/register.js" defer></script> -->
+        <script type="module" src="register/register.js" defer></script>
+
         <!-- Required Bootstrap meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -39,23 +40,26 @@
             <form action="/register" method="post">
                 <div class="form-group mt-4 mx-4">
                     <label for="email-input">Email Address:</label>
-                    <input class="form-control" name="email" type="text" required>
+                    <input class="form-control" id="email" name="email" type="text" required>
+                    <span class="help-block text-danger mt-2" id="email-help"></span>
                 </div>
                 <div class="form-group mx-4">
                     <label for="user-input">Username:</label>
-                    <input class="form-control" name="username" type="text" required> 
+                    <input class="form-control" id="username" name="username" type="text" required> 
+                    <span class="help-block text-danger mt-2" id="user-help"></span>
                 </div>
                 <div class="row mx-2">
                     <div class="col">
                         <div class="form-group">
                             <label for="pass-input">Password:</label>
-                            <input type="password" name="password" class="form-control" type="text" required>
+                            <input type="password" id="password" name="password" class="form-control" type="text" required>
+                            <span class="help-block text-danger mt-2" id="pass-help"></span>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label for="pass-confirm-input">Confirm Password:</label>
-                            <input type="password" name="confirm-password" class="form-control" type="text" required>
+                            <input type="password" id="confirm-password" name="confirm-password" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
