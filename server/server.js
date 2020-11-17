@@ -215,6 +215,21 @@ app.get("/character/create", checkLoggedIn, (req, res) => {
   }
 });
 
+// Delete request for a user's character
+app.delete("/character/delete", checkLoggedIn, (req, res) => {
+    const userData = getUserData(req.user);
+    const char = req.body.character;
+
+    if (charExists(req.user, char)) {
+        const charIndex = userData.characters.indexOf(char);
+        // Character deleted in database
+        userData.characters.splice(charIndex, 1);
+        res.status(200).send(char + ' deleted');
+    } else {
+        res.status(400).send(char + ' cannot be deleted at this time');
+    }
+});
+
 // TODO: Other endpoints! Fix/include them
 // Save char sheet
 app.post(
@@ -297,7 +312,8 @@ function charExists(username, newCharacter) {
     return false;
   }
   const userData = getUserData(username);
-  return userData.characters.filter(char => char === newCharacter).length > 0;
+  // Accounts for character names with spaces and coverts them to dashes
+  return userData.characters.filter(char => char === newCharacter.replace('-', ' ')).length > 0;
 }
 
 /**

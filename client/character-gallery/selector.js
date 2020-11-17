@@ -67,56 +67,87 @@ window.addEventListener('load', async function () {
 
     // Whenever play button is clicked
     document.getElementById('play-btn').addEventListener('click', async function () {
-        // Current character selected
-        const charName = document.getElementById('new-char-name').value.replace(/\s+/g, '-').toLowerCase();
-        
-        if (charName === 'none') {
-            alert('No character selected');
+        // Checks if a character has been selected
+        if (!checkCharSelected()) {
             return;
         }
 
-        const data = { user:'user', char: char };
-        
-        window.location.href = '/gallery/user/' + user + '/character/' + char;
-
-        // await fetch('/' + 'user' + '/gallery/' + char,
-        //   {
-        //     method: 'post',
-        //     body: JSON.stringify(data),
-        //   }
-        // );
+        // Current character selected
+        const charName = getSelectedCharacter().value.replace(/\s+/g, '-');
+        window.location.href = '/gallery/user/' + user + '/character/' + charName;
     });
 
+    // When normal delete button is clicked
+    document.getElementById('delete-btn').addEventListener('click', function() {
+         // Character selected is stored in data to send
+         const charName = getSelectedCharacter();
 
+         if (charName !== undefined) {
+            // Changes confirmation message to current character
+            document.getElementById('delete-char-text').innerText = charName.value;
+         }
+    });
 
-    // Whenever delete button is clicked
-    // TODO: Confirmation message
-    document
-      .getElementById('delete')
-      .addEventListener('click', async function () {
-        const char = getSelectedCharacter().value;
-        const data = { user: user, char: char };
-
-        const delete_resp = await fetch(
-          '/manage-sheets-delete',
-          {
-            method: 'post',
-            body: JSON.stringify(data),
-          }
-        );
-
-        if (delete_resp.ok) {
-          const body = await delete_resp.json();
-          alert('Chacter deleted request recieved' + JSON.stringify(body));
-
-          deleteCharInGallery();
-
-          document.getElementById('curr-selected-text').innerText =
-            'None';
+    // Whenever delete confirmation button is clicked
+    document.getElementById('delete').addEventListener('click', async function() {
+        // Checks if a character has been selected
+        if (!checkCharSelected()) {
+            hideModal(document.getElementById('confirm-delete'));
+            hideModal(document.getElementsByClassName('modal-backdrop')[0]);
+            return;
         }
-      });
+
+        // Character selected is stored in data to send
+        const charName = getSelectedCharacter().value;
+        const data = { character: charName };
+
+        // Sends delete request of character
+        const response = await fetch('/character/delete', {
+            method: 'DELETE',
+            headers: { 'Content-Type' : 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        // Delete response is okay
+        if (response.ok) {
+            // Character deleted in gallery
+            deleteCurrCharInGallery();
+            // Selected character is set it none
+            document.getElementById('curr-selected-text').innerText = 'None';
+            
+            // Hides modal
+            hideModal(document.getElementById('confirm-delete'));
+            hideModal(document.getElementsByClassName('modal-backdrop')[0]);
+
+        // Delete response failure
+        } else {
+            alert('An error has occured while deleting the character ' + charName);
+        }
+    });
+
+    // When logout button is clicked
+    document.getElementById('logout').addEventListener('click', async function() {
+        const response = await fetch('/logout');
+        if (response.ok) {
+            window.location.href = '/';
+        }
+    });
 });
 
+/**
+ * Checks if a character has been selected. Prints an alert
+ * if no character has been selected. Returns true if a character
+ * has been selected and false otherwise.
+ * @returns {boolean} Represents if character has been selected
+ */
+function checkCharSelected() {
+    // No character selected
+    if (getSelectedCharacter() === undefined) {
+        alert('No character selected!');
+        return false;
+    }
+    return true;
+}
 
 /**
  * Gets a user's character list
@@ -195,10 +226,12 @@ function getSelectedCharacter() {
     return char_list.filter((char) => char.checked)[0];
 }
 
-// TODO: Update character selected
-function deleteCharInGallery() {
-  const id = getSelectedCharacter().id;
-  document.getElementById(id).parentElement.parentElement.parentElement.remove();
+/**
+ * Programmatically deletes the current character selected in the gallery
+ */
+function deleteCurrCharInGallery() {
+    const id = getSelectedCharacter().id;
+    document.getElementById(id).parentElement.parentElement.parentElement.remove();
 }
 
 // Whenever there are any changes, the page will look for the selected character
