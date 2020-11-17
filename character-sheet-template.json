@@ -1,9 +1,8 @@
 {
   "user": "",
-  "char-name": "",
-  "char-image": "",
-  "char-attributes" : 
-  {
+  "charName": "",
+  "charImage": "",
+  "charAttributes": {
     "level": "5",
     "class": "Ranger",
     "race": "mousefolk",
