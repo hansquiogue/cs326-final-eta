@@ -1,8 +1,13 @@
-window.characterSheet = {};
-window.characterSheet["inventory"] = [
+window.characterSheet = {
+  user: "",
+  charName: "",
+  charImage: "",
+  charAttributes: {},
+};
+window.characterSheet.charAttributes["inventory"] = [
   { name: "example", qty: "1", wgt: "1 lb" },
 ];
-window.characterSheet["spells"] = {
+window.characterSheet.charAttributes["spells"] = {
   0: [
     {
       name: "Acid Splash",
@@ -102,7 +107,7 @@ document.getElementById("dice-notation").addEventListener("input", checkDice);
 document.getElementById("rollBtn").addEventListener("mouseup", rollDice);
 
 // update whole sheet
-updateSheetValues();
+// updateSheetValues();
 
 // auto-save sheet every 60s
 // currently disabled
@@ -122,7 +127,11 @@ function templateCopy(template) {
  * @param  {} e
  */
 function genericInputSave() {
-  window.characterSheet[this.id] = this.value;
+  if (["char-name"].contains(this.id)) {
+    window.characterSheet.charName = this.value;
+  } else {
+    window.characterSheet.charAttributes[this.id] = this.value;
+  }
 }
 
 // function saveAllGenerics() {
@@ -144,11 +153,13 @@ function genericInputSave() {
  * Update the rendered sheet from the given sheet, or window.characterSheet.
  * @param  {} sheet=null The sheet to use, if null window.characterSheet is used.
  */
-function updateFromObj(sheet = null) {
-  sheet === null ? (sheet = window.characterSheet) : null;
+function updateFromObj() {
+  const sheet = window.characterSheet.charAttributes;
+  document.getElementById("char-name").value = window.characterSheet.charName;
   for (const item in sheet) {
     if (!["inventory", "spells"].includes(item)) {
-      document.getElementById(item).value = window.characterSheet[item];
+      document.getElementById(item).value =
+        window.characterSheet.charAttributes[item];
     }
   }
 }
@@ -159,7 +170,7 @@ function createInventoryTables() {
     targetElement.removeChild(targetElement.lastChild);
   }
 
-  window.characterSheet["inventory"].forEach((x) => {
+  window.characterSheet.charAttributes["inventory"].forEach((x) => {
     createInventoryRow(x);
   });
 }
@@ -211,7 +222,7 @@ function createInventoryRow(item) {
  */
 function addInventoryItem() {
   const blank = templateCopy(invItemTemplate);
-  window.characterSheet["inventory"].push(blank);
+  window.characterSheet.charAttributes["inventory"].push(blank);
   createInventoryRow(blank);
 }
 /**
@@ -220,7 +231,7 @@ function addInventoryItem() {
  */
 function saveInventoryItem() {
   const row = this.parentElement.parentElement;
-  window.characterSheet["inventory"][row.rowIndex][
+  window.characterSheet.charAttributes["inventory"][row.rowIndex][
     this.classList[0]
   ] = this.value;
 }
@@ -231,7 +242,7 @@ function saveInv() {
     const row = table.rows[i];
     for (let j = 0; j < row.cells.length; j++) {
       const cell = row.cells[j];
-      window.characterSheet["inventory"][i][cell.classList[0]] =
+      window.characterSheet.charAttributes["inventory"][i][cell.classList[0]] =
         cell.children[0].id;
     }
   }
@@ -243,7 +254,7 @@ function saveInv() {
 function deleteInventoryItem() {
   const row = this.parentElement.parentElement;
   // remove inventory item from memory obj
-  window.characterSheet["inventory"].splice(row.rowIndex, 1);
+  window.characterSheet.charAttributes["inventory"].splice(row.rowIndex, 1);
   row.remove();
 }
 
@@ -258,7 +269,7 @@ function getActiveSpellTab() {
 }
 
 function addSpell() {
-  window.characterSheet["spells"][getActiveSpellTab()].push(
+  window.characterSheet.charAttributes["spells"][getActiveSpellTab()].push(
     templateCopy(spellTemplate)
   );
   const table = document.getElementById(
@@ -291,7 +302,7 @@ function createSpellTables() {
     tableBodyWrapper.appendChild(tableBody);
 
     // Populate the table with saved spells
-    for (const spell of window.characterSheet["spells"][level]) {
+    for (const spell of window.characterSheet.charAttributes["spells"][level]) {
       createSpellRow(spell, tableBody);
     }
 
@@ -338,9 +349,9 @@ function createSpellRow(spell, tableBody) {
 
 function saveSpell() {
   const row = this.parentElement.parentElement;
-  window.characterSheet["spells"][getActiveSpellTab()][row.rowIndex][
-    this.classList[0]
-  ] = this.value;
+  window.characterSheet.charAttributes["spells"][getActiveSpellTab()][
+    row.rowIndex
+  ][this.classList[0]] = this.value;
 }
 
 function saveAllSpells() {
@@ -350,8 +361,9 @@ function saveAllSpells() {
       const row = table.rows[i];
       for (let j = 0; j < row.cells.length; j++) {
         const cell = row.cells[j];
-        window.characterSheet["spells"][level][i][cell.classList[0]] =
-          cell.children[0].name;
+        window.characterSheet.charAttributes["spells"][level][i][
+          cell.classList[0]
+        ] = cell.children[0].name;
       }
     }
   }
@@ -360,7 +372,10 @@ function saveAllSpells() {
 function deleteSpell() {
   const row = this.parentElement.parentElement;
   // remove inventory item from memory obj
-  window.characterSheet["spells"][getActiveSpellTab()].splice(row.rowIndex, 1);
+  window.characterSheet.charAttributes["spells"][getActiveSpellTab()].splice(
+    row.rowIndex,
+    1
+  );
   row.remove();
 }
 
@@ -376,12 +391,18 @@ function updateSheetValues() {
 
 async function saveSheet() {
   const options = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(window.characterSheet),
-  };
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(window.characterSheet),
+    },
+    pageURL = new URL(window.location.href),
+    user = pageURL.pathname[3],
+    char = pageURL.pathname[5];
 
-  const response = await fetch("/char-sheets-save", options);
+  const response = await fetch(
+    "/char-sheets-save/user/" + user + "/character/" + char,
+    options
+  );
 
   if (response.ok) {
     const body = await response.text();
@@ -391,11 +412,17 @@ async function saveSheet() {
 
 async function exportSheet() {
   const options = {
-    method: "GET",
-  };
+      method: "GET",
+    },
+    pageURL = new URL(window.location.href),
+    user = pageURL.pathname[3],
+    char = pageURL.pathname[5];
 
   saveSheet();
-  const file = await fetch("/char-sheets-export", options);
+  const file = await fetch(
+    "/char-sheets-export/user/" + user + "/character/" + char,
+    options
+  );
 
   if (file.ok) {
     const fileParse = await file.json();
@@ -422,7 +449,7 @@ async function resetSheet() {
     for (const input of docInputs) {
       if (!input.classList.contains("special-save")) {
         input.value = ""; // on-page
-        window.characterSheet[input.id] = ""; // in-memory
+        window.characterSheet.charAttributes[input.id] = ""; // in-memory
       }
     }
     // clear spells
@@ -441,8 +468,8 @@ async function resetSheet() {
       targetElement.removeChild(targetElement.lastChild);
     }
     // clear in-memory spells & inventory
-    window.characterSheet["inventory"] = [];
-    window.characterSheet["spells"] = {
+    window.characterSheet.charAttributes["inventory"] = [];
+    window.characterSheet.charAttributes["spells"] = {
       0: [],
       1: [],
       2: [],
@@ -511,34 +538,21 @@ function rollDice() {
 
 // Whenever log out is clicked
 document.getElementById("logout").addEventListener("click", async function () {
-  // Parameters from url
-  const url_params = new URLSearchParams(window.location.search);
-  // User retrieved from url parameter
-  const user = url_params.get("user");
-  const logout_resp = await fetch("/logout-attempt", {
-    method: "post",
-    body: JSON.stringify({ user: user }),
-  });
+  // const pageURL = new URL(window.location.href),
+  //   user = pageURL.pathname[3];
 
-  if (logout_resp.ok) {
-    const body = await logout_resp.json();
-    alert("User logged out request recieved" + JSON.stringify(body));
-    window.location.href = "/";
-  }
+  window.location.href = "/logout";
 });
 
 // Whenever character gallery button is clicked
 document.getElementById("gallery").addEventListener("click", async function () {
-  // Parameters from url
-  const url_params = new URLSearchParams(window.location.search);
-  // User retrieved from url parameter
-  const user = url_params.get("user");
-  // Token from url parameter
-  const token = url_params.get("token");
+  const pageURL = new URL(window.location.href),
+    user = pageURL.pathname[3];
+  // char = pageURL.pathname[5];
 
   // Redirects with GET request query to a character selection gallery
-  window.location.href =
-    "../login/selector.html?user=" + user + "&token=" + token;
+  window.location.href = "/gallery/user/" + user;
+  // "../login/selector.html?user=" + user + "&token=" + token;
 });
 
 // Slider
@@ -554,28 +568,43 @@ document.getElementById("exp-points").addEventListener("input", () => {
 
 // When page loads
 window.addEventListener("load", async () => {
-  // Parameters from url
-  const url_params = new URLSearchParams(window.location.search);
-  // User retrieved from url parameter
-  const user = url_params.get("user");
-  // Player name from url param
-  const char = url_params.get("char");
-  // Token from url param
-  const token = url_params.get("token");
+  // // Parameters from url
+  // const url_params = new URLSearchParams(window.location.search);
 
-  const response = await fetch(
-    "/char-sheets-load?user=" + user + "&char=" + char + "&token=" + token
-  );
+  const pageURL = new URL(window.location.href);
+
+  // console.log(pageURL.pathname);
+
+  // request using same get to be sent here, with flag to request json
+  // instead of webpage
+  const response = await fetch(pageURL.pathname + "?getSheet=true");
 
   if (response.ok) {
     const body = await response.json();
-    alert("Character loaded " + JSON.stringify(body));
+    // console.log(body);
+    window.characterSheet = body;
 
-    // Temp
-    document.getElementById("char-name").value = char;
-    document.getElementById("player-name").value = user;
+    if (window.characterSheet.charAttributes === undefined) {
+      window.characterSheet.charAttributes = {};
+      window.characterSheet.charAttributes.inventory = [];
+      window.characterSheet.charAttributes.spells = {
+        0: [],
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+        6: [],
+        7: [],
+        8: [],
+        9: [],
+      };
+    }
+
+    updateSheetValues();
   } else {
-    alert("Not authorized to view page");
-    window.location.href = "/";
+    // console.log("not found");
+    alert("ERROR: Character not found.");
+    window.location.href = "/gallery/user/" + pageURL.pathname[3];
   }
 });
