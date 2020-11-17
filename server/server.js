@@ -129,11 +129,19 @@ app.use(
   express.static(path.join(__dirname, "/../client/login-register"))
 );
 
-// TODO: Get request that submits a user's characters
-// Will programmatically generate gallery page
-// app.get('/user/:user', checkLoggedIn, (req, res) => {
-
-// });
+// Get request that sends a user's list of characters
+app.get('/user/:user/characters', checkLoggedIn, (req, res) => {
+    // Verify correct user
+    if (req.params.user === req.user) {
+        // Gets user from database
+        const userData = getUserData(req.user);
+        // Sends user's characters
+        res.status(200).send(JSON.stringify(userData.characters));
+    // Redirects to user's characters
+    } else {
+        res.redirect("/user/" + req.user + "/characters");
+    }
+});
 
 // Get request and redirects user to their own page
 app.get("/gallery", checkLoggedIn, (req, res) => {
@@ -186,7 +194,7 @@ app.use(
 // Get request for creating a new chracter
 app.get("/character/create", checkLoggedIn, (req, res) => {
   const username = req.user;
-  const charName = req.query["charName"];
+  const charName = req.query["char-name"];
 
   // Queries cannot be empty
   if (charName === undefined || username === undefined) {
@@ -198,9 +206,28 @@ app.get("/character/create", checkLoggedIn, (req, res) => {
     res.status(409).send("No duplicate characters allowed for a user");
     // User can be created
   } else {
-    // TODO: Import JSON character sheet template into user
-    res.send(200).status(charName + " has been succesfully created");
+    // Gets user in database   
+    const userData = getUserData(username);
+    // Pushes new character in user
+    userData.characters.push(charName);
+    console.log('New character: ' + charName + ', from user: ' + username);
+    res.status(200).send(charName + " has been succesfully created");
   }
+});
+
+// Delete request for a user's character
+app.delete("/character/delete", checkLoggedIn, (req, res) => {
+    const userData = getUserData(req.user);
+    const char = req.body.character;
+
+    if (charExists(req.user, char)) {
+        const charIndex = userData.characters.indexOf(char);
+        // Character deleted in database
+        userData.characters.splice(charIndex, 1);
+        res.status(200).send(char + ' deleted');
+    } else {
+        res.status(400).send(char + ' cannot be deleted at this time');
+    }
 });
 
 // TODO: Other endpoints! Fix/include them
@@ -281,18 +308,12 @@ function emailExists(email) {
  */
 function charExists(username, newCharacter) {
   // Database is empty
-  // this part..doesn't work
-  // if (!Object.keys(database).includes("characters")) {
-  //   return false;
-  // }
-  const userIndex = database.findIndex(
-    (user_obj) => user_obj.username === username
-  );
-  return (
-    database[userIndex].characters.filter(
-      (char) => char["charName"] === newCharacter
-    ).length > 0
-  );
+  if (database.length === 0) {
+    return false;
+  }
+  const userData = getUserData(username);
+  // Accounts for character names with spaces and coverts them to dashes
+  return userData.characters.filter(char => char === newCharacter.replace('-', ' ')).length > 0;
 }
 
 /**
@@ -362,7 +383,7 @@ function addUser(username, password, email) {
     password: password,
     email: email,
     // characters: [{ charName: "nutmeg" }],
-    characters: [],
+    characters: ["Nutmeg", "Noob"],
   });
   console.log("New user created: " + username);
   return true;

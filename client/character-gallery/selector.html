@@ -93,24 +93,7 @@
                                 <p class="main-text"><b>Character Gallery</b></p>
                             </div>
                         </div>
-                        <form class="container rounded" id="char-gallery">
-                            <div class="row mt-2">
-                                <div class="col mx-3 btn-group btn-group-toggle" data-toggle="buttons">
-                                    <label class="btn btn-secondary active">
-                                        <input class="radio-char" type="radio" name="charselect" 
-                                            id="char1" autocomplete="off" value="Nutmeg"> Nutmeg
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col mx-3 btn-group btn-group-toggle" data-toggle="buttons">
-                                    <label class="btn btn-secondary">
-                                        <input class="radio-char" type="radio" name="charselect" 
-                                            id="char2" autocomplete="off" value="Noob"> Noob
-                                    </label>
-                                </div>
-                            </div>
-                        </form>
+                        <form class="container rounded" id="char-gallery"></form>
                         <div class="row mt-4">
                             <div class="col-md-12"></div>
                         </div>
@@ -131,10 +114,11 @@
                         <div class="container rounded">
                             <div class="row mt-4">
                                 <div class="col text-center">
-                                    <button type="submit" class="btn btn-danger btn-lg" id="play-btn"> Play </button>
+                                    <button type="submit" class="btn btn-danger btn-lg" id="play-btn">Play</button>
                                 </div>
                                 <div class="col text-center">
-                                    <button type="submit" class="btn btn-secondary btn-lg" id="delete">Delete</button>
+                                    <button type="submit" class="btn btn-secondary btn-lg" id="delete-btn" 
+                                        data-toggle="modal" data-target="#confirm-delete">Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -150,7 +134,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title main-text" id="exampleModalLabel">Create a New Character</h5>
+                  <h5 class="modal-title main-text">Create a New Character</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -159,7 +143,8 @@
                   <form>
                     <div class="form-group">
                       <label for="new-char-name" class="col-form-label text-white">Enter a Character Name:</label>
-                      <input type="text" class="form-control" id="new-char-name">
+                      <input type="text" class="form-control" id="new-char-name" required><br>
+                      <span class="help-block text-danger text-xs" id="new-char-help"></span>
                     </div>
                   </form>
                 </div>
@@ -168,6 +153,27 @@
                 </div>
               </div>
             </div>
-          </div>
+        </div>
+        <!-- Delete confirmation modal -->
+        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title main-text">Delete Confirmation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="text-white">Are you sure you wanted to delete this character?</h5><br>
+                        <h3 class="text-center text-white" id="delete-char-text">No character selected!</h2><br>
+                        <h5 class="text-center text-danger">Note: this cannot be undone.</h6>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn justify-content btn-danger btn-lg" id="delete">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
