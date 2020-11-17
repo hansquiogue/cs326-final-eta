@@ -1,19 +1,37 @@
 //--------------------Server--------------------
 
 // Required libraries
-import express from 'express';
-import expressSession from 'express-session';
-import passport from 'passport';
-import passportLocal from 'passport-local';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
+import express from "express";
+import expressSession from "express-session";
+import passport from "passport";
+import passportLocal from "passport-local";
+import path from "path";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+import { default as mongodb } from "mongodb";
+import fs from "fs";
+const MongoClient = mongodb.MongoClient;
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: __dirname + "/.env" });
 const LocalStrategy = passportLocal.Strategy;
 const app = express();
 const port = process.env.PORT || 8080;
+
+//DB access configuration
+let secrets, password;
+if (!process.env.PASSWORD) {
+  secrets = JSON.parse(fs.readFileSync("./server/secrets.json"));
+  password = secrets.dbUsers.herokuMain;
+} else {
+  password = process.env.PASSWORD;
+}
+
+const mongoURL =
+  "mongodb+srv://herokuMain" +
+  ":" +
+  password +
+  "@euryaledb.cp8al.mongodb.net/<dbname>?retryWrites=true&w=majority";
 
 // Session configuration
 const session = {
@@ -130,17 +148,17 @@ app.use(
 );
 
 // Get request that sends a user's list of characters
-app.get('/user/:user/characters', checkLoggedIn, (req, res) => {
-    // Verify correct user
-    if (req.params.user === req.user) {
-        // Gets user from database
-        const userData = getUserData(req.user);
-        // Sends user's characters
-        res.status(200).send(JSON.stringify(userData.characters));
+app.get("/user/:user/characters", checkLoggedIn, (req, res) => {
+  // Verify correct user
+  if (req.params.user === req.user) {
+    // Gets user from database
+    const userData = getUserData(req.user);
+    // Sends user's characters
+    res.status(200).send(JSON.stringify(userData.characters));
     // Redirects to user's characters
-    } else {
-        res.redirect("/user/" + req.user + "/characters");
-    }
+  } else {
+    res.redirect("/user/" + req.user + "/characters");
+  }
 });
 
 // Get request and redirects user to their own page
@@ -206,28 +224,28 @@ app.get("/character/create", checkLoggedIn, (req, res) => {
     res.status(409).send("No duplicate characters allowed for a user");
     // User can be created
   } else {
-    // Gets user in database   
+    // Gets user in database
     const userData = getUserData(username);
     // Pushes new character in user
     userData.characters.push(charName);
-    console.log('New character: ' + charName + ', from user: ' + username);
+    console.log("New character: " + charName + ", from user: " + username);
     res.status(200).send(charName + " has been succesfully created");
   }
 });
 
 // Delete request for a user's character
 app.delete("/character/delete", checkLoggedIn, (req, res) => {
-    const userData = getUserData(req.user);
-    const char = req.body.character;
+  const userData = getUserData(req.user);
+  const char = req.body.character;
 
-    if (charExists(req.user, char)) {
-        const charIndex = userData.characters.indexOf(char);
-        // Character deleted in database
-        userData.characters.splice(charIndex, 1);
-        res.status(200).send(char + ' deleted');
-    } else {
-        res.status(400).send(char + ' cannot be deleted at this time');
-    }
+  if (charExists(req.user, char)) {
+    const charIndex = userData.characters.indexOf(char);
+    // Character deleted in database
+    userData.characters.splice(charIndex, 1);
+    res.status(200).send(char + " deleted");
+  } else {
+    res.status(400).send(char + " cannot be deleted at this time");
+  }
 });
 
 // TODO: Other endpoints! Fix/include them
@@ -278,6 +296,33 @@ app.listen(port, () => {
 //--------------------Helper functions--------------------
 
 /**
+ * Adds a user to a database
+ * @param {string} username A username
+ * @param {string} password A hashed password
+ * @param {string} email An email address
+ */
+async function addUser(username, password, email) {
+  // User or email should not exist in the database
+  const result = await mongoConnect((users, chars) => {
+    // check if user exists
+    if (users.find({ user: username }).count() > 0) {
+      return false;
+    } else {
+      // add user to db if they don't
+      users.insertOne({
+        user: username,
+        pass: password, // TODO replace with password hashing
+        email: email,
+        characters: [],
+      });
+      console.log("New user created: " + username);
+      return true;
+    }
+  });
+  return result;
+}
+
+/**
  * Checks if user exists in datavase
  * @param {string} username A username
  * @returns {boolean} Returns true if the username exists in the database
@@ -313,7 +358,11 @@ function charExists(username, newCharacter) {
   }
   const userData = getUserData(username);
   // Accounts for character names with spaces and coverts them to dashes
-  return userData.characters.filter(char => char === newCharacter.replace('-', ' ')).length > 0;
+  return (
+    userData.characters.filter(
+      (char) => char === newCharacter.replace("-", " ")
+    ).length > 0
+  );
 }
 
 /**
@@ -328,6 +377,7 @@ function getUserData(username) {
   );
   return database[userIndex];
 }
+
 /**
  * Gets a character for a given user
  * assumes both user and character exist
@@ -367,29 +417,6 @@ function validatePass(username, password) {
 }
 
 /**
- * Adds a user to a database
- * @param {string} username A username
- * @param {string} password A hashed password
- * @param {string} email An email address
- */
-function addUser(username, password, email) {
-  // User or email should not exist in the database
-  if (userExists(username) || emailExists(email)) {
-    return false;
-  }
-  // Adds user to data base and returns true
-  database.push({
-    username: username,
-    password: password,
-    email: email,
-    // characters: [{ charName: "nutmeg" }],
-    characters: ["Nutmeg", "Noob"],
-  });
-  console.log("New user created: " + username);
-  return true;
-}
-
-/**
  * Checks if a user is logged in and redirects them to the
  * login page if they are not
  * @param {Object<Request>} req A request made by a client
@@ -404,4 +431,32 @@ function checkLoggedIn(req, res, next) {
   } else {
     res.redirect("/login");
   }
+}
+
+// See addUser for implementation example.
+
+/**
+ * Connects to the database and runs the given function using the db collections.
+ * @param {function} func A function which takes users and chars (collections) as parameters.
+ * @return {boolean} The result of the operation (as returned by the passed in function).
+ *  returns false if there was a connection error.
+ */
+async function mongoConnect(func) {
+  let result = true;
+  const client = new MongoClient(mongoURL);
+  try {
+    // connect to the client
+    await client.connect();
+    const db = client.db("euryale"),
+      users = db.collection("users"),
+      chars = db.collection("characters");
+    // run given async function and store result
+    result = await func(users, chars);
+  } catch (e) {
+    console.log(e.stack);
+    result = false;
+  } finally {
+    await client.close();
+  }
+  return result;
 }
