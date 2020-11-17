@@ -136,7 +136,7 @@ app.get('/user/:user/characters', checkLoggedIn, (req, res) => {
         // Gets user from database
         const userData = getUserData(req.user);
         // Sends user's characters
-        res.status(200).send(JSON.stringify(userData));
+        res.status(200).send(JSON.stringify(userData.characters));
     // Redirects to user's characters
     } else {
         res.redirect("/user/" + req.user + "/characters");

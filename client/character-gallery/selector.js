@@ -5,8 +5,16 @@ window.addEventListener('load', async function () {
     // Welcome message to logged in user
     document.getElementById('welcome').innerText = 'Welcome ' + user + '!';
 
-    // Programmatically generates gallery of characters
-    // const response = 
+    // Get's users character list
+    const charList = await getCharacterList();
+    // Error getting characters
+    if (charList === undefined) {
+        alert('Error retreiving characters. Please try again.');
+    // No errors getting characters
+    } else {
+        // List of characters can be generated
+        initGallery(charList);
+    }
 
     // Functionality when create a character button is clicked in modal
     document.getElementById('create-char').addEventListener('click', async function () {
@@ -57,6 +65,30 @@ window.addEventListener('load', async function () {
         }
     });
 
+    // Whenever play button is clicked
+    document.getElementById('play-btn').addEventListener('click', async function () {
+        // Current character selected
+        const charName = document.getElementById('new-char-name').value.replace(/\s+/g, '-').toLowerCase();
+        
+        if (charName === 'none') {
+            alert('No character selected');
+            return;
+        }
+
+        const data = { user:'user', char: char };
+        
+        window.location.href = '/gallery/user/' + user + '/character/' + char;
+
+        // await fetch('/' + 'user' + '/gallery/' + char,
+        //   {
+        //     method: 'post',
+        //     body: JSON.stringify(data),
+        //   }
+        // );
+    });
+
+
+
     // Whenever delete button is clicked
     // TODO: Confirmation message
     document
@@ -83,33 +115,27 @@ window.addEventListener('load', async function () {
             'None';
         }
       });
-
-    // Whenever play button is clicked
-    document
-      .getElementById('play-btn')
-      .addEventListener('click', async function () {
-        // Gets selected character and converts spaces to dashes and lowercases it
-        const char = getSelectedCharacter().value.replace(/\s+/g, '-').toLowerCase();
-        const data = { user:'user', char: char };
-        
-        window.location.href = '/gallery/user/' + user + '/character/' + char;
-
-        // await fetch('/' + 'user' + '/gallery/' + char,
-        //   {
-        //     method: 'post',
-        //     body: JSON.stringify(data),
-        //   }
-        // );
-    });
-  
 });
 
 
-async function initializeGallery() {
-
+/**
+ * Gets a user's character list
+ * @returns {Array<string>} An array that contains a user's character names
+ */
+async function getCharacterList() {
+    const response = await fetch('/user/' + user + '/characters');
+    const body = await response.json();
+    return body; 
 }
 
-
+/**
+ * Initializes a user's characters
+ * @param {Array<string>} charList An array of a user's characters 
+ */
+function initGallery(charList) {
+    // Creates new character in gallery
+    charList.forEach(char => createNewCharInGallery(char));
+}
 
 /**
  * Helper function that hides a modal 
@@ -120,25 +146,10 @@ function hideModal(elem) {
     elem.classList.add('hidden');
 }
 
-// Whenever log out is clicked
-document
-.getElementById('logout')
-.addEventListener('click', async function () {
-  const logout_resp = await fetch(
-    '/logout-attempt',
-    {
-      method: 'post',
-      body: JSON.stringify({ user: user }),
-    }
-  );
-
-  if (logout_resp.ok) {
-    const body = await logout_resp.json();
-    alert('User logged out request recieved' + JSON.stringify(body));
-    window.location.href = '/';
-  }
-});
-
+/**
+ * Programmatically generates a new character in the gallery
+ * @param {string} name A character's name
+ */
 function createNewCharInGallery(name) {
     // Parent
     const parent = document.getElementById('char-gallery');
@@ -174,6 +185,10 @@ function createNewCharInGallery(name) {
     newLabel.appendChild(newInput);
 }
 
+/**
+ * Returns the selected character in the gallery
+ * @returns {HTML Element} The HTML element of a selected character
+ */
 function getSelectedCharacter() {
     let char_list = document.getElementsByName('charselect');
     char_list = Array.from(char_list);
@@ -186,8 +201,8 @@ function deleteCharInGallery() {
   document.getElementById(id).parentElement.parentElement.parentElement.remove();
 }
 
-// Updates current selected character text whenever new selection is made
+// Whenever there are any changes, the page will look for the selected character
 window.addEventListener('change', () => {
-  const curr_char = getSelectedCharacter().value;
-  document.getElementById('curr-selected-text').innerText = curr_char;
+    const curr_char = getSelectedCharacter().value;
+    document.getElementById('curr-selected-text').innerText = curr_char;
 });
