@@ -139,10 +139,11 @@ app.post("/register", async (req, res) => {
   if (!userFound) {
     res.redirect("/register?error=user-exists");
     // Can add new user
-  } else {
-    // TODO: Succesful registration page instead of redirecting to login page
+  } else{
     res.redirect("/login");
   }
+  
+    // TODO: Succesful registration page instead of redirecting to login page
 });
 
 // Allows register files to be used
@@ -316,6 +317,7 @@ app.listen(port, () => {
  * @returns {boolean} True if a user can be added
  */
 async function addUser(username, password, email) {
+  const [salt, hash] = mc.hash(password);
   // User or email should not exist in the database
   const result = mongoConnect(async (users, chars) => {
     // check if user exists
@@ -325,7 +327,7 @@ async function addUser(username, password, email) {
       // add user to db if they don't
       await users.insertOne({
         user: username,
-        pass: password, // TODO replace with password hashing
+        pass: [salt,hash], 
         email: email,
         characters: [],
       });
@@ -484,7 +486,7 @@ async function validatePass(username, password) {
     }
     const userData = await users.findOne({ user: username });
     // Password is incorrect
-    if (userData.pass !== password) {
+    if (!mc.check(password,userData.pass[0],userData.pass[1])){
       return !valid;
     }
     // Password valid
