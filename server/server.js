@@ -255,16 +255,16 @@ app.delete("/character/delete", checkLoggedIn, async (req, res) => {
 // TODO: Other endpoints! Fix/include them
 // Save char sheet
 app.post(
-  "char-sheet-save/user/:user/character/:character",
+  "/char-sheet-save/user/:user/character/:character",
   checkLoggedIn,
   async (req, res) => {
     const user = req.user,
       char = req.params.character,
       data = req.body;
 
-    console.log(`${user} attempts to save ${char}`);
+    console.log(`$user {user} attempts to save ${char}`);
 
-    const result = saveChar(data);
+    const result = await saveChar(data);
 
     if (result) {
       res.status(200);
@@ -278,10 +278,10 @@ app.post(
 app.get(
   "char-sheet-export/user/:user/character/:character",
   checkLoggedIn,
-  (req, res) => {
+  async (req, res) => {
     const user = req.user,
       char = req.params.character,
-      testfile = { user: user, charName: char };
+      testfile = await getChar(user, char);
 
     res.json(testfile);
   }
@@ -440,6 +440,7 @@ async function getChar(username, character) {
     });
 
     if (charSearch !== null) {
+      delete charSearch._id;
       return await charSearch;
     } else {
       return false;

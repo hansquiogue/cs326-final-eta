@@ -106,6 +106,8 @@ document
 document.getElementById("dice-notation").addEventListener("input", checkDice);
 document.getElementById("rollBtn").addEventListener("mouseup", rollDice);
 
+document.getElementById("char-name").readOnly = true;
+
 // update whole sheet
 // updateSheetValues();
 
@@ -413,7 +415,7 @@ async function saveSheet() {
     const body = await response.text();
     alert("Sheet accepted" + JSON.stringify(body));
   } else {
-    console.log("request failed");
+    console.log(`request failed (code ${response.status})`);
   }
 }
 
