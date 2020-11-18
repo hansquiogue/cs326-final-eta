@@ -194,14 +194,13 @@ app.get(
     if (req.query.getSheet) {
       const user = req.user,
         character = req.params.character;
-      const charDuplicate = await charExists(user, character);
       // console.log(`user ${user} requests ${character}`);
 
-      if (charDuplicate) {
-        const requestedChar = await getCharacter(user, character);
-        res.json(requestedChar);
-      } else {
+      const charQuery = await getCharacter(user, character);
+      if (!charQuery) {
         res.status(404).send("Requested character does not exist.");
+      } else {
+        res.json(charQuery);
       }
     } else {
       res.sendFile(path.resolve("client/character-sheet/character-sheet.html"));
