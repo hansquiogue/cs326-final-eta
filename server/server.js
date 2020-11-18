@@ -261,7 +261,14 @@ app.post(
     const user = req.user,
       char = req.params.character,
       data = req.body;
-    res.status(200).json(data);
+
+    const result = saveChar(data);
+
+    if (result) {
+      res.status(200);
+    } else {
+      res.status(500);
+    }
   }
 );
 
@@ -469,7 +476,7 @@ async function validatePass(username, password) {
   // Connects to server and attempts to validate password
   return mongoConnect(async (users, chars) => {
     // check if user does not exists
-    if ((await users.findOne({ user: username })) !== null) {
+    if ((await users.findOne({ user: username })) === null) {
       return !valid;
     }
     const userData = await users.findOne({ user: username });
