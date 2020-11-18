@@ -196,7 +196,7 @@ app.get(
         character = req.params.character;
       // console.log(`user ${user} requests ${character}`);
 
-      const charQuery = await getCharacter(user, character);
+      const charQuery = await getChar(user, character);
       if (!charQuery) {
         res.status(404).send("Requested character does not exist.");
       } else {
@@ -257,7 +257,7 @@ app.delete("/character/delete", checkLoggedIn, async (req, res) => {
 app.post(
   "char-sheet-save/user/:user/character/:character",
   checkLoggedIn,
-  (req, res) => {
+  async (req, res) => {
     const user = req.user,
       char = req.params.character,
       data = req.body;
@@ -310,7 +310,7 @@ async function addUser(username, password, email) {
   // User or email should not exist in the database
   const result = mongoConnect(async (users, chars) => {
     // check if user exists
-    if ((await users.find({ user: username }).count()) > 0) {
+    if ((await users.findOne({ user: username })) !== null) {
       return false;
     } else {
       // add user to db if they don't
@@ -345,7 +345,7 @@ async function addUser(username, password, email) {
 async function emailExists(email) {
   // Checks database array if email exists
   const result = mongoConnect(async (users, chars) => {
-    return users.find({ email: email }).count() > 0;
+    return (await users.findOne({ email: email })) !== null;
   });
   return result;
 }
@@ -375,8 +375,8 @@ async function charExists(username, newCharacter) {
  */
 async function getUserData(username) {
   return mongoConnect(async (users, chars) => {
-    const userData = await users.find({ user: username }).toArray();
-    return userData[0];
+    const userData = await users.findOne({ user: username });
+    return userData;
   });
 }
 
@@ -424,13 +424,13 @@ async function deleteChar(username, charName) {
  * @param {string} character the name of the character
  * @returns {Object} the character data
  */
-async function getCharacter(username, character) {
+async function getChar(username, character) {
   const result = mongoConnect(async (users, chars) => {
-    const charSearch = await chars.find({
+    const charSearch = await chars.findOne({
       $and: [{ user: username }, { charName: character }],
     });
 
-    if ((await charSearch.count()) > 0) {
+    if (charSearch === null) {
       return await charSearch.toArray()[0];
     } else {
       return false;
@@ -439,6 +439,8 @@ async function getCharacter(username, character) {
 
   return result;
 }
+
+async function saveChar(charData) {}
 
 /**
  * Validate password (Will need to encrypt later!)
@@ -451,12 +453,12 @@ async function validatePass(username, password) {
   // Connects to server and attempts to validate password
   return mongoConnect(async (users, chars) => {
     // check if user does not exists
-    if ((await users.find({ user: username }).count()) === 0) {
+    if ((await users.findOne({ user: username })) !== null) {
       return !valid;
     }
-    const userData = await users.find({ user: username }).toArray();
+    const userData = await users.findOne({ user: username });
     // Password is incorrect
-    if (userData[0].pass !== password) {
+    if (userData.pass !== password) {
       return !valid;
     }
     // Password valid
