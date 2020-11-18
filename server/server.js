@@ -312,7 +312,7 @@ async function addUser(username, password, email) {
       return false;
     } else {
       // add user to db if they don't
-      users.insertOne({
+      await users.insertOne({
         user: username,
         pass: password, // TODO replace with password hashing
         email: email,
