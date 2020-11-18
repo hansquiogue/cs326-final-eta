@@ -149,11 +149,11 @@ app.use(
 );
 
 // Get request that sends a user's list of characters
-app.get("/user/:user/characters", checkLoggedIn, (req, res) => {
+app.get("/user/:user/characters", checkLoggedIn, async (req, res) => {
   // Verify correct user
   if (req.params.user === req.user) {
     // Gets user from database
-    const userData = getUserData(req.user);
+    const userData = await getUserData(req.user);
     // Sends user's characters
     res.status(200).send(JSON.stringify(userData.characters));
     // Redirects to user's characters
@@ -187,14 +187,16 @@ app.use(
 app.get(
   "/gallery/user/:user/character/:character",
   checkLoggedIn,
-  (req, res) => {
+  async (req, res) => {
     if (req.query.getSheet) {
       const user = req.user,
-        character = req.params.character;
+      character = req.params.character;
+      const charDuplicate = await charExists(user, character);
       // console.log(`user ${user} requests ${character}`);
 
-      if (charExists(user, character)) {
-        res.json(getCharacter(user, character));
+      if (charDuplicate) {
+        const requestedChar = await getCharacter(user, character);
+        res.json(requestedChar);
       } else {
         res.status(404).send("Requested character does not exist.");
       }
@@ -211,41 +213,40 @@ app.use(
 );
 
 // Get request for creating a new chracter
-app.get("/character/create", checkLoggedIn, (req, res) => {
+app.get("/character/create", checkLoggedIn, async (req, res) => {
   const username = req.user;
   const charName = req.query["char-name"];
+  const charDuplicate = await charExists(username, charName);
 
   // Queries cannot be empty
   if (charName === undefined || username === undefined) {
     res.status(400).redirect("/gallery");
   }
   // User already exists
-  else if (charExists(username, charName)) {
+  else if (charDuplicate) {
     // TODO: Error stating character exists
     res.status(409).send("No duplicate characters allowed for a user");
-    // User can be created
+  // User can be created
   } else {
-    // Gets user in database
-    const userData = getUserData(username);
-    // Pushes new character in user
-    userData.characters.push(charName);
+    // Updates user's collection and inserts new character in character collection
+    await createNewChar(username, charName);
     console.log("New character: " + charName + ", from user: " + username);
     res.status(200).send(charName + " has been succesfully created");
   }
 });
 
 // Delete request for a user's character
-app.delete("/character/delete", checkLoggedIn, (req, res) => {
-  const userData = getUserData(req.user);
-  const char = req.body.character;
+app.delete("/character/delete", checkLoggedIn, async (req, res) => {
+  const charName = req.body.character;
+  const username = req.user;
+  const charDuplicate = await charExists(username, charName);
 
-  if (charExists(req.user, char)) {
-    const charIndex = userData.characters.indexOf(char);
-    // Character deleted in database
-    userData.characters.splice(charIndex, 1);
-    res.status(200).send(char + " deleted");
+  if (charDuplicate) {
+    deleteChar(username, charName);
+    console.log('Character deleted ' + charName);
+    res.status(200).send(charName + " deleted");
   } else {
-    res.status(400).send(char + " cannot be deleted at this time");
+    res.status(400).send(charName + " cannot be deleted at this time");
   }
 });
 
@@ -351,12 +352,8 @@ function emailExists(email) {
  * @param {string} newCharacter The name of the new character
  * @returns {boolean} Returns true if the character exists
  */
-function charExists(username, newCharacter) {
-  // Database is empty
-  if (database.length === 0) {
-    return false;
-  }
-  const userData = getUserData(username);
+async function charExists(username, newCharacter) {
+  const userData = await getUserData(username);
   // Accounts for character names with spaces and coverts them to dashes
   return (
     userData.characters.filter(
@@ -369,13 +366,50 @@ function charExists(username, newCharacter) {
  * Gets user data.
  * assumes user exists.
  * @param {string} username The name of the user.
- * @returns {Object} the user's data.
+ * @returns {Object<User>} the user's data.
  */
-function getUserData(username) {
-  const userIndex = database.findIndex(
-    (user_obj) => user_obj.username === username
-  );
-  return database[userIndex];
+async function getUserData(username) {
+  return mongoConnect(async (users, chars) => {
+    const userData = await users.find({user: username}).toArray();
+    return userData[0]; 
+  }); 
+}
+
+/**
+ * Creates a new character into a user's array of characters
+ * and the character collection. Assumes user exists.
+ * @param {string} username A username to append the new character into
+ * @param {string} charName The new character name
+ */
+async function createNewChar(username, charName) {
+  mongoConnect(async (users, chars) => {      
+    // Update a user's character array
+    await users.updateOne(
+      { user: username},
+      { $push: {characters: charName} }
+    )
+    // TODO: Add to character collection below (For testing)
+    await chars.insertOne({char: charName});
+  });
+}
+
+/**
+ * Deletes a character in the user and character collection. A user's
+ * character in their list of characters will be deleted alongside
+ * with the character found in the character collection
+ * @param {string} username A username in which a character will be deleted from
+ * @param {string} charName The character name to delete
+ */
+async function deleteChar(username, charName) {
+  mongoConnect(async (users, chars) => {      
+    // Update a user's character array
+    await users.updateOne(
+      { user: username},
+      { $pull: {characters: charName} }
+    )
+    // TODO: Remove from character collection (For testing)
+    await chars.deleteOne({ char: charName });
+  });
 }
 
 /**
@@ -385,10 +419,10 @@ function getUserData(username) {
  * @param {string} character the name of the character
  * @returns {Object} the character data
  */
-function getCharacter(username, character) {
-  const userData = getUserData(username);
+async function getCharacter(username, character) {
+  const userData = await getUserData(username);
   // console.log(userData);
-  const char = userData.characters.filter((c) => c.charName === character);
+  const char = userData.characters.filter(charName === character);
   // console.log(JSON.stringify(char));
   // console.log(JSON.stringify(char[0]));
   return char[0];
