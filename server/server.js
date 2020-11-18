@@ -303,13 +303,13 @@ app.listen(port, () => {
  */
 async function addUser(username, password, email) {
   // User or email should not exist in the database
-  const result = await mongoConnect((users, chars) => {
+  const result = mongoConnect(async (users, chars) => {
     // check if user exists
     if (users.find({ user: username }).count() > 0) {
       return false;
     } else {
       // add user to db if they don't
-      users.insertOne({
+      await users.insertOne({
         user: username,
         pass: password, // TODO replace with password hashing
         email: email,
