@@ -194,7 +194,7 @@ app.get(
     if (req.query.getSheet) {
       const user = req.user,
         character = req.params.character;
-      // console.log(`user ${user} requests ${character}`);
+      console.log(`user ${user} requests ${character}`);
 
       const charQuery = await getChar(user, character);
       if (!charQuery) {
@@ -262,6 +262,8 @@ app.post(
       char = req.params.character,
       data = req.body;
 
+    console.log(`${user} attempts to save ${char}`);
+
     const result = saveChar(data);
 
     if (result) {
@@ -279,7 +281,7 @@ app.get(
   (req, res) => {
     const user = req.user,
       char = req.params.character,
-      testfile = { user: user, char: char };
+      testfile = { user: user, charName: char };
 
     res.json(testfile);
   }
@@ -401,7 +403,7 @@ async function createNewChar(username, charName) {
       { $push: { characters: charName } }
     );
     // TODO: Add to character collection below (For testing)
-    await chars.insertOne({ user: username, char: charName });
+    await chars.insertOne({ user: username, charName: charName });
   });
 }
 
@@ -420,7 +422,7 @@ async function deleteChar(username, charName) {
       { $pull: { characters: charName } }
     );
     // TODO: Remove from character collection (For testing)
-    await chars.deleteOne({ user: username, char: charName });
+    await chars.deleteOne({ user: username, charName: charName });
   });
 }
 
@@ -437,8 +439,8 @@ async function getChar(username, character) {
       $and: [{ user: username }, { charName: character }],
     });
 
-    if (charSearch === null) {
-      return await charSearch.toArray()[0];
+    if (charSearch !== null) {
+      return await charSearch;
     } else {
       return false;
     }

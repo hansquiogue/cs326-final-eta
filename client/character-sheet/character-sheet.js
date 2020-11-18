@@ -396,17 +396,24 @@ async function saveSheet() {
       body: JSON.stringify(window.characterSheet),
     },
     pageURL = new URL(window.location.href),
-    user = pageURL.pathname[3],
-    char = pageURL.pathname[5];
+    user = pageURL.pathname.split("/")[3],
+    char = pageURL.pathname.split("/")[5];
+
+  console.log(`attempting to save sheet ${user} of ${char}`);
+
+  console.log("sending save sheet...");
 
   const response = await fetch(
-    "/char-sheets-save/user/" + user + "/character/" + char,
+    "/char-sheet-save/user/" + user + "/character/" + char,
     options
   );
 
   if (response.ok) {
+    console.log("request received");
     const body = await response.text();
     alert("Sheet accepted" + JSON.stringify(body));
+  } else {
+    console.log("request failed");
   }
 }
 
@@ -415,8 +422,8 @@ async function exportSheet() {
       method: "GET",
     },
     pageURL = new URL(window.location.href),
-    user = pageURL.pathname[3],
-    char = pageURL.pathname[5];
+    user = pageURL.pathname.split("/")[3],
+    char = pageURL.pathname.split("/")[5];
 
   saveSheet();
   const file = await fetch(
@@ -547,7 +554,7 @@ document.getElementById("logout").addEventListener("click", async function () {
 // Whenever character gallery button is clicked
 document.getElementById("gallery").addEventListener("click", async function () {
   const pageURL = new URL(window.location.href),
-    user = pageURL.pathname[3];
+    user = pageURL.pathname.split("/")[3];
   // char = pageURL.pathname[5];
 
   // Redirects with GET request query to a character selection gallery
@@ -585,6 +592,7 @@ window.addEventListener("load", async () => {
     window.characterSheet = body;
 
     if (window.characterSheet.charAttributes === undefined) {
+      console.log("received new sheet");
       window.characterSheet.charAttributes = {};
       window.characterSheet.charAttributes.inventory = [];
       window.characterSheet.charAttributes.spells = {
@@ -599,12 +607,13 @@ window.addEventListener("load", async () => {
         8: [],
         9: [],
       };
+      saveSheet();
     }
 
     updateSheetValues();
   } else {
     // console.log("not found");
     alert("ERROR: Character not found.");
-    window.location.href = "/gallery/user/" + pageURL.pathname[3];
+    window.location.href = "/gallery/user/" + pageURL.pathname.split("/")[3];
   }
 });
