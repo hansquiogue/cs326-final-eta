@@ -31,7 +31,7 @@ const mongoURL =
   "mongodb+srv://herokuMain" +
   ":" +
   password +
-  "@euryaledb.cp8al.mongodb.net/<dbname>?retryWrites=true&w=majority";
+  "@euryaledb.cp8al.mongodb.net/euryaledb?retryWrites=true&w=majority";
 
 // Session configuration
 const session = {
@@ -41,15 +41,17 @@ const session = {
 };
 
 const strategy = new LocalStrategy(async (username, password, done) => {
+  const userOrPassCorrect = await validatePass(username, password);
+  
   // No user exists
-  if (!userExists(username)) {
-    return done(null, false, { message: "Wrong username" });
-  }
-  // Invalid password
-  if (!validatePass(username, password)) {
+  // if (!userExists(username)) {
+  //   return done(null, false, { message: "Wrong username" });
+  // }
+  // Invalid username or password
+  if (!userOrPassCorrect) {
     // Delay to prevent brute forcing pass attempts
     await new Promise((r) => setTimeout(r, 2000));
-    return done(null, false, { message: "Wrong password" });
+    return done(null, false, { message: "Wrong username or password" });
   }
   // success!
   // should create a user object here, associated with a unique identifier
@@ -124,15 +126,14 @@ app.get("/register", (req, res) => {
 });
 
 // Post request when user attempts to register
-app.post("/register", (req, res) => {
+app.post("/register", async (req, res) => {
   const user = req.body["username"];
   const email = req.body["email"];
   const pass = req.body["password"];
-
-  // TODO: (Helper function) Regex to see if fields are valid?
-
+  const userFound = await addUser(user, pass, email); 
+  
   // Cannot add new user
-  if (!addUser(user, pass, email)) {
+  if (!userFound) {
     res.redirect("/register?error=user-exists");
     // Can add new user
   } else {
@@ -300,12 +301,13 @@ app.listen(port, () => {
  * @param {string} username A username
  * @param {string} password A hashed password
  * @param {string} email An email address
+ * @returns {boolean} True if a user can be added
  */
 async function addUser(username, password, email) {
   // User or email should not exist in the database
-  const result = await mongoConnect((users, chars) => {
+  const result = mongoConnect(async (users, chars) => {
     // check if user exists
-    if (users.find({ user: username }).count() > 0) {
+    if (await users.find({ user: username }).count() > 0) {
       return false;
     } else {
       // add user to db if they don't
@@ -327,12 +329,10 @@ async function addUser(username, password, email) {
  * @param {string} username A username
  * @returns {boolean} Returns true if the username exists in the database
  */
-function userExists(username) {
-  // Checks database array if username exists
-  return (
-    database.filter((user_obj) => user_obj.username === username).length > 0
-  );
-}
+// function userExists(username) {
+//   // Checks database array if username exists
+//   return users.find({ user: username }).count() > 0;
+// }
 
 /**
  * Checks if email exists in database
@@ -400,20 +400,22 @@ function getCharacter(username, character) {
  * @param {string} password A hashed password (eventually!)
  * @returns {boolean} Returns true if the password is valid
  */
-function validatePass(username, password) {
+async function validatePass(username, password) {
   const valid = true;
-  // User does not exists
-  if (!userExists(username)) {
-    return !valid;
-  }
-  // Password is incorrect
-  if (
-    database.find((user_obj) => user_obj.username === username).password !==
-    password
-  ) {
-    return !valid;
-  }
-  return valid;
+  // Connects to server and attempts to validate password
+  return mongoConnect(async (users, chars) => {
+    // check if user does not exists
+    if (await users.find({ user: username }).count() === 0) {
+      return !valid;
+    } 
+    const userData = await users.find({ user: username}).toArray();
+    // Password is incorrect
+    if (userData[0].pass !== password) {
+      return !valid;
+    }
+    // Password valid
+    return valid;
+  });
 }
 
 /**
