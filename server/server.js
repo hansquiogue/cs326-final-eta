@@ -413,7 +413,7 @@ async function deleteChar(username, charName) {
       { $pull: { characters: charName } }
     );
     // TODO: Remove from character collection (For testing)
-    await chars.deleteOne({ char: charName });
+    await chars.deleteOne({ user: username, char: charName });
   });
 }
 
@@ -440,7 +440,23 @@ async function getChar(username, character) {
   return result;
 }
 
-async function saveChar(charData) {}
+async function saveChar(charData) {
+  const result = mongoConnect(async (users, chars) => {
+    const charSearch = await chars.findOne({
+      $and: [{ user: charData.user }, { charName: charData.charName }],
+    });
+    if (charSearch !== null) {
+      const ack = await chars.replaceOne(
+        { $and: [{ user: charData.user }, { charName: charData.charName }] },
+        charData
+      );
+      return ack.result.nModified === 1; // confirmation one was modified
+    } else {
+      return false;
+    }
+  });
+  return result;
+}
 
 /**
  * Validate password (Will need to encrypt later!)
@@ -487,7 +503,7 @@ function checkLoggedIn(req, res, next) {
 
 /**
  * Connects to the database and runs the given function using the db collections.
- * @param {function} func A function which takes users and chars (collections) as parameters.
+ * @param {function} func An async function which takes users and chars (collections) as parameters.
  * @return {boolean} The result of the operation (as returned by the passed in function).
  *  returns false if there was a connection error.
  */
