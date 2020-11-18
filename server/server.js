@@ -10,7 +10,10 @@ import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import { default as mongodb } from "mongodb";
 import fs from "fs";
+import miniCrypt from "./miniCrypt.js";
+
 const MongoClient = mongodb.MongoClient;
+const mc = new miniCrypt();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: __dirname + "/.env" });
