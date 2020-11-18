@@ -343,9 +343,12 @@ async function addUser(username, password, email) {
  * @param {string} email An email
  * @returns {boolean} Returns true if the email exists in the database
  */
-function emailExists(email) {
+async function emailExists(email) {
   // Checks database array if email exists
-  return database.filter((user_obj) => user_obj.email === email).length > 0;
+  const result = mongoConnect(async (users, chars) => {
+    return users.find({ email: email }).count() > 0;
+  });
+  return result;
 }
 
 /**
