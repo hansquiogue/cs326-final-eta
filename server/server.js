@@ -42,7 +42,7 @@ const session = {
 
 const strategy = new LocalStrategy(async (username, password, done) => {
   const userOrPassCorrect = await validatePass(username, password);
-  
+
   // No user exists
   // if (!userExists(username)) {
   //   return done(null, false, { message: "Wrong username" });
@@ -130,8 +130,8 @@ app.post("/register", async (req, res) => {
   const user = req.body["username"];
   const email = req.body["email"];
   const pass = req.body["password"];
-  const userFound = await addUser(user, pass, email); 
-  
+  const userFound = await addUser(user, pass, email);
+
   // Cannot add new user
   if (!userFound) {
     res.redirect("/register?error=user-exists");
@@ -190,7 +190,7 @@ app.get(
   async (req, res) => {
     if (req.query.getSheet) {
       const user = req.user,
-      character = req.params.character;
+        character = req.params.character;
       const charDuplicate = await charExists(user, character);
       // console.log(`user ${user} requests ${character}`);
 
@@ -226,7 +226,7 @@ app.get("/character/create", checkLoggedIn, async (req, res) => {
   else if (charDuplicate) {
     // TODO: Error stating character exists
     res.status(409).send("No duplicate characters allowed for a user");
-  // User can be created
+    // User can be created
   } else {
     // Updates user's collection and inserts new character in character collection
     await createNewChar(username, charName);
@@ -243,7 +243,7 @@ app.delete("/character/delete", checkLoggedIn, async (req, res) => {
 
   if (charDuplicate) {
     deleteChar(username, charName);
-    console.log('Character deleted ' + charName);
+    console.log("Character deleted " + charName);
     res.status(200).send(charName + " deleted");
   } else {
     res.status(400).send(charName + " cannot be deleted at this time");
@@ -308,7 +308,7 @@ async function addUser(username, password, email) {
   // User or email should not exist in the database
   const result = mongoConnect(async (users, chars) => {
     // check if user exists
-    if (await users.find({ user: username }).count() > 0) {
+    if ((await users.find({ user: username }).count()) > 0) {
       return false;
     } else {
       // add user to db if they don't
@@ -370,9 +370,9 @@ async function charExists(username, newCharacter) {
  */
 async function getUserData(username) {
   return mongoConnect(async (users, chars) => {
-    const userData = await users.find({user: username}).toArray();
-    return userData[0]; 
-  }); 
+    const userData = await users.find({ user: username }).toArray();
+    return userData[0];
+  });
 }
 
 /**
@@ -382,14 +382,14 @@ async function getUserData(username) {
  * @param {string} charName The new character name
  */
 async function createNewChar(username, charName) {
-  mongoConnect(async (users, chars) => {      
+  mongoConnect(async (users, chars) => {
     // Update a user's character array
     await users.updateOne(
-      { user: username},
-      { $push: {characters: charName} }
-    )
+      { user: username },
+      { $push: { characters: charName } }
+    );
     // TODO: Add to character collection below (For testing)
-    await chars.insertOne({char: charName});
+    await chars.insertOne({ user: username, char: charName });
   });
 }
 
@@ -401,12 +401,12 @@ async function createNewChar(username, charName) {
  * @param {string} charName The character name to delete
  */
 async function deleteChar(username, charName) {
-  mongoConnect(async (users, chars) => {      
+  mongoConnect(async (users, chars) => {
     // Update a user's character array
     await users.updateOne(
-      { user: username},
-      { $pull: {characters: charName} }
-    )
+      { user: username },
+      { $pull: { characters: charName } }
+    );
     // TODO: Remove from character collection (For testing)
     await chars.deleteOne({ char: charName });
   });
@@ -439,10 +439,10 @@ async function validatePass(username, password) {
   // Connects to server and attempts to validate password
   return mongoConnect(async (users, chars) => {
     // check if user does not exists
-    if (await users.find({ user: username }).count() === 0) {
+    if ((await users.find({ user: username }).count()) === 0) {
       return !valid;
-    } 
-    const userData = await users.find({ user: username}).toArray();
+    }
+    const userData = await users.find({ user: username }).toArray();
     // Password is incorrect
     if (userData[0].pass !== password) {
       return !valid;
