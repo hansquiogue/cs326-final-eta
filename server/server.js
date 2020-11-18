@@ -426,12 +426,19 @@ async function deleteChar(username, charName) {
  * @returns {Object} the character data
  */
 async function getCharacter(username, character) {
-  const userData = await getUserData(username);
-  // console.log(userData);
-  const char = userData.characters.filter(charName === character);
-  // console.log(JSON.stringify(char));
-  // console.log(JSON.stringify(char[0]));
-  return char[0];
+  const result = mongoConnect(async (users, chars) => {
+    const charSearch = await chars.find({
+      $and: [{ user: username }, { charName: character }],
+    });
+
+    if ((await charSearch.count()) > 0) {
+      return await charSearch.toArray()[0];
+    } else {
+      return false;
+    }
+  });
+
+  return result;
 }
 
 /**
