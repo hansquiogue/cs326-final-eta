@@ -1,35 +1,3 @@
-// window.characterSheet = {
-//   user: "",
-//   charName: "",
-//   charImage: "",
-//   charAttributes: {},
-// };
-// window.characterSheet.charAttributes["inventory"] = [
-//   { name: "example", qty: "1", wgt: "1 lb" },
-// ];
-// window.characterSheet.charAttributes["spells"] = {
-//   0: [
-//     {
-//       name: "Acid Splash",
-//       cast: "Action",
-//       range: "60ft",
-//       duration: "Instant",
-//       component: "V, S",
-//       type: "Conjuration",
-//       details: "Hurl a bubble of acid.",
-//     },
-//   ],
-//   1: [],
-//   2: [],
-//   3: [],
-//   4: [],
-//   5: [],
-//   6: [],
-//   7: [],
-//   8: [],
-//   9: [],
-// };
-
 const invItemTemplate = {
   name: "",
   qty: "",
