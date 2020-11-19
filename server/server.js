@@ -91,7 +91,7 @@ const database = [];
 /*** Application endpoints ***/
 
 // Get request to homepage
-app.get("/",continueSession,(req, res) => {
+app.get("/", continueSession, (req, res) => {
   res.sendFile(path.resolve("client/homepage/homepage.html"));
 });
 
@@ -139,11 +139,11 @@ app.post("/register", async (req, res) => {
   if (!userFound) {
     res.redirect("/register?error=user-exists");
     // Can add new user
-  } else{
+  } else {
     res.redirect("/login");
   }
-  
-    // TODO: Succesful registration page instead of redirecting to login page
+
+  // TODO: Succesful registration page instead of redirecting to login page
 });
 
 // Allows register files to be used
@@ -300,13 +300,15 @@ app.get("/logout", checkLoggedIn, (req, res) => {
 // Paths that do not exist
 // TODO: Make error page?
 
-app.get("/404", (req,res) =>{
+app.get("/404", (req, res) => {
   res.sendFile(path.resolve("client/404page/404page.html"));
-})
+});
+
+app.use("/404", express.static(path.join(__dirname, "/../client/404page")));
+
 app.get("*", (req, res) => {
   res.status(404).redirect("/404");
 });
-app.use("*", express.static(path.join(__dirname, "/../client/homepage")));
 
 app.listen(port, () => {
   console.log(`App now listening at port ${port}`);
@@ -332,7 +334,7 @@ async function addUser(username, password, email) {
       // add user to db if they don't
       await users.insertOne({
         user: username,
-        pass: [salt,hash], 
+        pass: [salt, hash],
         email: email,
         characters: [],
       });
@@ -491,7 +493,7 @@ async function validatePass(username, password) {
     }
     const userData = await users.findOne({ user: username });
     // Password is incorrect
-    if (!mc.check(password,userData.pass[0],userData.pass[1])){
+    if (!mc.check(password, userData.pass[0], userData.pass[1])) {
       return !valid;
     }
     // Password valid
@@ -519,7 +521,6 @@ function continueSession(req, res, next) {
   // If we are authenticated, we run to the next route
   if (req.isAuthenticated()) {
     res.redirect("/gallery");
-
   } else {
     next();
   }
