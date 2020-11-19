@@ -91,7 +91,7 @@ const database = [];
 /*** Application endpoints ***/
 
 // Get request to homepage
-app.get("/", (req, res) => {
+app.get("/",continueSession,(req, res) => {
   res.sendFile(path.resolve("client/homepage/homepage.html"));
 });
 
@@ -513,6 +513,15 @@ function checkLoggedIn(req, res, next) {
     // Otherwise, redirect to the login page
   } else {
     res.redirect("/login");
+  }
+}
+function continueSession(req, res, next) {
+  // If we are authenticated, we run to the next route
+  if (req.isAuthenticated()) {
+    res.redirect("/gallery");
+
+  } else {
+    next();
   }
 }
 
