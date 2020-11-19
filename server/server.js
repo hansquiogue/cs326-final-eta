@@ -306,7 +306,7 @@ app.get("/404", (req,res) =>{
 app.get("*", (req, res) => {
   res.status(404).redirect("/404");
 });
-app.use("*", express.static(path.join(__dirname, "/../client/404page")));
+app.use("*", express.static(path.join(__dirname, "/../client/homepage")));
 
 app.listen(port, () => {
   console.log(`App now listening at port ${port}`);
