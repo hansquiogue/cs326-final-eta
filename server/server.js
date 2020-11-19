@@ -299,9 +299,14 @@ app.get("/logout", checkLoggedIn, (req, res) => {
 
 // Paths that do not exist
 // TODO: Make error page?
+
+app.get("/404", (req,res) =>{
+  res.sendFile(path.resolve("client/404page/404page.html"));
+})
 app.get("*", (req, res) => {
-  res.send("You seem to be a bit lost adventurer...");
+  res.status(404).redirect("/404");
 });
+app.use("*", express.static(path.join(__dirname, "/../client/404page")));
 
 app.listen(port, () => {
   console.log(`App now listening at port ${port}`);
