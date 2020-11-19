@@ -24,7 +24,7 @@ th,
 
 .sheet-container {
   max-width: 96%;
-  min-width: 65em;
+  min-width: 72em;
 }
 
 .navbar-brand {
@@ -136,7 +136,9 @@ img {
 }
 
 /* Skills aligning */
-#proficiency-append, #inspiration-append, .input-group > .skill-name {
+#proficiency-append,
+#inspiration-append,
+.input-group > .skill-name {
   min-width: 50%;
 }
 

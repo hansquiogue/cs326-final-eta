@@ -1,35 +1,3 @@
-window.characterSheet = {
-  user: "",
-  charName: "",
-  charImage: "",
-  charAttributes: {},
-};
-window.characterSheet.charAttributes["inventory"] = [
-  { name: "example", qty: "1", wgt: "1 lb" },
-];
-window.characterSheet.charAttributes["spells"] = {
-  0: [
-    {
-      name: "Acid Splash",
-      cast: "Action",
-      range: "60ft",
-      duration: "Instant",
-      component: "V, S",
-      type: "Conjuration",
-      details: "Hurl a bubble of acid.",
-    },
-  ],
-  1: [],
-  2: [],
-  3: [],
-  4: [],
-  5: [],
-  6: [],
-  7: [],
-  8: [],
-  9: [],
-};
-
 const invItemTemplate = {
   name: "",
   qty: "",
@@ -106,12 +74,21 @@ document
 document.getElementById("dice-notation").addEventListener("input", checkDice);
 document.getElementById("rollBtn").addEventListener("mouseup", rollDice);
 
+// Slider maximum
+document.getElementById("exp-points").addEventListener("input", setSliderMax);
+
+// slider updates
+document.getElementById("exp-range").addEventListener("input", setSliderLabel);
+
+// name readonly
+document.getElementById("char-name").readOnly = true;
+
 // update whole sheet
 // updateSheetValues();
 
 // auto-save sheet every 60s
 // currently disabled
-// setTimeout(periodicSaveAll, 60000);
+setTimeout(periodicSaveAll, 60000);
 
 // debug
 document.getElementById("export-btn").addEventListener("mouseup", () => {
@@ -127,28 +104,29 @@ function templateCopy(template) {
  * @param  {} e
  */
 function genericInputSave() {
-  if (["char-name"].contains(this.id)) {
+  if (this.id === "char-name") {
     window.characterSheet.charName = this.value;
   } else {
     window.characterSheet.charAttributes[this.id] = this.value;
   }
 }
 
-// function saveAllGenerics() {
-//   for (const input of docInputs) {
-//     if (!input.classList.contains("special-save")) {
-//       window.characterSheet[input.id] = input.value;
-//     }
-//   }
-// }
+function saveAllGenerics() {
+  for (const input of docInputs) {
+    if (!input.classList.contains("special-save")) {
+      window.characterSheet.charName[input.id] = input.value;
+    }
+  }
+}
 
-// function periodicSaveAll() {
-//   saveAllGenerics();
-//   saveInv();
-//   saveAllSpells();
-//   saveSheet();
-//   setTimeout(periodicSaveAll, 60000);
-// }
+function periodicSaveAll() {
+  saveAllGenerics();
+  saveInv();
+  saveAllSpells();
+  saveSheet();
+  setTimeout(periodicSaveAll, 60000);
+}
+
 /**
  * Update the rendered sheet from the given sheet, or window.characterSheet.
  * @param  {} sheet=null The sheet to use, if null window.characterSheet is used.
@@ -162,6 +140,9 @@ function updateFromObj() {
         window.characterSheet.charAttributes[item];
     }
   }
+  setSliderMax();
+  document.getElementById("exp-range").value = sheet["exp-range"];
+  setSliderLabel();
 }
 
 function createInventoryTables() {
@@ -181,7 +162,6 @@ function createInventoryRow(item) {
     qtyCell = row.insertCell(),
     wgtCell = row.insertCell(),
     closeCell = row.insertCell(),
-    // rowNum = window.characterSheet["inventory"].length - 1,
     nameInput = document.createElement("input"),
     qtyInput = document.createElement("input"),
     wgtInput = document.createElement("input"),
@@ -413,7 +393,7 @@ async function saveSheet() {
     const body = await response.text();
     alert("Sheet accepted" + JSON.stringify(body));
   } else {
-    console.log("request failed");
+    console.log(`request failed (code ${response.status})`);
   }
 }
 
@@ -538,6 +518,23 @@ function rollDice() {
   }
 }
 
+function setSliderMax() {
+  // Exp to next level
+  const exp = document.getElementById("exp-points").value;
+  // There is an input for exp to next level
+  if (exp !== "") {
+    const range = document.getElementById("exp-range");
+    range.setAttribute("max", exp);
+  }
+}
+
+function setSliderLabel() {
+  const range = document.getElementById("exp-range");
+  console.log(`user moved slider to val ${range.value}`);
+  document.getElementById("exp-range-label").textContent =
+    "Experience Points: " + range.value;
+}
+
 // function getNewImage() {
 //   null;
 //   // waiting for database to implement this because it's too database-dependent
@@ -560,17 +557,6 @@ document.getElementById("gallery").addEventListener("click", async function () {
   // Redirects with GET request query to a character selection gallery
   window.location.href = "/gallery/user/" + user;
   // "../login/selector.html?user=" + user + "&token=" + token;
-});
-
-// Slider
-document.getElementById("exp-points").addEventListener("input", () => {
-  // Exp to next level
-  const exp = document.getElementById("exp-points").value;
-  // There is an input for exp to next level
-  if (exp !== "") {
-    const range = document.getElementById("exp-range");
-    range.setAttribute("max", exp);
-  }
 });
 
 // When page loads
