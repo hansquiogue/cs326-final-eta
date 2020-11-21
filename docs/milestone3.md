@@ -48,8 +48,4 @@ This resulted in two collections with which out website data may be stored, `use
 
 ## Notes
 
-There are a few features we have yet to implement, which we intend to have completed for the final submission.
-
-- Character image upload
-- Color scheme finalization
-- Image credits
+We've created an example account, username grading, password grading, with an example character, to see how this webapp might be used.
