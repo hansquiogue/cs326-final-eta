@@ -1,9 +1,14 @@
 {
   "name": "euryale",
   "type": "module",
+  "license": "UNLICENSED",
   "scripts": {
     "start": "node server/server.js",
     "lint": "eslint client/ server/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hansquiogue/cs326-final-eta.git"
   },
   "devDependencies": {
     "eslint": "^7.11.0"
