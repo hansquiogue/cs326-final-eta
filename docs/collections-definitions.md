@@ -130,6 +130,7 @@ Be warned: There are a lot of pieces of data for a given character, so this will
     dexSaveExp: String,
     dexSaveProf: String,
     dexterity: String,
+    dice-notation: String,
     exp-points: String,
     exp-range: String,
     history: String,
