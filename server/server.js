@@ -189,9 +189,24 @@ app.get(
   "/gallery/user/:user/character/:character",
   checkLoggedIn,
   async (req, res) => {
-    if (req.query.getSheet) {
-      const user = req.user,
-        character = req.params.character;
+    const user = req.user, character = req.params.character;
+    
+    // Query that gets a character's image
+    if (req.query.getImage) {
+      const charQuery = await getChar(user, character);
+
+      if (!charQuery) {
+        res.status(404).send("Requested character does not exist.");
+      } else {
+        // User has not set image
+        if (charQuery.charImage === undefined) {
+          res.status(404).send("");
+        // Image found
+        } else {
+          res.status(200).send(charQuery.charImage);
+        }
+      }
+    } else if (req.query.getSheet) {
       console.log(`user ${user} requests ${character}`);
 
       const charQuery = await getChar(user, character);

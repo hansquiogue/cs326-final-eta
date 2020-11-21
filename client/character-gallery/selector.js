@@ -235,7 +235,25 @@ function deleteCurrCharInGallery() {
 }
 
 // Whenever there are any changes, the page will look for the selected character
-window.addEventListener('change', () => {
-    const curr_char = getSelectedCharacter().value;
-    document.getElementById('curr-selected-text').innerText = curr_char;
+window.addEventListener('change', async () => {
+    const currChar = getSelectedCharacter().value;
+    document.getElementById('curr-selected-text').innerText = currChar;
+
+    // Retrieving image endpoint
+    const endPoint = '/gallery/user/' + user + '/character/' + currChar + '?getImage=true';
+    // Gets character's image
+    const response = await fetch(endPoint);
+
+    if (response.ok) {
+        // URL of picture
+        const body = await response.text();
+        
+        // Current image HTML
+        const currImage = document.getElementById('currImage');
+        currImage.src = body;
+    } else {
+        // Image url is set to default
+        const currImage = document.getElementById('currImage');
+        currImage.src = '/gallery/user/:user/default.jpg';
+    }
 });

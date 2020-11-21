@@ -21,6 +21,11 @@ img {
     max-height: 100%;
 }
 
+.char-img {
+    max-height: 500px;
+    overflow: hidden;
+}
+
 #play-btn {
     margin: auto;
 }
