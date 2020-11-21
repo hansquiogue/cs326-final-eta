@@ -145,3 +145,7 @@ img {
 .input-group .input-group-text {
   width: 100%;
 }
+
+.img-upload-submit {
+  font-size: small;
+}

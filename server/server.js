@@ -263,7 +263,7 @@ app.post(
       char = req.params.character,
       data = req.body;
 
-    console.log(`$user {user} attempts to save ${char}`);
+    console.log(`$user ${user} attempts to save ${char}`);
 
     const result = await saveChar(data);
 
