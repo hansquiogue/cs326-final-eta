@@ -21,13 +21,20 @@ const LocalStrategy = passportLocal.Strategy;
 const app = express();
 const port = process.env.PORT || 8080;
 
-//DB access configuration
-let secrets, password;
+// DB access configuration
+let secrets, password, sessionSecret;
 if (!process.env.PASSWORD) {
   secrets = JSON.parse(fs.readFileSync("./server/secrets.json"));
   password = secrets.dbUsers.herokuMain;
 } else {
   password = process.env.PASSWORD;
+}
+
+if (!process.env.SECRET) {
+  secrets = JSON.parse(fs.readFileSync("./server/secrets.json"));
+  sessionSecret = secrets.sessionSecret;
+} else {
+  sessionSecret = process.env.SECRET;
 }
 
 const mongoURL =
@@ -38,7 +45,7 @@ const mongoURL =
 
 // Session configuration
 const session = {
-  secret: process.env.SECRET || "SECRET-CHANGE-TODO",
+  secret: sessionSecret,
   resave: false,
   saveUninitialized: false,
 };
@@ -46,10 +53,6 @@ const session = {
 const strategy = new LocalStrategy(async (username, password, done) => {
   const userOrPassCorrect = await validatePass(username, password);
 
-  // No user exists
-  // if (!userExists(username)) {
-  //   return done(null, false, { message: "Wrong username" });
-  // }
   // Invalid username or password
   if (!userOrPassCorrect) {
     // Delay to prevent brute forcing pass attempts
@@ -82,11 +85,6 @@ passport.deserializeUser((uid, done) => {
 // Allows JSON and URLencoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-//--- Temporary user storage (TODO: Replace/remove with MongoDB)
-// Type: user = { user, *encrypted* pass, email, characters[] }
-const database = [];
-//--------------------------------------------
 
 /*** Application endpoints ***/
 
@@ -140,10 +138,9 @@ app.post("/register", async (req, res) => {
     res.redirect("/register?error=user-exists");
     // Can add new user
   } else {
+    // TODO: Successful registration
     res.redirect("/login");
   }
-
-  // TODO: Succesful registration page instead of redirecting to login page
 });
 
 // Allows register files to be used
@@ -253,7 +250,6 @@ app.delete("/character/delete", checkLoggedIn, async (req, res) => {
   }
 });
 
-// TODO: Other endpoints! Fix/include them
 // Save char sheet
 app.post(
   "/char-sheet-save/user/:user/character/:character",
@@ -297,15 +293,15 @@ app.get("/logout", checkLoggedIn, (req, res) => {
   });
 });
 
-// Paths that do not exist
-// TODO: Make error page?
-
+// Error page
 app.get("/404", (req, res) => {
   res.sendFile(path.resolve("client/404page/404page.html"));
 });
 
+// Error page files
 app.use("/404", express.static(path.join(__dirname, "/../client/404page")));
 
+// Redirects to error page
 app.get("*", (req, res) => {
   res.status(404).redirect("/404");
 });
@@ -315,6 +311,33 @@ app.listen(port, () => {
 });
 
 //--------------------Helper functions--------------------
+
+// ESLint ignores unused params in functions
+/* eslint-disable no-unused-vars */
+
+/**
+ * Validate password (Will need to encrypt later!)
+ * @param {string} username A username
+ * @param {string} password A hashed password (eventually!)
+ * @returns {boolean} Returns true if the password is valid
+ */
+async function validatePass(username, password) {
+  const valid = true;
+  // Connects to server and attempts to validate password
+  return mongoConnect(async (users, chars) => {
+    // check if user does not exists
+    if ((await users.findOne({ user: username })) === null) {
+      return !valid;
+    }
+    const userData = await users.findOne({ user: username });
+    // Password is incorrect
+    if (!mc.check(password, userData.pass[0], userData.pass[1])) {
+      return !valid;
+    }
+    // Password valid
+    return valid;
+  });
+}
 
 /**
  * Adds a user to a database
@@ -327,11 +350,14 @@ async function addUser(username, password, email) {
   const [salt, hash] = mc.hash(password);
   // User or email should not exist in the database
   const result = mongoConnect(async (users, chars) => {
-    // check if user exists
+    // check if user exists and returns false if they do
     if ((await users.findOne({ user: username })) !== null) {
       return false;
+    // Checks if email exists and returns false if they do
+    } else if ((await users.findOne({ email: email })) !== null) {
+      return false;
     } else {
-      // add user to db if they don't
+      // add user to db if username/password don't exist
       await users.insertOne({
         user: username,
         pass: [salt, hash],
@@ -346,27 +372,19 @@ async function addUser(username, password, email) {
 }
 
 /**
- * Checks if user exists in datavase
- * @param {string} username A username
- * @returns {boolean} Returns true if the username exists in the database
+ * Gets user data.
+ * assumes user exists.
+ * @param {string} username The name of the user.
+ * @returns {Object<User>} the user's data.
  */
-// function userExists(username) {
-//   // Checks database array if username exists
-//   return users.find({ user: username }).count() > 0;
-// }
-
-/**
- * Checks if email exists in database
- * @param {string} email An email
- * @returns {boolean} Returns true if the email exists in the database
- */
-async function emailExists(email) {
-  // Checks database array if email exists
-  const result = mongoConnect(async (users, chars) => {
-    return (await users.findOne({ email: email })) !== null;
+async function getUserData(username) {
+  return mongoConnect(async (users, chars) => {
+    const userData = await users.findOne({ user: username });
+    return userData;
   });
-  return result;
 }
+
+/* eslint-enable no-unused-vars */
 
 /**
  * Checks if a user's character exists in the database
@@ -386,19 +404,6 @@ async function charExists(username, newCharacter) {
 }
 
 /**
- * Gets user data.
- * assumes user exists.
- * @param {string} username The name of the user.
- * @returns {Object<User>} the user's data.
- */
-async function getUserData(username) {
-  return mongoConnect(async (users, chars) => {
-    const userData = await users.findOne({ user: username });
-    return userData;
-  });
-}
-
-/**
  * Creates a new character into a user's array of characters
  * and the character collection. Assumes user exists.
  * @param {string} username A username to append the new character into
@@ -411,7 +416,7 @@ async function createNewChar(username, charName) {
       { user: username },
       { $push: { characters: charName } }
     );
-    // TODO: Add to character collection below (For testing)
+    // Inserts username and character name into chracter collection
     await chars.insertOne({ user: username, charName: charName });
   });
 }
@@ -430,7 +435,7 @@ async function deleteChar(username, charName) {
       { user: username },
       { $pull: { characters: charName } }
     );
-    // TODO: Remove from character collection (For testing)
+    // Deletes username character name from character collection
     await chars.deleteOne({ user: username, charName: charName });
   });
 }
@@ -459,6 +464,12 @@ async function getChar(username, character) {
   return result;
 }
 
+/**
+ * Updates a character's attributes in the character
+ * collection portion of the database. 
+ * @param {*} charData
+ * @returns {boolean}
+ */
 async function saveChar(charData) {
   const result = mongoConnect(async (users, chars) => {
     const charSearch = await chars.findOne({
@@ -478,30 +489,6 @@ async function saveChar(charData) {
 }
 
 /**
- * Validate password (Will need to encrypt later!)
- * @param {string} username A username
- * @param {string} password A hashed password (eventually!)
- * @returns {boolean} Returns true if the password is valid
- */
-async function validatePass(username, password) {
-  const valid = true;
-  // Connects to server and attempts to validate password
-  return mongoConnect(async (users, chars) => {
-    // check if user does not exists
-    if ((await users.findOne({ user: username })) === null) {
-      return !valid;
-    }
-    const userData = await users.findOne({ user: username });
-    // Password is incorrect
-    if (!mc.check(password, userData.pass[0], userData.pass[1])) {
-      return !valid;
-    }
-    // Password valid
-    return valid;
-  });
-}
-
-/**
  * Checks if a user is logged in and redirects them to the
  * login page if they are not
  * @param {Object<Request>} req A request made by a client
@@ -517,16 +504,24 @@ function checkLoggedIn(req, res, next) {
     res.redirect("/login");
   }
 }
+
+/**
+ * Continues a user's session if they are logged in. They
+ * will be redirected to the gallery if they are logged in
+ * or redirecteed to the homepage if they are not.
+ * @param {Object<Request>} req A request made by a client
+ * @param {Object<Response>} res A response to send back to the client
+ * @param {function} next The next route
+ */
 function continueSession(req, res, next) {
-  // If we are authenticated, we run to the next route
+  // We got redirected to the gallery if autenticated (skip homepages)
   if (req.isAuthenticated()) {
     res.redirect("/gallery");
+  // If we are not authenticated, we run to the next route
   } else {
     next();
   }
 }
-
-// See addUser for implementation example.
 
 /**
  * Connects to the database and runs the given function using the db collections.
