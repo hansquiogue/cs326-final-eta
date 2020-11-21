@@ -22,13 +22,14 @@ window.addEventListener('load', async function () {
         const charName = document.getElementById('new-char-name').value;
         
         // Character name must be a letter, number, or space and be at least 2 characters
-        if (!charName.match(/^\S[A-Za-z0-9 ]{1,20}/)) {
+        if (!charName.match(/^\S[A-Za-z0-9 ]/) 
+            || charName.length > 50 || charName.length < 2) {
             // Help error message displayed
             document.getElementById('new-char-help').innerText = 
                 `Character name must:
                 - Only contain letters, numbers or spaces
                 - Start with letters or numbers 
-                - Be between 2-20 characters long`;
+                - Be between 2-50 characters long`;
             // Adds error surrounding input text 
             document.getElementById('new-char-name').classList.add('is-invalid');
             return;
@@ -57,7 +58,7 @@ window.addEventListener('load', async function () {
     document.getElementById('new-char-name').addEventListener('input', () => {
         const input = document.getElementById('new-char-name');
         // Input matches character name criteria
-        if (input.value.match(/^\S[A-Za-z0-9 ]{1,20}/)) {
+        if (input.value.match(/^\S[A-Za-z0-9 ]/) || input.value.length < 50) {
             input.classList.remove('is-invalid');
         // Input does not match criteria
         } else {
@@ -118,6 +119,9 @@ window.addEventListener('load', async function () {
             // Hides modal
             hideModal(document.getElementById('confirm-delete'));
             hideModal(document.getElementsByClassName('modal-backdrop')[0]);
+
+            // Modal text is set to 
+            document.getElementById('delete-char-text').innerText = 'No character selected!';
 
         // Delete response failure
         } else {
