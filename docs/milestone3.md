@@ -26,25 +26,25 @@ This resulted in two collections with which out website data may be stored, `use
 
 - Character sheet front+back end
 - Initial database setup
-- endpoint db conversion
-- minor fixes
-- writeup
+- endpoint db conversion character sheet
+- minor fixes to front end validation
+- Adding details to writeup
 
 **John:**
 
 - 404 page front+back end
 - password encryption
-- endpoint db conversion
-- minor fixes
-- writeup
+- endpoint db conversion 404/login/register
+- minor fixes with front end design
+- Ediiting / fixing writeup
 
 **Hans:**
 
 - Gallery front+back end
 - server express conversion
-- endpoint db conversion
-- minor fixes
-- writeup
+- endpoint db conversion for gallery and users
+- minor fixes to front end validation
+- Initial outline of writeup
 
 ## Notes
 
