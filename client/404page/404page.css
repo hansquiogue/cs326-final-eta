@@ -1,6 +1,11 @@
 header { 
     font-family: 'Fjalla One', sans-serif;
 } 
+
+.navbar-brand {
+    font-size: 30px;
+}
+
 body{
     margin: 0;
     padding: 0;
