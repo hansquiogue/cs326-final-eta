@@ -206,6 +206,7 @@ app.get(
           res.status(200).send(charQuery.charImage);
         }
       }
+
     } else if (req.query.getSheet) {
       console.log(`user ${user} requests ${character}`);
 
