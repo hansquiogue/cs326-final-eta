@@ -91,9 +91,9 @@ document.getElementById("char-name").readOnly = true;
 setTimeout(periodicSaveAll, 60000);
 
 // debug
-document.getElementById("export-btn").addEventListener("mouseup", () => {
-  console.log(window.characterSheet);
-});
+// document.getElementById("export-btn").addEventListener("mouseup", () => {
+//   console.log(window.characterSheet);
+// });
 
 function templateCopy(template) {
   return Object.fromEntries(Object.keys(template).map((x) => [x, template[x]]));
@@ -140,9 +140,22 @@ function updateFromObj() {
         window.characterSheet.charAttributes[item];
     }
   }
+
+  // fix slider
   setSliderMax();
   document.getElementById("exp-range").value = sheet["exp-range"];
   setSliderLabel();
+
+  // set user image
+  if (
+    !(
+      window.characterSheet.charImage === "" ||
+      window.characterSheet.charImage === undefined
+    )
+  ) {
+    document.getElementById("user-img-actual").src =
+      window.characterSheet.charImage;
+  }
 }
 
 function createInventoryTables() {
@@ -405,17 +418,28 @@ async function exportSheet() {
     user = pageURL.pathname.split("/")[3],
     char = pageURL.pathname.split("/")[5];
 
-  saveSheet();
+  await saveSheet();
+  // console.log("moving on");
   const file = await fetch(
-    "/char-sheets-export/user/" + user + "/character/" + char,
+    "/char-sheet-export/user/" + user + "/character/" + char,
     options
   );
 
   if (file.ok) {
     const fileParse = await file.json();
-    alert("Exported file (placeholder)" + JSON.stringify(fileParse));
-    // console.log("Got file:");
-    // console.log(fileParse);
+    // alert("Exported file (placeholder)" + JSON.stringify(fileParse));
+
+    const blob = new Blob([JSON.stringify(fileParse, null, 2)], {
+        type: "application/json",
+      }),
+      url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.download = "sheet_export.json";
+    a.href = url;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 }
 async function resetSheet() {
@@ -530,7 +554,7 @@ function setSliderMax() {
 
 function setSliderLabel() {
   const range = document.getElementById("exp-range");
-  console.log(`user moved slider to val ${range.value}`);
+  // console.log(`user moved slider to val ${range.value}`);
   document.getElementById("exp-range-label").textContent =
     "Experience Points: " + range.value;
 }
@@ -603,3 +627,33 @@ window.addEventListener("load", async () => {
     window.location.href = "/gallery/user/" + pageURL.pathname.split("/")[3];
   }
 });
+
+document
+  .getElementById("img-link-btn")
+  .addEventListener("mouseup", async () => {
+    const imgURL = document.getElementById("char-link").value;
+    try {
+      new URL(imgURL);
+      let timer,
+        img = new Image();
+      img.onload = () => {
+        clearTimeout(timer);
+        document.getElementById("user-img-actual").src = imgURL;
+        window.characterSheet.charImage = imgURL;
+        saveSheet();
+        // alert("success");
+      };
+      img.onerrer = img.onabort = () => {
+        clearTimeout(timer);
+        alert("URL failed to load image.");
+      };
+      timer = setTimeout(() => {
+        img.src = imgURL;
+        alert("URL failed to load image.");
+      }, 5000);
+      img.src = imgURL;
+    } catch (e) {
+      // alert(e.stack);
+      console.log(e.stack);
+    }
+  });

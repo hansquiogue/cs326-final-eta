@@ -671,7 +671,7 @@
           <div class="col user-img mr-1 ml-0 my-0 p-0">
             <!-- character image -->
             <div class="row container section-container rounded mt-0 mx-0 mb-1 p-3" id="user-image">
-              <img src="/gallery/user/:user/default.jpg" class="border border-dark" alt="Character Image">
+              <img src="/gallery/user/:user/default.jpg" class="border border-dark" alt="Character Image" id="user-img-actual">
               <button type="submit" class="btn btn-danger mt-2" id="change-img-btn" data-toggle="modal"
                 data-target="#img-upload">Change Image</button>
               <!-- <div class="col">
@@ -1187,17 +1187,13 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="/img-upload" method="POST" enctype="multipart/form-data">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-              </div>
-              <div class="custom-file">
-                <input type="file" class="custom-file-input" id="img-upload-input">
-                <label class="custom-file-label" for="img-upload-input">Choose file</label>
-              </div>
+          <div class="input-group">
+            <input type="text" id="char-link" class="form-control special-save">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" data-dismiss="modal"
+                id="img-link-btn">Save</button>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
+          </div>
         </div>
       </div>
     </div>

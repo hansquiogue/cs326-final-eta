@@ -273,16 +273,21 @@ app.post(
 
 // Export char sheet
 app.get(
-  "char-sheet-export/user/:user/character/:character",
+  "/char-sheet-export/user/:user/character/:character",
   checkLoggedIn,
   async (req, res) => {
     const user = req.user,
       char = req.params.character,
       testfile = await getChar(user, char);
 
+    console.log(testfile);
+
     res.json(testfile);
   }
 );
+
+//image upload
+app.post("/img-upload", checkLoggedIn, async (req, res) => {});
 
 // Logout
 app.get("/logout", checkLoggedIn, (req, res) => {
@@ -353,7 +358,7 @@ async function addUser(username, password, email) {
     // check if user exists and returns false if they do
     if ((await users.findOne({ user: username })) !== null) {
       return false;
-    // Checks if email exists and returns false if they do
+      // Checks if email exists and returns false if they do
     } else if ((await users.findOne({ email: email })) !== null) {
       return false;
     } else {
@@ -466,7 +471,7 @@ async function getChar(username, character) {
 
 /**
  * Updates a character's attributes in the character
- * collection portion of the database. 
+ * collection portion of the database.
  * @param {*} charData
  * @returns {boolean}
  */
@@ -517,7 +522,7 @@ function continueSession(req, res, next) {
   // We got redirected to the gallery if autenticated (skip homepages)
   if (req.isAuthenticated()) {
     res.redirect("/gallery");
-  // If we are not authenticated, we run to the next route
+    // If we are not authenticated, we run to the next route
   } else {
     next();
   }
