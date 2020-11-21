@@ -21,13 +21,20 @@ const LocalStrategy = passportLocal.Strategy;
 const app = express();
 const port = process.env.PORT || 8080;
 
-//DB access configuration
-let secrets, password;
+// DB access configuration
+let secrets, password, sessionSecret;
 if (!process.env.PASSWORD) {
   secrets = JSON.parse(fs.readFileSync("./server/secrets.json"));
   password = secrets.dbUsers.herokuMain;
 } else {
   password = process.env.PASSWORD;
+}
+
+if (!process.env.SECRET) {
+  secrets = JSON.parse(fs.readFileSync("./server/secrets.json"));
+  sessionSecret = secrets.sessionSecret;
+} else {
+  sessionSecret = process.env.SECRET;
 }
 
 const mongoURL =
@@ -38,7 +45,7 @@ const mongoURL =
 
 // Session configuration
 const session = {
-  secret: process.env.SECRET || "SECRET-CHANGE-TODO",
+  secret: sessionSecret,
   resave: false,
   saveUninitialized: false,
 };
@@ -305,6 +312,33 @@ app.listen(port, () => {
 
 //--------------------Helper functions--------------------
 
+// ESLint ignores unused params in functions
+/* eslint-disable no-unused-vars */
+
+/**
+ * Validate password (Will need to encrypt later!)
+ * @param {string} username A username
+ * @param {string} password A hashed password (eventually!)
+ * @returns {boolean} Returns true if the password is valid
+ */
+async function validatePass(username, password) {
+  const valid = true;
+  // Connects to server and attempts to validate password
+  return mongoConnect(async (users, chars) => {
+    // check if user does not exists
+    if ((await users.findOne({ user: username })) === null) {
+      return !valid;
+    }
+    const userData = await users.findOne({ user: username });
+    // Password is incorrect
+    if (!mc.check(password, userData.pass[0], userData.pass[1])) {
+      return !valid;
+    }
+    // Password valid
+    return valid;
+  });
+}
+
 /**
  * Adds a user to a database
  * @param {string} username A username
@@ -338,6 +372,21 @@ async function addUser(username, password, email) {
 }
 
 /**
+ * Gets user data.
+ * assumes user exists.
+ * @param {string} username The name of the user.
+ * @returns {Object<User>} the user's data.
+ */
+async function getUserData(username) {
+  return mongoConnect(async (users, chars) => {
+    const userData = await users.findOne({ user: username });
+    return userData;
+  });
+}
+
+/* eslint-enable no-unused-vars */
+
+/**
  * Checks if a user's character exists in the database
  * assumes that user exists
  * @param {string} username A username
@@ -352,19 +401,6 @@ async function charExists(username, newCharacter) {
       (char) => char === newCharacter.replace("-", " ")
     ).length > 0
   );
-}
-
-/**
- * Gets user data.
- * assumes user exists.
- * @param {string} username The name of the user.
- * @returns {Object<User>} the user's data.
- */
-async function getUserData(username) {
-  return mongoConnect(async (users, chars) => {
-    const userData = await users.findOne({ user: username });
-    return userData;
-  });
 }
 
 /**
@@ -450,30 +486,6 @@ async function saveChar(charData) {
     }
   });
   return result;
-}
-
-/**
- * Validate password (Will need to encrypt later!)
- * @param {string} username A username
- * @param {string} password A hashed password (eventually!)
- * @returns {boolean} Returns true if the password is valid
- */
-async function validatePass(username, password) {
-  const valid = true;
-  // Connects to server and attempts to validate password
-  return mongoConnect(async (users, chars) => {
-    // check if user does not exists
-    if ((await users.findOne({ user: username })) === null) {
-      return !valid;
-    }
-    const userData = await users.findOne({ user: username });
-    // Password is incorrect
-    if (!mc.check(password, userData.pass[0], userData.pass[1])) {
-      return !valid;
-    }
-    // Password valid
-    return valid;
-  });
 }
 
 /**
