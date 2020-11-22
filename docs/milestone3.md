@@ -14,8 +14,6 @@
 
 ### *Online Dungeons & Dragons (DnD) Character Sheet Tool*
 
----
-
 Because our project effectively is built around the idea of the user editing a document, which we were already representing in large objects, we decided that MongoDB would be more suited to our implementation.
 
 This resulted in two collections with which out website data may be stored, `users` and `characters`, as defined in *[collections-definitions.md](collections-definitions.md)*
@@ -32,7 +30,7 @@ This resulted in two collections with which out website data may be stored, `use
 
 **John:**
 
-- 404 page front+back end
+- 404 page/register successful front+back end
 - password encryption
 - endpoint db conversion 404/login/register
 - minor fixes with front end design
@@ -43,9 +41,15 @@ This resulted in two collections with which out website data may be stored, `use
 - Gallery front+back end
 - server express conversion
 - endpoint db conversion for gallery and users
-- minor fixes to front end validation
+- Front end validation with registration and character names
 - Initial outline of writeup
 
 ## Notes
 
-We've created an example account, username grading, password grading, with an example character, to see how this webapp might be used.
+We've created an example account with these credentials:
+
+- **username:** grading
+
+- **password:** grading
+
+This account is loaded with an example character, to see how this webapp might be used.
