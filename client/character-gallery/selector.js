@@ -73,7 +73,7 @@ window.addEventListener('load', async function () {
         }
 
         // Current character selected
-        const charName = getSelectedCharacter().value.replace(/\s+/g, '-');
+        const charName = getSelectedCharacter().value.replace(/\s+/g, '-')
         window.location.href = '/gallery/user/' + user + '/character/' + charName;
     });
 
