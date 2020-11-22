@@ -57,7 +57,7 @@ window.addEventListener('load', async function () {
     document.getElementById('new-char-name').addEventListener('input', () => {
         const input = document.getElementById('new-char-name');
         // Input matches character name criteria
-        if (input.value.match(/^\S[A-Za-z0-9 ]/) || charName.length > 50) {
+        if (input.value.match(/^\S[A-Za-z0-9 ]/) || input.value.length > 50) {
             input.classList.remove('is-invalid');
         // Input does not match criteria
         } else {

@@ -194,7 +194,7 @@ app.get(
   "/gallery/user/:user/character/:character",
   checkLoggedIn,
   async (req, res) => {
-    const user = req.user, character = req.params.character;
+    const user = req.user, character = req.params.character.replace(/-/g, ' ');
     
     // Query that gets a character's image
     if (req.query.getImage) {
@@ -277,7 +277,7 @@ app.post(
   checkLoggedIn,
   async (req, res) => {
     const user = req.user,
-      char = req.params.character,
+      char = req.params.character.replace(/-/g, ' '),
       data = req.body;
 
     console.log(`$user ${user} attempts to save ${char}`);
@@ -298,9 +298,9 @@ app.get(
   checkLoggedIn,
   async (req, res) => {
     const user = req.user,
-      char = req.params.character,
+      char = req.params.character.replace(/-/g, ' '),
       testfile = await getChar(user, char);
-
+    
     console.log(testfile);
 
     res.json(testfile);
@@ -421,11 +421,14 @@ async function getUserData(username) {
  */
 async function charExists(username, newCharacter) {
   const userData = await getUserData(username);
-  // Accounts for character names with spaces and coverts them to dashes
+  
+  console.log(newCharacter);
+  
+  // Accounts for character names with spaces and coverts them to dashes and lowercase
   return (
-    userData.characters.filter(
-      (char) => char === newCharacter.replace("-", " ")
-    ).length > 0
+    userData.characters
+            .filter(char => char
+            .replace(/-/g, ' ') === newCharacter).length > 0
   );
 }
 
