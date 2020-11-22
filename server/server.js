@@ -127,15 +127,9 @@ app.get("/register", (req, res) => {
 });
 
 // Get request to registeration verification page
-app.get("/register-successful", (req,res) => {
-  res.sendFile(path.resolve("client/register-successful/register-successful.html"));
+app.get("/register-successful", (req, res) => {
+  res.sendFile(path.resolve("client/login-register/register-successful.html"));
 });
-
-// Alots register-successsful files to be used
-app.use(
-  "register-successful",
-  express.static(path.join(__dirname,"/../client/register-successful"))
-);
 
 // Post request when user attempts to register
 app.post("/register", async (req, res) => {

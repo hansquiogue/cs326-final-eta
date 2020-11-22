@@ -10,6 +10,11 @@ body{
 header{
     font-family: 'Fjalla One', sans-serif;
 }
+
+.navbar-brand {
+    font-size: 30px;
+}
+
 .container{
     height: 335px;
     max-width: 600px;
