@@ -22,12 +22,12 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 // DB access configuration
-let secrets, password, sessionSecret;
-if (!process.env.PASSWORD) {
+let secrets, mongoURL, sessionSecret;
+if (!process.env.URL) {
   secrets = JSON.parse(fs.readFileSync("./server/secrets.json"));
-  password = secrets.dbUsers.herokuMain;
+  mongoURL = secrets.URL;
 } else {
-  password = process.env.PASSWORD;
+  mongoURL = process.env.URL;
 }
 
 if (!process.env.SECRET) {
@@ -36,12 +36,6 @@ if (!process.env.SECRET) {
 } else {
   sessionSecret = process.env.SECRET;
 }
-
-const mongoURL =
-  "mongodb+srv://herokuMain" +
-  ":" +
-  password +
-  "@euryaledb.cp8al.mongodb.net/euryaledb?retryWrites=true&w=majority";
 
 // Session configuration
 const session = {
