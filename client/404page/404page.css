@@ -22,13 +22,10 @@ body{
 }
 
 .container h1{
-    height: 550px;
     font-size: 160px;
     margin: 0;
     font-weight:900;
     letter-spacing: 20px;
-    max-width: 550px;
-    
 }
 
 .container a{
