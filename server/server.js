@@ -277,7 +277,7 @@ app.post(
   checkLoggedIn,
   async (req, res) => {
     const user = req.user,
-      char = req.params.character,
+      char = req.params.character.replace(/-/g, ' '),
       data = req.body;
 
     console.log(`$user ${user} attempts to save ${char}`);
@@ -298,9 +298,9 @@ app.get(
   checkLoggedIn,
   async (req, res) => {
     const user = req.user,
-      char = req.params.characters,
+      char = req.params.character.replace(/-/g, ' '),
       testfile = await getChar(user, char);
-
+    
     console.log(testfile);
 
     res.json(testfile);
