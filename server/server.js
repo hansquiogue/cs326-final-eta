@@ -84,11 +84,11 @@ app.use(express.urlencoded({ extended: true }));
 
 // Get request to homepage
 app.get("/", continueSession, (req, res) => {
-  res.sendFile(path.resolve("client/homepage/homepage.html"));
+  res.sendFile(path.resolve("client/main/homepage.html"));
 });
 
 // Allows homepage files to be used
-app.use("/", express.static(path.join(__dirname, "/../client/homepage")));
+app.use("/", express.static(path.join(__dirname, "/../client/main")));
 
 // Get request to login page
 app.get("/login", (req, res) => {

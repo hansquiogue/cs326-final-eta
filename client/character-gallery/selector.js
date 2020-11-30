@@ -243,7 +243,7 @@ function deleteCurrCharInGallery() {
 function resetImage() {
     // Image url is set to default
     const currImage = document.getElementById('currImage');
-    currImage.src = '/gallery/user/:user/default.jpg';
+    currImage.src = '/images/default-char.jpg';
 }
 
 
