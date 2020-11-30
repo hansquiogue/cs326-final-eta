@@ -12,7 +12,7 @@ header {
 }
 
 div {
-    overflow: scroll;
+    overflow: hidden;
 }
 
 .main-text {
