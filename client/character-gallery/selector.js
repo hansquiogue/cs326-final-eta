@@ -205,7 +205,7 @@ function createNewCharInGallery(name) {
 
     // New label for button design created underneath
     const newLabel = document.createElement('label');
-    newLabel.className = 'btn btn-secondary';
+    newLabel.className = 'btn btn-dark';
     newLabel.innerText = name;
     newCol.appendChild(newLabel);
 
@@ -266,12 +266,12 @@ window.addEventListener('change', async () => {
         if (prevCharButton) {
             // Previous button is 'unselected'
             prevCharButton.parentElement.classList.remove('btn-danger');
-            prevCharButton.parentElement.classList.add('btn-secondary');
+            prevCharButton.parentElement.classList.add('btn-dark');
         }
         
         // Current button is 'selected'
         const currButton = currChar.parentElement;
-        currButton.classList.remove('btn-secondary');
+        currButton.classList.remove('btn-dark');
         currButton.classList.add('btn-danger');
 
         // Updated to current character

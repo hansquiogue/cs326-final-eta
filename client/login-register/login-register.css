@@ -20,6 +20,10 @@ header {
     font-family: 'Fjalla One', sans-serif;
 }
 
+.navbar-dark {
+    background-color: #161A1D;
+}
+
 .navbar-brand {
     font-size: 30px;
 }
@@ -34,16 +38,27 @@ header {
 
 #signin-container {
     max-width: 600px;
+    background-color: #161A1D;
 }
 
-#register-container {
+.register-container {
     max-width: 700px; 
+    background-color: #161A1D;
 }
 
 .register-text {
     color: white;
     font-weight: bold;
     font-size: xx-large;
+}
+
+#success-register-text {
+    font-family: "Montserrat",sans-serif;
+    font-weight: 600;
+}
+
+.fa-check-circle {
+    color: rgb(197, 13, 13);
 }
 
 .sign-in-text {

@@ -1,3 +1,9 @@
+body {
+  background-image: linear-gradient(125deg, #4e0720, #000000);
+  font-family: "Montserrat",sans-serif;
+  min-height: 100vh;
+}
+
 header {
   font-family: "Fjalla One", sans-serif;
 }
@@ -25,6 +31,10 @@ th,
 .sheet-container {
   max-width: 96%;
   min-width: 72em;
+}
+
+.navbar-dark, .sheet-container {
+  background-color: #161A1D;
 }
 
 .navbar-brand {
@@ -68,7 +78,7 @@ img {
 }
 
 .section-container {
-  background-color: #3f474e;
+  background-color: #343A40;
 }
 
 .dropdown-divider {

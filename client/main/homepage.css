@@ -15,6 +15,10 @@ header {
     font-size: 30px;
 }
 
+.navbar-dark {
+    background-color: #161A1D;
+}
+
 .top-buffer, .bottom-buffer {
     margin-top: 170px;
 }

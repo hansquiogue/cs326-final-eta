@@ -37,9 +37,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
 </head>
 
-<body class="bg-secondary">
+<body>
   <!-- Navigation bar -->
-  <header class="navbar navbar-dark bg-dark">
+  <header class="navbar navbar-dark border-bottom border-dark">
     <!-- TODO: Add a logo for or website and redirect href link -->
     <a class="navbar-brand" href="/">EURYALE</a>
 
@@ -57,13 +57,13 @@
     </span>
   </header>
 
-  <div class="container">
+  <div class="container mt-3">
     <!-- Create a new character / Character gallery -->
     <div class="row">
       <!-- Left side column -->
       <div class="col-md-6">
         <!-- Create a new character -->
-        <div class="container rounded bg-dark mt-4">
+        <div class="container rounded main-container border border-dark mt-4">
           <div class="row">
             <div class="col mt-3">
               <p class="main-text mx-3"><b id="welcome"></b></p>
@@ -85,9 +85,9 @@
           </div>
         </div>
         <!-- Gallery -->
-        <div class="container rounded bg-dark mt-3">
+        <div class="container rounded main-container border border-dark mt-3">
           <div class="row">
-            <div class="col mx-3 mt-3">
+            <div class="col text-center mt-3">
               <p class="main-text"><b>Character Gallery</b></p>
             </div>
           </div>
@@ -100,13 +100,15 @@
       <!-- Right side column -->
       <div class="col-md-6 mt-4">
         <!-- Image and play button -->
-        <div class="container rounded bg-dark">
+        <div class="container rounded main-container border border-dark">
           <div class="row">
-            <p class="main-text mt-3 mx-5">Current Character Selected: <b id="curr-selected-text">None</b></p>
+            <div class="col text-center mt-3">
+              <p class="main-text">Character Selected: <b id="curr-selected-text">None</b></p>
+            </div>
           </div>
           <div class="row">
             <div class="container char-image justify-text">
-              <img src="/images/default-char.jpg" alt="Current Character" class="rounded border border-dark" id="currImage">
+              <img src="/images/default-char.jpg" alt="Current Character" class="rounded" id="currImage">
             </div>
           </div>
           <div class="container rounded">
@@ -116,7 +118,7 @@
                   <i class="fas fa-play fa-sm"></i> Play</button>
               </div>
               <div class="col text-center">
-                <button type="submit" class="btn btn-secondary btn-lg btn-block" 
+                <button type="submit" class="btn btn-dark btn-lg btn-block" 
                   id="delete-btn" data-toggle="modal" data-target="#confirm-delete">
                   <i class="fas fa-trash-alt fa-sm"></i>  Delete</button>
               </div>
