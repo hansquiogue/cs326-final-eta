@@ -76,8 +76,8 @@
           </div>
           <div class="row">
             <div class="col mx-3">
-              <button type="submit" class="btn btn-danger btn" data-toggle="modal" data-target="#create-modal">Create a
-                New Character</button>
+              <button type="submit" class="btn btn-danger btn" data-toggle="modal" data-target="#create-modal">
+                <i class="fas fa-plus-circle fa-sm"></i> Create a New Character</button>
             </div>
           </div>
           <div class="row mt-4">
@@ -112,11 +112,13 @@
           <div class="container rounded">
             <div class="row mt-4">
               <div class="col text-center">
-                <button type="submit" class="btn btn-danger btn-lg" id="play-btn">Play</button>
+                <button type="submit" class="btn btn-danger btn-lg btn-block" id="play-btn">
+                  <i class="fas fa-play fa-sm"></i> Play</button>
               </div>
               <div class="col text-center">
-                <button type="submit" class="btn btn-secondary btn-lg" id="delete-btn" data-toggle="modal"
-                  data-target="#confirm-delete">Delete</button>
+                <button type="submit" class="btn btn-secondary btn-lg btn-block" 
+                  id="delete-btn" data-toggle="modal" data-target="#confirm-delete">
+                  <i class="fas fa-trash-alt fa-sm"></i>  Delete</button>
               </div>
             </div>
           </div>
@@ -165,7 +167,7 @@
         <div class="modal-body">
           <h5 class="text-white">Are you sure you wanted to delete this character?</h5><br>
           <h3 class="text-center text-white" id="delete-char-text">No character selected!</h2><br>
-            <h5 class="text-center text-danger">Note: this cannot be undone.</h6>
+            <h5 class="text-center text-danger">Note: this cannot be undone.</h5>
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn justify-content btn-danger btn-lg" id="delete">Delete</button>
