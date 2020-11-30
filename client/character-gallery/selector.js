@@ -1,5 +1,7 @@
 // User retrieved from url parameter
 const user = window.location.pathname.split('/')[3];
+// Previous character button
+let prevCharButton;
 
 window.addEventListener('load', async function () {
     // Welcome message to logged in user
@@ -199,7 +201,6 @@ function createNewCharInGallery(name) {
     const newCol = document.createElement('div');
     // Adding attributes to newCol
     newCol.setAttribute('class', 'col mx-3 btn-group btn-group-toggle');
-    newCol.setAttribute('data-toggle', 'buttons');
     newRow.appendChild(newCol);
 
     // New label for button design created underneath
@@ -226,13 +227,19 @@ function createNewCharInGallery(name) {
  * @returns {HTML Element} The HTML element of a selected character
  */
 function getSelectedCharacter() {
-    let char_list = document.getElementsByName('charselect');
-    char_list = Array.from(char_list);
-    return char_list.filter((char) => char.checked)[0];
+    // List of character inputs 
+    let charList = document.getElementsByName('charselect');
+    // Converts to array
+    charList = Array.from(charList);
+    // Filters by characters that are selected
+    charList = charList.filter((char) => char.checked);
+    // Returns character selected or undefined
+    return charList.length > 0 ? charList[0] : undefined;
 }
 
 /**
- * Programmatically deletes the current character selected in the gallery
+ * Programmatically deletes the current character selected in the gallery.
+ * Assumes character is found.
  */
 function deleteCurrCharInGallery() {
     const id = getSelectedCharacter().id;
@@ -246,14 +253,37 @@ function resetImage() {
     currImage.src = '/images/default-char.jpg';
 }
 
-
 // Whenever there are any changes, the page will look for the selected character
 window.addEventListener('change', async () => {
-    const currChar = getSelectedCharacter().value;
-    document.getElementById('curr-selected-text').innerText = currChar;
+    
+    // Current character (Can be undefined if not found)
+    const currChar = getSelectedCharacter();
+
+    // Current selected button 
+    if (currChar !== undefined) {
+        
+        // Previous button exists
+        if (prevCharButton) {
+            // Previous button is 'unselected'
+            prevCharButton.parentElement.classList.remove('btn-danger');
+            prevCharButton.parentElement.classList.add('btn-secondary');
+        }
+        
+        // Current button is 'selected'
+        const currButton = currChar.parentElement;
+        currButton.classList.remove('btn-secondary');
+        currButton.classList.add('btn-danger');
+
+        // Updated to current character
+        prevCharButton = currChar;
+    }
+
+    // Current character selected is changed to current character
+    const charName = currChar !== undefined ? currChar.value : 'None';
+    document.getElementById('curr-selected-text').innerText = charName;
 
     // Retrieving image endpoint
-    const endPoint = '/gallery/user/' + user + '/character/' + currChar + '?getImage=true';
+    const endPoint = '/gallery/user/' + user + '/character/' + charName.replace(/\s+/g, '-') + '?getImage=true';
     // Gets character's image
     const response = await fetch(endPoint);
 
@@ -265,6 +295,7 @@ window.addEventListener('change', async () => {
         const currImage = document.getElementById('currImage');
         currImage.src = body;
     } else {
+        // Image changed to default image
         resetImage();    
     }
 });
