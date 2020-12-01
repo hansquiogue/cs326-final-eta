@@ -30,6 +30,7 @@ if (!process.env.URL) {
   mongoURL = process.env.URL;
 }
 
+// For secret session in Express
 if (!process.env.SECRET) {
   secrets = JSON.parse(fs.readFileSync("./server/secrets.json"));
   sessionSecret = secrets.sessionSecret;
@@ -54,7 +55,6 @@ const strategy = new LocalStrategy(async (username, password, done) => {
     return done(null, false, { message: "Wrong username or password" });
   }
   // success!
-  // should create a user object here, associated with a unique identifier
   return done(null, username);
 });
 
@@ -130,14 +130,13 @@ app.post("/register", async (req, res) => {
   const user = req.body["username"];
   const email = req.body["email"];
   const pass = req.body["password"];
-  const userFound = await addUser(user, pass, email);
+  const userNotFound = await addUser(user, pass, email);
 
   // Cannot add new user
-  if (!userFound) {
+  if (!userNotFound) {
     res.redirect("/register?error=user-exists");
     // Can add new user
   } else {
-    // TODO: Successful registration
     res.redirect("/register-successful");
   } 
 });
@@ -239,7 +238,6 @@ app.get("/character/create", checkLoggedIn, async (req, res) => {
   }
   // User already exists
   else if (charDuplicate) {
-    // TODO: Error stating character exists
     res.status(409).send("No duplicate characters allowed for a user");
     // User can be created
   } else {
@@ -295,14 +293,9 @@ app.get(
       char = req.params.character.replace(/-/g, ' '),
       testfile = await getChar(user, char);
     
-    console.log(testfile);
-
     res.json(testfile);
   }
 );
-
-//image upload
-app.post("/img-upload", checkLoggedIn, async (req, res) => {});
 
 // Logout
 app.get("/logout", checkLoggedIn, (req, res) => {
@@ -338,7 +331,7 @@ app.listen(port, () => {
 /**
  * Validate password (Will need to encrypt later!)
  * @param {string} username A username
- * @param {string} password A hashed password (eventually!)
+ * @param {string} password An unhashed password
  * @returns {boolean} Returns true if the password is valid
  */
 async function validatePass(username, password) {
@@ -362,7 +355,7 @@ async function validatePass(username, password) {
 /**
  * Adds a user to a database
  * @param {string} username A username
- * @param {string} password A hashed password
+ * @param {string} password An unhashed password
  * @param {string} email An email address
  * @returns {boolean} True if a user can be added
  */
@@ -414,10 +407,7 @@ async function getUserData(username) {
  * @returns {boolean} Returns true if the character exists
  */
 async function charExists(username, newCharacter) {
-  const userData = await getUserData(username);
-  
-  console.log(newCharacter);
-  
+  const userData = await getUserData(username);  
   // Accounts for character names with spaces and coverts them to dashes and lowercase
   return (
     userData.characters
@@ -490,8 +480,8 @@ async function getChar(username, character) {
 /**
  * Updates a character's attributes in the character
  * collection portion of the database.
- * @param {*} charData
- * @returns {boolean}
+ * @param {Object<Character>} charData an object that represents a Character
+ * @returns {boolean} Returns true if a character can be saved
  */
 async function saveChar(charData) {
   const result = mongoConnect(async (users, chars) => {
