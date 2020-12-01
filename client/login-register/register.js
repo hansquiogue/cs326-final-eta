@@ -46,7 +46,7 @@ window.addEventListener('load', () => {
         if (pass.value !== confPass.value) {
             forms[2].classList.add('is-invalid');
             forms[3].classList.add('is-invalid');
-            passHelp.innerText = "Passwords match match";
+            passHelp.innerText = "Passwords do not match";
         // Password entries put back to normal
         } else {
             forms[2].classList.remove('is-invalid');

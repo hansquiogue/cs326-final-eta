@@ -4,6 +4,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    overflow: hidden;
 }
 
 .bg-signin {
@@ -35,7 +36,7 @@ header {
 }
 
 .container {
-    height: 550px;
+    height: 590px;
 }
 
 #signin-container {
