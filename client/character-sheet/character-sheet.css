@@ -62,8 +62,6 @@ th,
 img {
   max-width: 100%;
   max-height: 100%;
-  /* width: 400px;
-  height: 400px; */
 }
 
 .scroll-table {
@@ -131,8 +129,6 @@ img {
 img {
   max-width: 100%;
   max-height: 100%;
-  /* width: 400px;
-  height: 400px; */
   overflow: hidden;
 }
 
