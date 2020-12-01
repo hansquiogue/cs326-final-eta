@@ -26,19 +26,28 @@ body::after{
     overflow: hidden; 
     z-index:-1; 
     /* Loads images */
-    content: url('dragon1.png') url('dragon2.png') url('forest.jpg');
+    content: 
+        /* Retrieved from https://wall.alphacoders.com/big.php?i=678272 */
+        url('dragon1.png') 
+        /* Retrieved from https://wall.alphacoders.com/big.php?i=749770 */
+        url('dragon2.png') 
+        /* Retrieved from https://wall.alphacoders.com/big.php?i=1116810 */
+        url('forest.jpg');
  }
 
  /* Animation that changes images (like a slideshow) */
  /* Unfortunately only smooth with Chrome browser really */
 @keyframes slideshow {
     0% {
+        /* Retrieved from https://wall.alphacoders.com/big.php?i=678272 */
         background-image: url('dragon1.jpg');
     }
     33% {
+        /* Retrieved from https://wall.alphacoders.com/big.php?i=1116810 */
         background-image: url('forest.jpg');
     }
     67% {
+        /* Retrieved from https://wall.alphacoders.com/big.php?i=749770 */
         background-image: url('dragon2.jpg');
     }
 }

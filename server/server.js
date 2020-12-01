@@ -10,7 +10,7 @@ import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import { default as mongodb } from "mongodb";
 import fs from "fs";
-import miniCrypt from "./miniCrypt.js";
+import miniCrypt from "./miniCrypt.js"; // Credits to Joseph Spitzer: https://github.com/sp1tz
 
 const MongoClient = mongodb.MongoClient;
 const mc = new miniCrypt();

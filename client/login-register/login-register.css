@@ -7,11 +7,13 @@ body {
 }
 
 .bg-signin {
+    /* Retrieved from https://wallup.net/dungeons-dragons-artwork-fantasy-art/ */
     background-image: url('login-pic.jpg');
     background-attachment: fixed;
 }
 
 .bg-register {
+    /* Retrieved from https://wallup.net/dungeons-and-dragons-fantasy-adventure-board-rpg-dungeons-dragons-79/ */
     background-image: url('register-pic.jpg');
     background-attachment: fixed;
 }

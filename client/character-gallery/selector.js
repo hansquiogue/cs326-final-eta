@@ -250,6 +250,7 @@ function deleteCurrCharInGallery() {
 function resetImage() {
     // Image url is set to default
     const currImage = document.getElementById('currImage');
+    // Default image retrieved from: https://www.artstation.com/artwork/rXNWe
     currImage.src = '/images/default-char.png';
 }
 
