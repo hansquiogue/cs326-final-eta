@@ -250,7 +250,7 @@ function deleteCurrCharInGallery() {
 function resetImage() {
     // Image url is set to default
     const currImage = document.getElementById('currImage');
-    currImage.src = '/images/default-char.jpg';
+    currImage.src = '/images/default-char.png';
 }
 
 // Whenever there are any changes, the page will look for the selected character

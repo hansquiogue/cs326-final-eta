@@ -1,10 +1,46 @@
+/* Ensures HTML and body's height is the full height of the page */
+html {
+    min-height: 100%;
+    position: relative;
+}
+
 body {
-    background-image: url('homepage.jpg');
+    background-image: url('dragon1.jpg');
     background-color: black;
     height: 100%;
-    background-position: center;
+    width: 100%;
+    background-position: center top;
     background-repeat: no-repeat;
     background-size: cover;
+    overflow: hidden;
+    animation: slideshow 30s infinite;
+    animation-delay: 5s;
+}
+
+/* Preloads images */
+body::after{
+    /* Hides images */
+    position: absolute; 
+    width: 0; 
+    height: 0; 
+    overflow: hidden; 
+    z-index:-1; 
+    /* Loads images */
+    content: url('dragon1.png') url('dragon2.png') url('forest.jpg');
+ }
+
+ /* Animation that changes images (like a slideshow) */
+ /* Unfortunately only smooth with Chrome browser really */
+@keyframes slideshow {
+    0% {
+        background-image: url('dragon1.jpg');
+    }
+    33% {
+        background-image: url('forest.jpg');
+    }
+    67% {
+        background-image: url('dragon2.jpg');
+    }
 }
 
 header { 
@@ -20,15 +56,16 @@ header {
 }
 
 .top-buffer, .bottom-buffer {
-    margin-top: 170px;
+    margin-top: 120px;
 }
 
 .container {
-    height: 550px;
-    max-width: 600px;
+    background-color: #161A1D;
+    height: 450px;
+    max-width: 550px;
 }
 
-.sign-in-text {
+.main-text {
     color: white;
     font-weight: bold;
     font-size: xx-large;
