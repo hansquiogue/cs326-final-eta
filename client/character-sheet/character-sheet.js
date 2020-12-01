@@ -410,47 +410,6 @@ async function saveSheet() {
   }
 }
 
-
-// Sorry Jackson, I had to change this because this used jQuery - Hans
-
-// async function exportSheet() {
-//   // const pageURL = new URL(window.location.href);
-//   // const user = pageURL.pathname.split("/")[3];
-//   // const char = pageURL.pathname.split("/")[5];
-
-//   saveSheet();
-
-//   // console.log("moving on");
-//   const file = await fetch("/char-sheet-export/user/" + user + "/character/" + char);
-
-//   if (file.ok) {
-//     const fileParse = await file.json();
-
-//     // Had to edit this because 'click' is part of jQuery
-//     // const blob = new Blob([JSON.stringify(fileParse, null, 2)], {
-//     //     type: "application/json",
-//     //   }),
-//     //   url = URL.createObjectURL(blob);
-
-//     // const a = document.createElement("a");
-//     // a.download = char + "_sheet_export.json";
-//     // a.href = url;
-//     // document.body.appendChild(a);
-//     // a.click();
-//     // document.body.removeChild(a);
-
-//     const data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(filelParse));
-
-//     const a = document.createElement("a");
-//     a.setAttribute("href", "data:" + data);
-//     a.setAttribute("download", a.download);     
-//     document.body.appendChild(a);
-
-    
-
-//   }
-// }
-
 async function resetSheet() {
   // check that user didn't click accidentally
   if (
@@ -599,7 +558,7 @@ window.addEventListener("load", async () => {
 
   const pageURL = new URL(window.location.href);
 
-  const exportElem = document.getElementById('export-btn');
+  const exportElem = document.getElementById("export-btn");
   const user = pageURL.pathname.split("/")[3];
   const char = pageURL.pathname.split("/")[5];
 
@@ -650,8 +609,7 @@ document
     const imgURL = document.getElementById("char-link").value;
     try {
       new URL(imgURL);
-      let timer,
-        img = new Image();
+      const img = new Image();
       img.onload = () => {
         clearTimeout(timer);
         document.getElementById("user-img-actual").src = imgURL;
@@ -663,7 +621,7 @@ document
         clearTimeout(timer);
         alert("URL failed to load image.");
       };
-      timer = setTimeout(() => {
+      const timer = setTimeout(() => {
         img.src = imgURL;
         alert("URL failed to load image.");
       }, 5000);
