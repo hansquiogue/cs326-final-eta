@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+    
     <head>
         <title>Euryale - Create a New Account</title>
         <!-- Background image gathered from: https://wallup.net/dungeons-and-dragons-fantasy-adventure-board-rpg-dungeons-dragons-79/ -->
 
         <!-- Loads in script -->
-        <script type="module" src="register/register.js" defer></script>
+        <script src="register/register.js" defer></script>
 
         <!-- Required Bootstrap meta tags -->
         <meta charset="utf-8">
@@ -24,11 +25,11 @@
         <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
 
         <!-- Fav icon based on official DnD logo: https://dnd.wizards.com/ -->
-        <link rel = "fav icon" href = "/images/dnd.png">
+        <link rel="fav icon" href="/images/dnd.png">
     </head>
+    
     <body class="bg-register">
         <header class="navbar navbar-expand-xl- navbar-dark border-bottom border-dark">
-            <!-- TODO: Add a logo for or website and redirect href link-->
             <a class="navbar-brand" href="/">EURYALE</a>
         </header>
         <div class="top-buffer"></div>
@@ -40,29 +41,29 @@
             </div>
             <form action="/register" method="post">
                 <div class="form-group mt-4 mx-4">
-                    <label for="email-input">Email Address:</label>
+                    <label for="email">Email Address:</label>
                     <input class="form-control" id="email" name="email" 
-                    pattern="^\S+@\S+$" type="text" required>
+                        pattern="^\S+@\S+$" type="text" required>
                     <span class="help-block text-danger mt-2" id="email-help"></span>
                 </div>
                 <div class="form-group mx-4">
-                    <label for="user-input">Username:</label>
+                    <label for="username">Username:</label>
                     <input class="form-control" id="username" name="username" 
-                    pattern="^[a-zA-Z0-9]+$" minlength="1" maxlength="30" type="text" required>
+                        pattern="^[a-zA-Z0-9]+$" minlength="1" maxlength="30" type="text" required>
                     <span class="help-block text-danger mt-2" id="user-help"></span>
                 </div>
                 <div class="row mx-2">
                     <div class="col">
                         <div class="form-group">
-                            <label for="pass-input">Password:</label>
-                            <input type="password" id="password" name="password" class="form-control" type="text" required>
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" class="form-control" required>
                             <span class="help-block text-danger mt-2" id="pass-help"></span>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label for="pass-confirm-input">Confirm Password:</label>
-                            <input type="password" id="confirm-password" name="confirm-password" class="form-control" type="text" required>
+                            <label for="confirm-password">Confirm Password:</label>
+                            <input type="password" id="confirm-password" name="confirm-password" class="form-control" required>
                         </div>
                     </div>
                 </div>
@@ -77,4 +78,5 @@
         </div>
         <div class="bottom-buffer"></div>
     </body>
+
 </html>

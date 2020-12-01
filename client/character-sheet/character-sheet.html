@@ -1,1208 +1,1138 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <title>Euryale - Character Sheet</title>
-  <!-- Default character image retrieved from: https://www.artstation.com/artwork/rXNWe -->
+  <head>
+    <title>Euryale - Character Sheet</title>
+    <!-- Default character image retrieved from: https://www.artstation.com/artwork/rXNWe -->
+    
+    <!-- Required Bootstrap meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Loads in Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" 
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    
+    <!-- jQuery and JS bundle w/ Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" 
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" 
+      integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    
+    <!-- Loads in Fontawesome icons-->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" 
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    
+    <!-- Dice parsing script -->
+    <script src="https://cdn.jsdelivr.net/gh/chapelr/dice-notation@latest/dist/dice.min.js" defer></script>
+    
+    <!-- Personal CSS -->
+    <link rel="stylesheet" href="/gallery/user/:user/character/:character/character-sheet.css">
+    
+    <!-- Personal script -->
+    <script defer src="/gallery/user/:user/character/:character/character-sheet.js"></script>
+    
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+    
+    <!-- Fav icon based on official DnD logo: https://dnd.wizards.com/ -->
+    <link rel="fav icon" href="/images/dnd.png">
+  </head>
 
-  <!-- Required Bootstrap meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <!-- Loads in Bootstrap CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-
-  <!-- jQuery and JS bundle w/ Popper.js -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-    crossorigin="anonymous"></script>
-
-  <!-- Loads in Fontawesome icons-->
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-
-  <!-- Dice parsing script -->
-  <script src="https://cdn.jsdelivr.net/gh/chapelr/dice-notation@latest/dist/dice.min.js" type="text/javascript"
-    defer></script>
-
-  <!-- Personal CSS -->
-  <link rel="stylesheet" href="/gallery/user/:user/character/:character/character-sheet.css">
-
-  <!-- Personal script -->
-  <!-- <script defer src="spells.js"></script> -->
-  <script defer src="/gallery/user/:user/character/:character/character-sheet.js"></script>
-
-  <!-- Google font-->
-  <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
-
-   <!-- Fav icon based on official DnD logo: https://dnd.wizards.com/ -->
-  <link rel="fav icon" href="/images/dnd.png">
-</head>
-
-<body>
-  <!-- Navigation bar -->
-  <header class="navbar navbar-dark border-bottom border-dark">
-    <!-- TODO: Add a logo for or website and redirect href link-->
-    <a class="navbar-brand" href="/">EURYALE</a>
-
-    <div class="nav navbar-nav navbar-right">
-      <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle fas fa-user fa-lg" role="button" id="userDropdownMenu" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-        </a>
-        <!-- TODO: Add settings link-->
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdownMenu">
-          <!-- <a class="dropdown-item" href="#">Settings</a> -->
-          <button class="dropdown-item" id="gallery">Character Selection</a>
-            <button class="dropdown-item" id="logout">Log Out</a>
-        </div>
-      </div>
-  </header>
-
-  <div class="container rounded my-4 sheet-container px-0 mx-auto p-1">
-    <!-- Top cluster -->
-    <div class="row p-0 m-1">
-      <!-- dice placeholder -->
-      <div class="col-3 container section-container rounded p-3 mr-1">
-        <div class="mx-2 form-group">
-          <label for="name">Roll (Dice Notation)</label>
-          <div class="input-group" id="dice-input">
-            <input type="text" class="form-control" id="dice-notation">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" id="rollBtn">Roll!</button>
-            </div>
-          </div>
-          <label for="name">Result</label>
-          <input class="form-control" id="roll-result">
-        </div>
-      </div>
-      <!-- top cluster -->
-      <div class="col top-cluster container section-container rounded p-3 ml-1">
-        <div class="row">
-          <div class="col-sm-3 mx-2 form-group">
-            <label for="name">Character Name</label>
-            <input class="form-control" id="char-name">
-            <label for="name">Player Name</label>
-            <input class="form-control" id="player-name">
-          </div>
-          <div class="col-sm-7 container">
-            <div class="row">
-              <div class="col-sm-3 px-2">
-                <label for="level">Level</label>
-                <input class="form-control" id="level">
-              </div>
-              <div class="col-sm px-2">
-                <label for="class">Class</label>
-                <input class="form-control" id="class">
-              </div>
-              <div class="col-sm-4 px-2">
-                <label for="race">Race</label>
-                <input class="form-control" id="race">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-4 px-2">
-                <label for="alignment">Alignment</label>
-                <input class="form-control" id="alignment">
-              </div>
-              <div class="col-sm-3 px-2">
-                <label for="exp-points">EXP to next LVL</label>
-                <input class="form-control" id="exp-points">
-              </div>
-              <div class="col-sm px-2 mt-2">
-                <label for="exp-range" id="exp-range-label">Experience Points</label>
-                <input type="range" class="custom-range my-2" id="exp-range" min="0" max="300">
-              </div>
-            </div>
-
-          </div>
-          <div class="col-sm-1 justify-content-center mx-2">
-            <div class="row my-1"><button type="submit" class="btn btn-top btn-danger btn-sm"
-                id="save-btn">Save</button>
-            </div>
-            <!-- <div class="row my-2"><button type="submit" class="btn btn-top btn-danger btn-sm"
-                id="export-btn">Export</button>
-            </div> -->
-            <div class="row my-2">
-              <a href="#" 
-                class="btn btn-top btn-danger btn-sm" role="button" id="export-btn">Export</a>
-            </div>
-            <div class="row my-2"><button type="submit" class="btn btn-top btn-danger btn-sm"
-                id="reset-btn">Reset</button>
-            </div>
+  <body>
+    <!-- Navigation bar -->
+    <header class="navbar navbar-dark border-bottom border-dark"> 
+      <a class="navbar-brand" href="/">EURYALE</a>
+      <div class="nav navbar-nav navbar-right">
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle fas fa-user fa-lg" role="button" id="userDropdownMenu" 
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdownMenu">
+            <button class="dropdown-item" id="gallery">Character Selection</button>
+            <button class="dropdown-item" id="logout">Log Out</button>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- THE REST -->
-    <div class="row m-1 p-0">
-      <!-- (Center) Left side skills-->
-      <div class="col-4 container section-container rounded p-3 mr-1 my-0">
-        <div class="row px-3">
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" aria-label="Proficiency" id="proficiencyBonus">
-            <div class="input-group-append" id="proficiency-append">
-              <span class="input-group-text" id="proficiency-label">Proficiency Bonus</span>
+    </header>
+    <div class="container rounded my-4 sheet-container px-0 mx-auto p-1">
+      <!-- Top cluster -->
+      <div class="row p-0 m-1">
+        <!-- dice placeholder -->
+        <div class="col-3 container section-container rounded p-3 mr-1">
+          <div class="mx-2 form-group">
+            <label for="dice-notation">Roll (Dice Notation)</label>
+            <div class="input-group" id="dice-input">
+              <input type="text" class="form-control" id="dice-notation">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" id="rollBtn">Roll!</button>
+              </div>
             </div>
-          </div>
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" aria-label="Inspiration" id="inspiration">
-            <div class="input-group-append" id="inspiration-append">
-              <span class="input-group-text" id="inspiration-label">Inspiration</span>
-            </div>
+            <label for="roll-result">Result</label>
+            <input class="form-control" id="roll-result">
           </div>
         </div>
-        <div class="dropdown-divider"></div>
-        <!-- Strength -->
-        <div class="row">
-          <div class="col-3 pr-0 mr-2">
-            <div class="form-group">
-              <label for="strength">Strength</label>
-              <input type="text" name="strength" id="strength" class="form-control" aria-label="Strength">
+        <!-- top cluster -->
+        <div class="col top-cluster container section-container rounded p-3 ml-1">
+          <div class="row">
+            <div class="col-sm-3 mx-2 form-group">
+              <label for="char-name">Character Name</label>
+              <input class="form-control" id="char-name">
+              <label for="player-name">Player Name</label>
+              <input class="form-control" id="player-name">
             </div>
-          </div>
-          <div class="col mx-3 px-1">
-            <!-- Strength Saving Throws -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="strSave">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="strSaveProf">
+            <div class="col-sm-7 container">
+              <div class="row">
+                <div class="col-sm-3 px-2">
+                  <label for="level">Level</label>
+                  <input class="form-control" id="level">
+                </div>
+                <div class="col-sm px-2">
+                  <label for="class">Class</label>
+                  <input class="form-control" id="class">
+                </div>
+                <div class="col-sm-4 px-2">
+                  <label for="race">Race</label>
+                  <input class="form-control" id="race">
                 </div>
               </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="strSaveExp" id="strSaveExp">
+              <div class="row">
+                <div class="col-sm-4 px-2">
+                  <label for="alignment">Alignment</label>
+                  <input class="form-control" id="alignment">
                 </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Saving Throws</span>
-              </div>
-            </div>
-
-            <!-- Athletics -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="athletics">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="athleticsProf">
+                <div class="col-sm-3 px-2">
+                  <label for="exp-points">EXP to next LVL</label>
+                  <input class="form-control" id="exp-points">
                 </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="athleticsExp" id="athleticsExp">
+                <div class="col-sm px-2 mt-2">
+                  <label for="exp-range" id="exp-range-label">Experience Points</label>
+                  <input type="range" class="custom-range my-2" id="exp-range" min="0" max="300">
                 </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Athletics</span>
               </div>
             </div>
-
-          </div>
-        </div>
-
-        <div class="dropdown-divider"></div>
-
-        <!-- Dexterity -->
-        <div class="row">
-          <div class="col-3 pr-0 mr-2">
-            <div class="form-group">
-              <label for="dexterity">Dexterity</label>
-              <input type="text" name="dexterity" id="dexterity" class="form-control" aria-label="dexterity">
-            </div>
-          </div>
-          <div class="col mx-3 px-1">
-            <!-- Saving Throw -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="dexSave">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="dexSaveProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="dexSaveExp" id="dexSaveExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Saving Throw</span>
-              </div>
-            </div>
-
-            <!-- Acrobatics -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="acrobatics">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="acrobaticsProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="acrobaticsExp" id="acrobaticsExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Acrobatics</span>
-              </div>
-            </div>
-
-            <!-- sleightOfHand -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="sleightOfHand">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="sleightOfHandProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="sleightOfHandExp" id="sleightOfHandExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Sleight of Hand</span>
-              </div>
-            </div>
-
-            <!-- stealth -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="stealth">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="stealthProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="stealthExp" id="stealthExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Stealth</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="dropdown-divider"></div>
-
-        <div class="row">
-          <div class="col-3 pr-0 mr-2">
-            <div class="form-group">
-              <label for="constitution">Constitution</label>
-              <input type="text" name="constitution" id="constitution" class="form-control" aria-label="constitution">
-            </div>
-          </div>
-          <div class="col mx-3 mt-4 px-1">
-            <!-- conSave -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="conSave">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="conSaveProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="conSaveExp" id="conSaveExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Saving Throw</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="dropdown-divider"></div>
-
-        <div class="row">
-          <div class="col-3 pr-0 mr-2">
-            <div class="form-group">
-              <label for="intelligence">Intelligence</label>
-              <input type="text" name="intelligence" id="intelligence" class="form-control" aria-label="intelligence">
-            </div>
-          </div>
-
-          <div class="col mx-3 px-1">
-            <!-- intSave -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="intSave">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="intSaveProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="intSaveExp" id="intSaveExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Saving Throw</span>
-              </div>
-            </div>
-
-            <!-- arcana -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="arcana">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="arcanaProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="arcanaExp" id="arcanaExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Arcana</span>
-              </div>
-            </div>
-
-            <!-- history -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="history">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="historyProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="historyExp" id="historyExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">History</span>
-              </div>
-            </div>
-
-            <!-- investigation -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="investigation">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="investigationProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="investigationExp" id="investigationExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Investigation</span>
-              </div>
-            </div>
-
-            <!-- nature -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="nature">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="natureProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="natureExp" id="natureExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Nature</span>
-              </div>
-            </div>
-
-            <!-- religion -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="religion">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="religionProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="religionExp" id="religionExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Religion</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="dropdown-divider"></div>
-
-        <div class="row">
-          <div class="col-3 pr-0 mr-2">
-            <div class="form-group">
-              <label for="wisdom">Wisdom</label>
-              <input type="text" name="wisdom" id="wisdom" class="form-control" aria-label="wisdom">
-            </div>
-          </div>
-
-          <div class="col mx-3 px-1">
-            <!-- wisSave -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="wisSave">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="wisSaveProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="wisSaveExp" id="wisSaveExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Saving Throw</span>
-              </div>
-            </div>
-
-            <!-- animalHandling -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="animalHandling">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="animalHandlingProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="animalHandlingExp" id="animalHandlingExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Animal Handling</span>
-              </div>
-            </div>
-
-            <!-- insight -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="insight">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="insightProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="insightExp" id="insightExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Insight</span>
-              </div>
-            </div>
-
-            <!-- medicine -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="medicine">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="medicineProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="medicineExp" id="medicineExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Medicine</span>
-              </div>
-            </div>
-
-            <!-- perception -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="perception">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="perceptionProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="perceptionExp" id="perceptionExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Perception</span>
-              </div>
-            </div>
-
-            <!-- survival -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="survival">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="survivalProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="survivalExp" id="survivalExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Survival</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="dropdown-divider"></div>
-        <div class="row">
-          <div class="col-3 pr-0 mr-2">
-            <div class="form-group">
-              <label for="charisma">Charisma</label>
-              <input type="text" name="charisma" id="charisma" class="form-control" aria-label="charisma">
-            </div>
-          </div>
-
-          <div class="col mx-3 px-1">
-            <!-- chaSave -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="chaSave">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="chaSaveProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="chaSaveExp" id="chaSaveExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Saving Throw</span>
-              </div>
-            </div>
-
-            <!-- deception -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="deception">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="deceptionProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="deceptionExp" id="deceptionExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Deception</span>
-              </div>
-            </div>
-
-            <!-- intimidation -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="intimidation">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="intimidationProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="intimidationExp" id="intimidationExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Intimidation</span>
-              </div>
-            </div>
-
-            <!-- performance -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="performance">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="performanceProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="performanceExp" id="performanceExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Performance</span>
-              </div>
-            </div>
-
-            <!-- persuasion -->
-            <div class="skill input-group">
-              <input type="text" class="form-control col-2" id="persuasion">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" id="persuasionProf">
-                </div>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input type="checkbox" name="persuasionExp" id="persuasionExp">
-                </div>
-              </div>
-              <div class="input-group-append skill-name">
-                <span class="input-group-text">Persuasion</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="dropdown-divider"></div>
-      </div>
-
-      <!-- right-hand parts -->
-      <div class="col px-0 my-0 ml-1">
-        <!-- Center image and center cluster-->
-        <div class="row mb-0 mt-0 mx-0 p-0">
-          <!-- middle column -->
-          <div class="col user-img mr-1 ml-0 my-0 p-0">
-            <!-- character image -->
-            <div class="row container section-container rounded mt-0 mx-0 mb-1 p-3" id="user-image">
-              <img src="/images/default-char.png" class="border border-dark" alt="Character Image" id="user-img-actual">
-              <button type="submit" class="btn btn-danger mt-2" id="change-img-btn" data-toggle="modal"
-                data-target="#img-upload">Change Image</button>
-              <!-- <div class="col">
-                <button type="submit" class="btn btn-danger mt-2 float-right" id="change-img-btn">Change Image</button>
+            <div class="col-sm-1 justify-content-center mx-2">
+              <div class="row my-1">
+                <button type="submit" class="btn btn-top btn-danger btn-sm" id="save-btn">Save</button>
+              </div>
+              <!-- <div class="row my-2"><button type="submit" class="btn btn-top btn-danger btn-sm"
+                  id="export-btn">Export</button>
               </div> -->
-            </div>
-            <!-- center cluster -->
-            <div class="row p-3 mx-0 mt-1 mb-0 container section-container rounded">
-              <div class="row px-3">
-                <div class="col px-1">
-                  <div class="form-group">
-                    <label for="ac">AC</label>
-                    <input type="text" name="ac" id="ac" class="form-control" aria-label="ac">
-                  </div>
-                </div>
-                <div class="col px-1">
-                  <div class="form-group">
-                    <label for="hpMax">HP Max.</label>
-                    <input type="text" name="hpMax" id="hpMax" class="form-control" aria-label="hpMax">
-                  </div>
-                </div>
-                <div class="col px-1">
-                  <div class="form-group">
-                    <label for="tempHp">Temp HP</label>
-                    <input type="text" name="tempHp" id="tempHp" class="form-control" aria-label="tempHp">
-                  </div>
-                </div>
-                <div class="col px-1">
-                  <div class="form-group">
-                    <label for="hp">HP</label>
-                    <input type="text" name="hp" id="hp" class="form-control" aria-label="hp">
-                  </div>
-                </div>
+              <div class="row my-2"> 
+                <a href="#" class="btn btn-top btn-danger btn-sm" role="button" id="export-btn">Export</a>
               </div>
-              <div class="row px-3">
-                <!-- inputs -->
-                <div class="col px-1">
-                  <div class="row px-3">
-                    <div class="col-3 px-1">
-                      <div class="form-group">
-                        <label for="initiative">Initiative</label>
-                        <input type="text" name="initiative" id="initiative" class="form-control"
-                          aria-label="initiative">
-                      </div>
-                    </div>
-                    <div class="col px-1">
-                      <div class="form-group">
-                        <label for="hitDice">Hit Dice</label>
-                        <input type="text" name="hitDice" id="hitDice" class="form-control" aria-label="hitDice">
-                      </div>
-                    </div>
-                    <div class="col px-1">
-                      <div class="form-group">
-                        <label for="hitDiceUsed">Dice Used</label>
-                        <input type="text" name="hitDiceUsed" id="hitDiceUsed" class="form-control"
-                          aria-label="hitDiceUsed">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row px-3">
-                    <div class="col-2 px-1">
-                      <div class="form-group">
-                        <label for="speed">Speed</label>
-                        <input type="text" name="speed" id="speed" class="form-control" aria-label="speed">
-                      </div>
-                    </div>
-                    <div class="col px-1">
-                      <div class="form-group">
-                        <label for="deathRollSuccesses">Successes</label>
-                        <input type="text" name="deathRollSuccesses" id="deathRollSuccesses" class="form-control"
-                          aria-label="deathRollSuccesses">
-                      </div>
-                    </div>
-                    <div class="col px-1">
-                      <div class="form-group">
-                        <label for="deathRollFailures">Failures</label>
-                        <input type="text" name="deathRollFailures" id="deathRollFailures" class="form-control"
-                          aria-label="deathRollFailures">
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-              <!-- popup buttons -->
-              <div class="row px-auto mx-auto popup-buttons">
-                <a id="inventoryButton" class="btn btn-danger mx-1" role="button" data-toggle="modal"
-                  data-target="#inv-modal">Inventory</a>
-                <a id="informationButton" class="btn btn-danger mx-1" role="button" data-toggle="modal"
-                  data-target="#info-modal">Information</a>
-                <a id="spellsButton" class="btn btn-danger mx-1" role="button" data-toggle="modal"
-                  data-target="#spells-modal">Spells</a>
-              </div>
-            </div>
-          </div>
-          <!-- (Center) Right side spell slots-->
-          <div class="col container section-container rounded p-3 ml-1 my-0">
-            <div class="label">Spell Slots</div>
-            <div class="dropdown-divider"></div>
-            <div class="row mt-3">
-              <div class="col-sm mx-1 px-1">
-                <div class="spell-slots-text column-label">Max:</div>
-                <input class="form-control my-1" id="spellSlotMax1" type="number" min="0" max="10">
-                <input class="form-control my-1" id="spellSlotMax2" type="number" min="0" max="10">
-                <input class="form-control my-1" id="spellSlotMax3" type="number" min="0" max="10">
-                <input class="form-control my-1" id="spellSlotMax4" type="number" min="0" max="10">
-                <input class="form-control my-1" id="spellSlotMax5" type="number" min="0" max="10">
-                <input class="form-control my-1" id="spellSlotMax6" type="number" min="0" max="10">
-                <input class="form-control my-1" id="spellSlotMax7" type="number" min="0" max="10">
-                <input class="form-control my-1" id="spellSlotMax8" type="number" min="0" max="10">
-                <input class="form-control my-1" id="spellSlotMax9" type="number" min="0" max="10">
-
-              </div>
-              <div class="col-sm mx-1 px-1">
-                <div class="spell-slots-text column-label">Used:</div>
-                <input class="form-control my-1" id="spellSlotUsed1" type="number" min="0" max="10">
-                <input class="form-control my-1" id="spellSlotUsed2" type="number" min="0" max="10">
-                <input class="form-control my-1" id="spellSlotUsed3" type="number" min="0" max="10">
-                <input class="form-control my-1" id="spellSlotUsed4" type="number" min="0" max="10">
-                <input class="form-control my-1" id="spellSlotUsed5" type="number" min="0" max="10">
-                <input class="form-control my-1" id="spellSlotUsed6" type="number" min="0" max="10">
-                <input class="form-control my-1" id="spellSlotUsed7" type="number" min="0" max="10">
-                <input class="form-control my-1" id="spellSlotUsed8" type="number" min="0" max="10">
-                <input class="form-control my-1" id="spellSlotUsed9" type="number" min="0" max="10">
-              </div>
-            </div>
-            <div class="row-md-12 mt-4">
-              <div class="label">Attacks</div>
-              <div class="dropdown-divider"></div>
-              <div class="row mt-3">
-                <div class="col-sm-4 mx-1 px-1">
-                  <div class="attack-slots-text column-label">Name </div>
-                  <input class="form-control mt-1" type="text" id="attackName0">
-                  <input class="form-control mt-1" type="text" id="attackName1">
-                  <input class="form-control mt-1" type="text" id="attackName2">
-                  <input class="form-control mt-1" type="text" id="attackName3">
-                  <input class="form-control mt-1" type="text" id="attackName4">
-                </div>
-                <div class="col-sm-3 mx-0 px-1">
-                  <div class="attack-slots-text column-label">Bonus </div>
-                  <input class="form-control mt-1" type="text" id="attackBonus0">
-                  <input class="form-control mt-1" type="text" id="attackBonus1">
-                  <input class="form-control mt-1" type="text" id="attackBonus2">
-                  <input class="form-control mt-1" type="text" id="attackBonus3">
-                  <input class="form-control mt-1" type="text" id="attackBonus4">
-                </div>
-                <div class="col-sm mx-1 px-1">
-                  <div class="attack-slots-text column-label">DMG </div>
-                  <input class="form-control mt-1" type="text" id="attackDMG0">
-                  <input class="form-control mt-1" type="text" id="attackDMG1">
-                  <input class="form-control mt-1" type="text" id="attackDMG2">
-                  <input class="form-control mt-1" type="text" id="attackDMG3">
-                  <input class="form-control mt-1" type="text" id="attackDMG4">
-                </div>
+              <div class="row my-2">
+                <button type="submit" class="btn btn-top btn-danger btn-sm" id="reset-btn">Reset</button>
               </div>
             </div>
           </div>
         </div>
-        <!-- active features -->
-        <div class="row mt-1 mx-0 p-3 container section-container rounded">
-          <div class="row main-text">
-            <div class="col-md-12 cluster-heading">Active Features</div>
+      </div>
+      <div class="row m-1 p-0">
+        <!-- (Center) Left side skills-->
+        <div class="col-4 container section-container rounded p-3 mr-1 my-0">
+          <div class="row px-3">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" aria-label="Proficiency" id="proficiencyBonus">
+              <div class="input-group-append" id="proficiency-append"> 
+                <span class="input-group-text" id="proficiency-label">Proficiency Bonus</span>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" aria-label="Inspiration" id="inspiration">
+              <div class="input-group-append" id="inspiration-append"> 
+                <span class="input-group-text" id="inspiration-label">Inspiration</span>
+              </div>
+            </div>
           </div>
           <div class="dropdown-divider"></div>
-          <div class="row mt-3">
-            <div class="col-sm-4 mx-1 px-2">
-              <div class="active-features-text column-label">Name:</div>
-              <input class="form-control" id="af-name1">
-              <input class="form-control mt-1" id="af-name2">
-              <input class="form-control mt-1" id="af-name3">
-              <input class="form-control mt-1" id="af-name4">
-              <input class="form-control mt-1" id="af-name5">
-              <input class="form-control mt-1" id="af-name6">
+          <!-- Strength -->
+          <div class="row">
+            <div class="col-3 pr-0 mr-2">
+              <div class="form-group">
+                <label for="strength">Strength</label>
+                <input type="text" name="strength" id="strength" class="form-control" aria-label="Strength">
+              </div>
             </div>
-            <div class="col-sm-2 px-1">
-              <div class="active-features-text column-label">Usage:</div>
-              <input class="form-control" id="af-usage1">
-              <input class="form-control mt-1" id="af-usage2">
-              <input class="form-control mt-1" id="af-usage3">
-              <input class="form-control mt-1" id="af-usage4">
-              <input class="form-control mt-1" id="af-usage5">
-              <input class="form-control mt-1" id="af-usage6">
-            </div>
-            <div class="col-sm-2 mx-n1 px-2">
-              <div class="active-features-text column-label">Duration:</div>
-              <input class="form-control" id="af-dur1">
-              <input class="form-control mt-1" id="af-dur2">
-              <input class="form-control mt-1" id="af-dur3">
-              <input class="form-control mt-1" id="af-dur4">
-              <input class="form-control mt-1" id="af-dur5">
-              <input class="form-control mt-1" id="af-dur6">
-            </div>
-            <div class="col-sm-2 px-2">
-              <div class="active-features-text column-label">Recovery:</div>
-              <input class="form-control" id="af-rec1">
-              <input class="form-control mt-1" id="af-rec2">
-              <input class="form-control mt-1" id="af-rec3">
-              <input class="form-control mt-1" id="af-rec4">
-              <input class="form-control mt-1" id="af-rec5">
-              <input class="form-control mt-1" id="af-rec6">
-            </div>
-            <div class="col-sm-1 px-1">
-              <div class="active-features-text column-label">Uses:</div>
-              <input class="form-control" id="af-uses1">
-              <input class="form-control mt-1" id="af-uses2">
-              <input class="form-control mt-1" id="af-uses3">
-              <input class="form-control mt-1" id="af-uses4">
-              <input class="form-control mt-1" id="af-uses5">
-              <input class="form-control mt-1" id="af-uses6">
-            </div>
-            <div class="col-sm-1 px-2 mx-n1">
-              <div class="active-features-text column-label">Used:</div>
-              <input class="form-control" id="af-used1">
-              <input class="form-control mt-1" id="af-used2">
-              <input class="form-control mt-1" id="af-used3">
-              <input class="form-control mt-1" id="af-used4">
-              <input class="form-control mt-1" id="af-used5">
-              <input class="form-control mt-1" id="af-used6">
-            </div>
-          </div>
-          <div class="row mt-4">
-            <div class="col-md-12"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Inventory Modal -->
-  <div class="modal fade" id="inv-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Character Inventory</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="inv-modal-close">
-            <span aria-hidden="true" class="button-symbol">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- inner container -->
-          <div class="container m-0" id="character-inv-inner">
-            <div class="row">
-              <div class="col-4 pr-1 pl-3">
-                <div class="form-group">
-                  <label for="inv-armor">Armor</label>
-                  <input type="text" name="inv-armor" id="inv-armor" class="form-control">
+            <div class="col mx-3 px-1">
+              <!-- Strength Saving Throws -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="strSave">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="strSaveProf">
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label for="inv-shield">Shield</label>
-                  <input type="text" name="inv-shield" id="inv-shield" class="form-control">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="strSaveExp" id="strSaveExp">
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label for="inv-attuned">Attuned Items</label>
-                  <textarea class="form-control" id="inv-attuned" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="inv-other">Other</label>
-                  <textarea class="form-control" id="inv-other" rows="5"></textarea>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Saving Throws</span>
                 </div>
               </div>
-              <div class="col-8 pl-4 pr-4">
-                <div class="row">
-                  <div class="col my-auto px-1">
-                    <div class="form-group">
-                      <label for="inv-plat">Platinum</label>
-                      <input type="number" name="inv-plat" id="inv-plat" class="form-control">
-                    </div>
-                  </div>
-                  <div class="col my-auto px-1">
-                    <div class="form-group">
-                      <label for="inv-gold">Gold</label>
-                      <input type="number" name="inv-gold" id="inv-gold" class="form-control">
-                    </div>
-                  </div>
-                  <div class="col my-auto px-1">
-                    <div class="form-group">
-                      <label for="inv-electrum">Electrum</label>
-                      <input type="number" name="inv-electrum" id="inv-electrum" class="form-control">
-                    </div>
-                  </div>
-                  <div class="col my-auto px-1">
-                    <div class="form-group">
-                      <label for="inv-silver">Silver</label>
-                      <input type="number" name="inv-silver" id="inv-silver" class="form-control">
-                    </div>
-                  </div>
-                  <div class="col my-auto px-1">
-                    <div class="form-group">
-                      <label for="inv-copper">Copper</label>
-                      <input type="number" name="inv-copper" id="inv-copper" class="form-control">
-                    </div>
+              <!-- Athletics -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="athletics">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="athleticsProf">
                   </div>
                 </div>
-                <div class="row">
-                  <!-- Table header -->
-                  <table class="table table-sm">
-                    <thead>
-                      <tr>
-                        <th class="col-9">Name</th>
-                        <th>Qty</th>
-                        <th>Weight</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                  </table>
-                  <!-- TODO figure out a way to set dynamic max-height -->
-                  <!-- Table body -->
-                  <div class="scroll-table container">
-                    <table class="table table-sm table-borderless" id="inventory-table">
-                    </table>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="athleticsExp" id="athleticsExp">
                   </div>
                 </div>
-                <div class="row">
-                  <button class="btn btn-outline-primary" id="inv-add-btn">Add Item</button>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Athletics</span>
                 </div>
               </div>
             </div>
           </div>
+          <div class="dropdown-divider"></div>
+          <!-- Dexterity -->
+          <div class="row">
+            <div class="col-3 pr-0 mr-2">
+              <div class="form-group">
+                <label for="dexterity">Dexterity</label>
+                <input type="text" name="dexterity" id="dexterity" class="form-control" aria-label="dexterity">
+              </div>
+            </div>
+            <div class="col mx-3 px-1">
+              <!-- Saving Throw -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="dexSave">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="dexSaveProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="dexSaveExp" id="dexSaveExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Saving Throw</span>
+                </div>
+              </div>
+              <!-- Acrobatics -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="acrobatics">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="acrobaticsProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="acrobaticsExp" id="acrobaticsExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Acrobatics</span>
+                </div>
+              </div>
+              <!-- sleightOfHand -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="sleightOfHand">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="sleightOfHandProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="sleightOfHandExp" id="sleightOfHandExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Sleight of Hand</span>
+                </div>
+              </div>
+              <!-- stealth -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="stealth">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="stealthProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="stealthExp" id="stealthExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Stealth</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <div class="row">
+            <div class="col-3 pr-0 mr-2">
+              <div class="form-group">
+                <label for="constitution">Constitution</label>
+                <input type="text" name="constitution" id="constitution" class="form-control" aria-label="constitution">
+              </div>
+            </div>
+            <div class="col mx-3 mt-4 px-1">
+              <!-- conSave -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="conSave">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="conSaveProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="conSaveExp" id="conSaveExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Saving Throw</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <div class="row">
+            <div class="col-3 pr-0 mr-2">
+              <div class="form-group">
+                <label for="intelligence">Intelligence</label>
+                <input type="text" name="intelligence" id="intelligence" class="form-control" aria-label="intelligence">
+              </div>
+            </div>
+            <div class="col mx-3 px-1">
+              <!-- intSave -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="intSave">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="intSaveProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="intSaveExp" id="intSaveExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Saving Throw</span>
+                </div>
+              </div>
+              <!-- arcana -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="arcana">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="arcanaProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="arcanaExp" id="arcanaExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Arcana</span>
+                </div>
+              </div>
+              <!-- history -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="history">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="historyProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="historyExp" id="historyExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">History</span>
+                </div>
+              </div>
+              <!-- investigation -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="investigation">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="investigationProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="investigationExp" id="investigationExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Investigation</span>
+                </div>
+              </div>
+              <!-- nature -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="nature">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="natureProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="natureExp" id="natureExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Nature</span>
+                </div>
+              </div>
+              <!-- religion -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="religion">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="religionProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="religionExp" id="religionExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Religion</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <div class="row">
+            <div class="col-3 pr-0 mr-2">
+              <div class="form-group">
+                <label for="wisdom">Wisdom</label>
+                <input type="text" name="wisdom" id="wisdom" class="form-control" aria-label="wisdom">
+              </div>
+            </div>
+            <div class="col mx-3 px-1">
+              <!-- wisSave -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="wisSave">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="wisSaveProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="wisSaveExp" id="wisSaveExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Saving Throw</span>
+                </div>
+              </div>
+              <!-- animalHandling -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="animalHandling">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="animalHandlingProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="animalHandlingExp" id="animalHandlingExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Animal Handling</span>
+                </div>
+              </div>
+              <!-- insight -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="insight">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="insightProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="insightExp" id="insightExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Insight</span>
+                </div>
+              </div>
+              <!-- medicine -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="medicine">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="medicineProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="medicineExp" id="medicineExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Medicine</span>
+                </div>
+              </div>
+              <!-- perception -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="perception">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="perceptionProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="perceptionExp" id="perceptionExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Perception</span>
+                </div>
+              </div>
+              <!-- survival -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="survival">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="survivalProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="survivalExp" id="survivalExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name">
+                   <span class="input-group-text">Survival</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <div class="row">
+            <div class="col-3 pr-0 mr-2">
+              <div class="form-group">
+                <label for="charisma">Charisma</label>
+                <input type="text" name="charisma" id="charisma" class="form-control" aria-label="charisma">
+              </div>
+            </div>
+            <div class="col mx-3 px-1">
+              <!-- chaSave -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="chaSave">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="chaSaveProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="chaSaveExp" id="chaSaveExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Saving Throw</span>
+                </div>
+              </div>
+              <!-- deception -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="deception">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="deceptionProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="deceptionExp" id="deceptionExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Deception</span>
+                </div>
+              </div>
+              <!-- intimidation -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="intimidation">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="intimidationProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="intimidationExp" id="intimidationExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Intimidation</span>
+                </div>
+              </div>
+              <!-- performance -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="performance">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="performanceProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="performanceExp" id="performanceExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Performance</span>
+                </div>
+              </div>
+              <!-- persuasion -->
+              <div class="skill input-group">
+                <input type="text" class="form-control col-2" id="persuasion">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" id="persuasionProf">
+                  </div>
+                </div>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <input type="checkbox" name="persuasionExp" id="persuasionExp">
+                  </div>
+                </div>
+                <div class="input-group-append skill-name"> 
+                  <span class="input-group-text">Persuasion</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Character Info Modal -->
-  <div class="modal fade" id="info-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Character Information</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true" class="button-symbol">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-
-          <div class="container m-0" id="char-info-inner">
-            <div class="row">
-              <div class="col-5">
-                <div class="row">
-                  <div class="col pr-1">
-                    <div class="form-group mb-1">
-                      <label for="info-height">Height</label>
-                      <input type="text" name="info-height" id="info-height" class="form-control">
+        <!-- right-hand parts -->
+        <div class="col px-0 my-0 ml-1">
+          <!-- Center image and center cluster-->
+          <div class="row mb-0 mt-0 mx-0 p-0">
+            <!-- middle column -->
+            <div class="col user-img mr-1 ml-0 my-0 p-0">
+              <!-- character image -->
+              <div class="row container section-container rounded mt-0 mx-0 mb-1 p-3" id="user-image">
+                <img src="/images/default-char.png" class="border border-dark" alt="Character Image" id="user-img-actual">
+                <button type="submit" class="btn btn-danger mt-2" id="change-img-btn" 
+                  data-toggle="modal" data-target="#img-upload">Change Image</button>
+              </div>
+              <!-- center cluster -->
+              <div class="row p-3 mx-0 mt-1 mb-0 container section-container rounded">
+                <div class="row px-3">
+                  <div class="col px-1">
+                    <div class="form-group">
+                      <label for="ac">AC</label>
+                      <input type="text" name="ac" id="ac" class="form-control" aria-label="ac">
                     </div>
                   </div>
                   <div class="col px-1">
-                    <div class="form-group mb-1">
-                      <label for="info-weight">Weight</label>
-                      <input type="text" name="info-weight" id="info-weight" class="form-control">
+                    <div class="form-group">
+                      <label for="hpMax">HP Max.</label>
+                      <input type="text" name="hpMax" id="hpMax" class="form-control" aria-label="hpMax">
                     </div>
                   </div>
-                  <div class="col pl-1">
-                    <div class="form-group mb-1">
-                      <label for="info-size">Size</label>
-                      <input type="text" name="info-size" id="info-size" class="form-control">
+                  <div class="col px-1">
+                    <div class="form-group">
+                      <label for="tempHp">Temp HP</label>
+                      <input type="text" name="tempHp" id="tempHp" class="form-control" aria-label="tempHp">
                     </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col pr-1">
-                    <div class="form-group mb-1">
-                      <label for="info-eyes">Eyes</label>
-                      <input type="text" name="info-eyes" id="info-eyes" class="form-control">
-                    </div>
-                  </div>
-                  <div class="col pl-1">
-                    <div class="form-group mb-1">
-                      <label for="info-skin">Skin</label>
-                      <input type="text" name="info-skin" id="info-skin" class="form-control">
+                  <div class="col px-1">
+                    <div class="form-group">
+                      <label for="hp">HP</label>
+                      <input type="text" name="hp" id="hp" class="form-control" aria-label="hp">
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-4 pr-1">
-                    <div class="form-group mb-1">
-                      <label for="info-age">Age</label>
-                      <input type="text" name="info-age" id="info-age" class="form-control">
+                <div class="row px-3">
+                  <!-- inputs -->
+                  <div class="col px-1">
+                    <div class="row px-3">
+                      <div class="col-3 px-1">
+                        <div class="form-group">
+                          <label for="initiative">Initiative</label>
+                          <input type="text" name="initiative" id="initiative" 
+                            class="form-control" aria-label="initiative">
+                        </div>
+                      </div>
+                      <div class="col px-1">
+                        <div class="form-group">
+                          <label for="hitDice">Hit Dice</label>
+                          <input type="text" name="hitDice" id="hitDice" 
+                            class="form-control" aria-label="hitDice">
+                        </div>
+                      </div>
+                      <div class="col px-1">
+                        <div class="form-group">
+                          <label for="hitDiceUsed">Dice Used</label>
+                          <input type="text" name="hitDiceUsed" id="hitDiceUsed" 
+                            class="form-control" aria-label="hitDiceUsed">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row px-3">
+                      <div class="col-2 px-1">
+                        <div class="form-group">
+                          <label for="speed">Speed</label>
+                          <input type="text" name="speed" id="speed" class="form-control" aria-label="speed">
+                        </div>
+                      </div>
+                      <div class="col px-1">
+                        <div class="form-group">
+                          <label for="deathRollSuccesses">Successes</label>
+                          <input type="text" name="deathRollSuccesses" id="deathRollSuccesses" 
+                            class="form-control" aria-label="deathRollSuccesses">
+                        </div>
+                      </div>
+                      <div class="col px-1">
+                        <div class="form-group">
+                          <label for="deathRollFailures">Failures</label>
+                          <input type="text" name="deathRollFailures" id="deathRollFailures" 
+                            class="form-control" aria-label="deathRollFailures">
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="col pl-1">
-                    <div class="form-group mb-1">
-                      <label for="info-hair">Hair</label>
-                      <input type="text" name="info-hair" id="info-hair" class="form-control">
-                    </div>
-                  </div>
                 </div>
-                <div class="form-group mb-1">
-                  <label for="info-personality">Personality Traits</label>
-                  <textarea class="form-control" id="info-personality" rows="3"></textarea>
-                </div>
-                <div class="form-group mb-1">
-                  <label for="info-ideals">Ideals</label>
-                  <textarea class="form-control" id="info-ideals" rows="2"></textarea>
-                </div>
-                <div class="form-group mb-1">
-                  <label for="info-bonds">Bonds</label>
-                  <textarea class="form-control" id="info-bonds" rows="2"></textarea>
-                </div>
-                <div class="form-group mb-1">
-                  <label for="info-flaws">Flaws</label>
-                  <textarea class="form-control" id="info-flaws" rows="2"></textarea>
-                </div>
-              </div>
-              <div class="col">
-                <div class="row">
-                  <div class="col pr-1">
-                    <div class="form-group mb-1">
-                      <label for="info-feats">Features & Traits</label>
-                      <textarea class="form-control" id="info-feats" rows="10"></textarea>
-                    </div>
-                  </div>
-                  <div class="col pl-1">
-                    <div class="form-group mb-1">
-                      <label for="info-profs">Proficiencies & Languages</label>
-                      <textarea class="form-control" id="info-profs" rows="10"></textarea>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group mb-1">
-                  <label for="info-backstory">Backstory</label>
-                  <textarea class="form-control" id="info-backstory" rows="5"></textarea>
-                </div>
-                <div class="form-group mb-1">
-                  <label for="info-allies">Allies & Organizations</label>
-                  <textarea class="form-control" id="info-allies" rows="5"></textarea>
+                <!-- popup buttons -->
+                <div class="row px-auto mx-auto popup-buttons"> 
+                  <a id="inventoryButton" class="btn btn-danger mx-1" role="button" 
+                    data-toggle="modal" data-target="#inv-modal">Inventory</a>
+                  <a id="informationButton" class="btn btn-danger mx-1" role="button" 
+                    data-toggle="modal" data-target="#info-modal">Information</a>
+                  <a id="spellsButton" class="btn btn-danger mx-1" role="button" 
+                    data-toggle="modal" data-target="#spells-modal">Spells</a>
                 </div>
               </div>
             </div>
+            <!-- (Center) Right side spell slots-->
+            <div class="col container section-container rounded p-3 ml-1 my-0">
+              <div class="label">Spell Slots</div>
+              <div class="dropdown-divider"></div>
+              <div class="row mt-3">
+                <div class="col-sm mx-1 px-1">
+                  <div class="spell-slots-text column-label">Max:</div>
+                  <input class="form-control my-1" id="spellSlotMax1" type="number" min="0" max="10">
+                  <input class="form-control my-1" id="spellSlotMax2" type="number" min="0" max="10">
+                  <input class="form-control my-1" id="spellSlotMax3" type="number" min="0" max="10">
+                  <input class="form-control my-1" id="spellSlotMax4" type="number" min="0" max="10">
+                  <input class="form-control my-1" id="spellSlotMax5" type="number" min="0" max="10">
+                  <input class="form-control my-1" id="spellSlotMax6" type="number" min="0" max="10">
+                  <input class="form-control my-1" id="spellSlotMax7" type="number" min="0" max="10">
+                  <input class="form-control my-1" id="spellSlotMax8" type="number" min="0" max="10">
+                  <input class="form-control my-1" id="spellSlotMax9" type="number" min="0" max="10">
+                </div>
+                <div class="col-sm mx-1 px-1">
+                  <div class="spell-slots-text column-label">Used:</div>
+                  <input class="form-control my-1" id="spellSlotUsed1" type="number" min="0" max="10">
+                  <input class="form-control my-1" id="spellSlotUsed2" type="number" min="0" max="10">
+                  <input class="form-control my-1" id="spellSlotUsed3" type="number" min="0" max="10">
+                  <input class="form-control my-1" id="spellSlotUsed4" type="number" min="0" max="10">
+                  <input class="form-control my-1" id="spellSlotUsed5" type="number" min="0" max="10">
+                  <input class="form-control my-1" id="spellSlotUsed6" type="number" min="0" max="10">
+                  <input class="form-control my-1" id="spellSlotUsed7" type="number" min="0" max="10">
+                  <input class="form-control my-1" id="spellSlotUsed8" type="number" min="0" max="10">
+                  <input class="form-control my-1" id="spellSlotUsed9" type="number" min="0" max="10">
+                </div>
+              </div>
+              <div class="row-md-12 mt-4">
+                <div class="label">Attacks</div>
+                <div class="dropdown-divider"></div>
+                <div class="row mt-3">
+                  <div class="col-sm-4 mx-1 px-1">
+                    <div class="attack-slots-text column-label">Name</div>
+                    <input class="form-control mt-1" type="text" id="attackName0">
+                    <input class="form-control mt-1" type="text" id="attackName1">
+                    <input class="form-control mt-1" type="text" id="attackName2">
+                    <input class="form-control mt-1" type="text" id="attackName3">
+                    <input class="form-control mt-1" type="text" id="attackName4">
+                  </div>
+                  <div class="col-sm-3 mx-0 px-1">
+                    <div class="attack-slots-text column-label">Bonus</div>
+                    <input class="form-control mt-1" type="text" id="attackBonus0">
+                    <input class="form-control mt-1" type="text" id="attackBonus1">
+                    <input class="form-control mt-1" type="text" id="attackBonus2">
+                    <input class="form-control mt-1" type="text" id="attackBonus3">
+                    <input class="form-control mt-1" type="text" id="attackBonus4">
+                  </div>
+                  <div class="col-sm mx-1 px-1">
+                    <div class="attack-slots-text column-label">DMG</div>
+                    <input class="form-control mt-1" type="text" id="attackDMG0">
+                    <input class="form-control mt-1" type="text" id="attackDMG1">
+                    <input class="form-control mt-1" type="text" id="attackDMG2">
+                    <input class="form-control mt-1" type="text" id="attackDMG3">
+                    <input class="form-control mt-1" type="text" id="attackDMG4">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- active features -->
+          <div class="row mt-1 mx-0 p-3 container section-container rounded">
+            <div class="row main-text">
+              <div class="col-md-12 cluster-heading">Active Features</div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <div class="row mt-3">
+              <div class="col-sm-4 mx-1 px-2">
+                <div class="active-features-text column-label">Name:</div>
+                <input class="form-control" id="af-name1">
+                <input class="form-control mt-1" id="af-name2">
+                <input class="form-control mt-1" id="af-name3">
+                <input class="form-control mt-1" id="af-name4">
+                <input class="form-control mt-1" id="af-name5">
+                <input class="form-control mt-1" id="af-name6">
+              </div>
+              <div class="col-sm-2 px-1">
+                <div class="active-features-text column-label">Usage:</div>
+                <input class="form-control" id="af-usage1">
+                <input class="form-control mt-1" id="af-usage2">
+                <input class="form-control mt-1" id="af-usage3">
+                <input class="form-control mt-1" id="af-usage4">
+                <input class="form-control mt-1" id="af-usage5">
+                <input class="form-control mt-1" id="af-usage6">
+              </div>
+              <div class="col-sm-2 mx-n1 px-2">
+                <div class="active-features-text column-label">Duration:</div>
+                <input class="form-control" id="af-dur1">
+                <input class="form-control mt-1" id="af-dur2">
+                <input class="form-control mt-1" id="af-dur3">
+                <input class="form-control mt-1" id="af-dur4">
+                <input class="form-control mt-1" id="af-dur5">
+                <input class="form-control mt-1" id="af-dur6">
+              </div>
+              <div class="col-sm-2 px-2">
+                <div class="active-features-text column-label">Recovery:</div>
+                <input class="form-control" id="af-rec1">
+                <input class="form-control mt-1" id="af-rec2">
+                <input class="form-control mt-1" id="af-rec3">
+                <input class="form-control mt-1" id="af-rec4">
+                <input class="form-control mt-1" id="af-rec5">
+                <input class="form-control mt-1" id="af-rec6">
+              </div>
+              <div class="col-sm-1 px-1">
+                <div class="active-features-text column-label">Uses:</div>
+                <input class="form-control" id="af-uses1">
+                <input class="form-control mt-1" id="af-uses2">
+                <input class="form-control mt-1" id="af-uses3">
+                <input class="form-control mt-1" id="af-uses4">
+                <input class="form-control mt-1" id="af-uses5">
+                <input class="form-control mt-1" id="af-uses6">
+              </div>
+              <div class="col-sm-1 px-2 mx-n1">
+                <div class="active-features-text column-label">Used:</div>
+                <input class="form-control" id="af-used1">
+                <input class="form-control mt-1" id="af-used2">
+                <input class="form-control mt-1" id="af-used3">
+                <input class="form-control mt-1" id="af-used4">
+                <input class="form-control mt-1" id="af-used5">
+                <input class="form-control mt-1" id="af-used6">
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-12"></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Spells modal -->
-  <div class="modal fade" id="spells-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Character Spells</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="spell-modal-close">
-            <span aria-hidden="true" class="button-symbol">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- Tab bar -->
-          <nav>
-            <div class="nav nav-tabs" id="spell-tab" role="tablist">
-              <a class="nav-link active" id="spell-tab-0" data-toggle="tab" href="#spell-0" role="tab"
-                aria-controls="spell-0" aria-selected="true">Cantrips</a>
-              <a class="nav-link" id="spell-tab-1" data-toggle="tab" href="#spell-1" role="tab" aria-controls="spell-1"
-                aria-selected="false">1st</a>
-              <a class="nav-link" id="spell-tab-2" data-toggle="tab" href="#spell-2" role="tab" aria-controls="spell-2"
-                aria-selected="false">2nd</a>
-              <a class="nav-link" id="spell-tab-3" data-toggle="tab" href="#spell-3" role="tab" aria-controls="spell-3"
-                aria-selected="false">3rd</a>
-              <a class="nav-link" id="spell-tab-4" data-toggle="tab" href="#spell-4" role="tab" aria-controls="spell-4"
-                aria-selected="false">4th</a>
-              <a class="nav-link" id="spell-tab-5" data-toggle="tab" href="#spell-5" role="tab" aria-controls="spell-5"
-                aria-selected="false">5th</a>
-              <a class="nav-link" id="spell-tab-6" data-toggle="tab" href="#spell-6" role="tab" aria-controls="spell-6"
-                aria-selected="false">6th</a>
-              <a class="nav-link" id="spell-tab-7" data-toggle="tab" href="#spell-7" role="tab" aria-controls="spell-7"
-                aria-selected="false">7th</a>
-              <a class="nav-link" id="spell-tab-8" data-toggle="tab" href="#spell-8" role="tab" aria-controls="spell-8"
-                aria-selected="false">8th</a>
-              <a class="nav-link" id="spell-tab-9" data-toggle="tab" href="#spell-9" role="tab" aria-controls="spell-9"
-                aria-selected="false">9th</a>
-            </div>
-          </nav>
-          <!-- Tab contents -->
-          <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="spell-0" role="tabpanel" aria-labelledby="spell-tab-0">
-            </div>
-            <div class="tab-pane fade" id="spell-1" role="tabpanel" aria-labelledby="spell-tab-1">
-            </div>
-            <div class="tab-pane fade" id="spell-2" role="tabpanel" aria-labelledby="spell-tab-2">
-            </div>
-            <div class="tab-pane fade" id="spell-3" role="tabpanel" aria-labelledby="spell-tab-3">
-            </div>
-            <div class="tab-pane fade" id="spell-4" role="tabpanel" aria-labelledby="spell-tab-4">
-            </div>
-            <div class="tab-pane fade" id="spell-5" role="tabpanel" aria-labelledby="spell-tab-5">
-            </div>
-            <div class="tab-pane fade" id="spell-6" role="tabpanel" aria-labelledby="spell-tab-6">
-            </div>
-            <div class="tab-pane fade" id="spell-7" role="tabpanel" aria-labelledby="spell-tab-7">
-            </div>
-            <div class="tab-pane fade" id="spell-8" role="tabpanel" aria-labelledby="spell-tab-8">
-            </div>
-            <div class="tab-pane fade" id="spell-9" role="tabpanel" aria-labelledby="spell-tab-9">
-            </div>
-
+    <!-- Inventory Modal -->
+    <div class="modal fade" id="inv-modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Character Inventory</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="inv-modal-close"> 
+              <span aria-hidden="true" class="button-symbol">&times;</span>
+            </button>
           </div>
-          <div class="row m-3">
-            <button class="btn btn-outline-primary m-3" id="spell-add-btn">Add Item</button>
+          <div class="modal-body">
+            <!-- inner container -->
+            <div class="container m-0" id="character-inv-inner">
+              <div class="row">
+                <div class="col-4 pr-1 pl-3">
+                  <div class="form-group">
+                    <label for="inv-armor">Armor</label>
+                    <input type="text" name="inv-armor" id="inv-armor" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="inv-shield">Shield</label>
+                    <input type="text" name="inv-shield" id="inv-shield" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="inv-attuned">Attuned Items</label>
+                    <textarea class="form-control" id="inv-attuned" rows="3"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="inv-other">Other</label>
+                    <textarea class="form-control" id="inv-other" rows="5"></textarea>
+                  </div>
+                </div>
+                <div class="col-8 pl-4 pr-4">
+                  <div class="row">
+                    <div class="col my-auto px-1">
+                      <div class="form-group">
+                        <label for="inv-plat">Platinum</label>
+                        <input type="number" name="inv-plat" id="inv-plat" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col my-auto px-1">
+                      <div class="form-group">
+                        <label for="inv-gold">Gold</label>
+                        <input type="number" name="inv-gold" id="inv-gold" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col my-auto px-1">
+                      <div class="form-group">
+                        <label for="inv-electrum">Electrum</label>
+                        <input type="number" name="inv-electrum" id="inv-electrum" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col my-auto px-1">
+                      <div class="form-group">
+                        <label for="inv-silver">Silver</label>
+                        <input type="number" name="inv-silver" id="inv-silver" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col my-auto px-1">
+                      <div class="form-group">
+                        <label for="inv-copper">Copper</label>
+                        <input type="number" name="inv-copper" id="inv-copper" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <!-- Table header -->
+                    <table class="table table-sm">
+                      <thead>
+                        <tr>
+                          <th class="col-9">Name</th>
+                          <th>Qty</th>
+                          <th>Weight</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                    </table>
+                    <!-- TODO figure out a way to set dynamic max-height -->
+                    <!-- Table body -->
+                    <div class="scroll-table container">
+                      <table class="table table-sm table-borderless" id="inventory-table"></table>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <button class="btn btn-outline-primary" id="inv-add-btn">Add Item</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Image Upload Modal -->
-  <div class="modal fade" id="img-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Image Upload</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true" class="button-symbol">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="input-group">
-            <input type="text" id="char-link" class="form-control special-save">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" data-dismiss="modal"
-                id="img-link-btn">Save</button>
+    <!-- Character Info Modal -->
+    <div class="modal fade" id="info-modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Character Information</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
+              <span aria-hidden="true" class="button-symbol">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container m-0" id="char-info-inner">
+              <div class="row">
+                <div class="col-5">
+                  <div class="row">
+                    <div class="col pr-1">
+                      <div class="form-group mb-1">
+                        <label for="info-height">Height</label>
+                        <input type="text" name="info-height" id="info-height" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col px-1">
+                      <div class="form-group mb-1">
+                        <label for="info-weight">Weight</label>
+                        <input type="text" name="info-weight" id="info-weight" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col pl-1">
+                      <div class="form-group mb-1">
+                        <label for="info-size">Size</label>
+                        <input type="text" name="info-size" id="info-size" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col pr-1">
+                      <div class="form-group mb-1">
+                        <label for="info-eyes">Eyes</label>
+                        <input type="text" name="info-eyes" id="info-eyes" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col pl-1">
+                      <div class="form-group mb-1">
+                        <label for="info-skin">Skin</label>
+                        <input type="text" name="info-skin" id="info-skin" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4 pr-1">
+                      <div class="form-group mb-1">
+                        <label for="info-age">Age</label>
+                        <input type="text" name="info-age" id="info-age" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col pl-1">
+                      <div class="form-group mb-1">
+                        <label for="info-hair">Hair</label>
+                        <input type="text" name="info-hair" id="info-hair" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group mb-1">
+                    <label for="info-personality">Personality Traits</label>
+                    <textarea class="form-control" id="info-personality" rows="3"></textarea>
+                  </div>
+                  <div class="form-group mb-1">
+                    <label for="info-ideals">Ideals</label>
+                    <textarea class="form-control" id="info-ideals" rows="2"></textarea>
+                  </div>
+                  <div class="form-group mb-1">
+                    <label for="info-bonds">Bonds</label>
+                    <textarea class="form-control" id="info-bonds" rows="2"></textarea>
+                  </div>
+                  <div class="form-group mb-1">
+                    <label for="info-flaws">Flaws</label>
+                    <textarea class="form-control" id="info-flaws" rows="2"></textarea>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <div class="col pr-1">
+                      <div class="form-group mb-1">
+                        <label for="info-feats">Features & Traits</label>
+                        <textarea class="form-control" id="info-feats" rows="10"></textarea>
+                      </div>
+                    </div>
+                    <div class="col pl-1">
+                      <div class="form-group mb-1">
+                        <label for="info-profs">Proficiencies & Languages</label>
+                        <textarea class="form-control" id="info-profs" rows="10"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group mb-1">
+                    <label for="info-backstory">Backstory</label>
+                    <textarea class="form-control" id="info-backstory" rows="5"></textarea>
+                  </div>
+                  <div class="form-group mb-1">
+                    <label for="info-allies">Allies & Organizations</label>
+                    <textarea class="form-control" id="info-allies" rows="5"></textarea>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
+    <!-- Spells modal -->
+    <div class="modal fade" id="spells-modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Character Spells</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="spell-modal-close">
+              <span aria-hidden="true" class="button-symbol">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Tab bar -->
+            <nav>
+              <div class="nav nav-tabs" id="spell-tab" role="tablist"> 
+                <a class="nav-link active" id="spell-tab-0" data-toggle="tab" 
+                  href="#spell-0" role="tab" aria-controls="spell-0" aria-selected="true">Cantrips</a>
+                <a class="nav-link" id="spell-tab-1" data-toggle="tab" 
+                  href="#spell-1" role="tab" aria-controls="spell-1" aria-selected="false">1st</a>
+                <a class="nav-link" id="spell-tab-2" data-toggle="tab" 
+                  href="#spell-2" role="tab" aria-controls="spell-2" aria-selected="false">2nd</a>
+                <a class="nav-link" id="spell-tab-3" data-toggle="tab" 
+                  href="#spell-3" role="tab" aria-controls="spell-3" aria-selected="false">3rd</a>
+                <a class="nav-link" id="spell-tab-4" data-toggle="tab" 
+                  href="#spell-4" role="tab" aria-controls="spell-4" aria-selected="false">4th</a>
+                <a class="nav-link" id="spell-tab-5" data-toggle="tab" 
+                  href="#spell-5" role="tab" aria-controls="spell-5" aria-selected="false">5th</a>
+                <a class="nav-link" id="spell-tab-6" data-toggle="tab" 
+                  href="#spell-6" role="tab" aria-controls="spell-6" aria-selected="false">6th</a>
+                <a class="nav-link" id="spell-tab-7" data-toggle="tab" 
+                  href="#spell-7" role="tab" aria-controls="spell-7" aria-selected="false">7th</a>
+                <a class="nav-link" id="spell-tab-8" data-toggle="tab" 
+                  href="#spell-8" role="tab" aria-controls="spell-8" aria-selected="false">8th</a>
+                <a class="nav-link" id="spell-tab-9" data-toggle="tab" 
+                  href="#spell-9" role="tab" aria-controls="spell-9" aria-selected="false">9th</a>
+              </div>
+            </nav>
+            <!-- Tab contents -->
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="spell-0" role="tabpanel" aria-labelledby="spell-tab-0"></div>
+              <div class="tab-pane fade" id="spell-1" role="tabpanel" aria-labelledby="spell-tab-1"></div>
+              <div class="tab-pane fade" id="spell-2" role="tabpanel" aria-labelledby="spell-tab-2"></div>
+              <div class="tab-pane fade" id="spell-3" role="tabpanel" aria-labelledby="spell-tab-3"></div>
+              <div class="tab-pane fade" id="spell-4" role="tabpanel" aria-labelledby="spell-tab-4"></div>
+              <div class="tab-pane fade" id="spell-5" role="tabpanel" aria-labelledby="spell-tab-5"></div>
+              <div class="tab-pane fade" id="spell-6" role="tabpanel" aria-labelledby="spell-tab-6"></div>
+              <div class="tab-pane fade" id="spell-7" role="tabpanel" aria-labelledby="spell-tab-7"></div>
+              <div class="tab-pane fade" id="spell-8" role="tabpanel" aria-labelledby="spell-tab-8"></div>
+              <div class="tab-pane fade" id="spell-9" role="tabpanel" aria-labelledby="spell-tab-9"></div>
+            </div>
+            <div class="row m-3">
+              <button class="btn btn-outline-primary m-3" id="spell-add-btn">Add Item</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Image Upload Modal -->
+    <div class="modal fade" id="img-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Image Upload</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
+              <span aria-hidden="true" class="button-symbol">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group">
+              <input type="text" id="char-link" class="form-control special-save">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" data-dismiss="modal" id="img-link-btn">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 
 </html>
