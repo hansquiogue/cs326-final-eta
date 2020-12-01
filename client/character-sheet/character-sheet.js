@@ -90,11 +90,6 @@ document.getElementById("char-name").readOnly = true;
 // currently disabled
 setTimeout(periodicSaveAll, 60000);
 
-// debug
-// document.getElementById("export-btn").addEventListener("mouseup", () => {
-//   console.log(window.characterSheet);
-// });
-
 function templateCopy(template) {
   return Object.fromEntries(Object.keys(template).map((x) => [x, template[x]]));
 }
@@ -299,10 +294,6 @@ function createSpellTables() {
       createSpellRow(spell, tableBody);
     }
 
-    // if (exampleLayout[level].length === 0) {
-    //   createSpellRow(spellTemplateCopy(), tableBody);
-    // }
-
     // add table to document
     document.getElementById("spell-" + level).appendChild(tableHead);
     document.getElementById("spell-" + level).appendChild(tableBodyWrapper);
@@ -504,7 +495,6 @@ function rollDice() {
     document.getElementById("roll-result").value = result;
     diceNoError();
   } catch (error) {
-    // console.log(error);
     diceError();
     return;
   }
@@ -522,21 +512,12 @@ function setSliderMax() {
 
 function setSliderLabel() {
   const range = document.getElementById("exp-range");
-  // console.log(`user moved slider to val ${range.value}`);
   document.getElementById("exp-range-label").textContent =
     "Experience Points: " + range.value;
 }
 
-// function getNewImage() {
-//   null;
-//   // waiting for database to implement this because it's too database-dependent
-// }
-
 // Whenever log out is clicked
 document.getElementById("logout").addEventListener("click", async function () {
-  // const pageURL = new URL(window.location.href),
-  //   user = pageURL.pathname[3];
-
   window.location.href = "/logout";
 });
 
@@ -544,18 +525,13 @@ document.getElementById("logout").addEventListener("click", async function () {
 document.getElementById("gallery").addEventListener("click", async function () {
   const pageURL = new URL(window.location.href),
     user = pageURL.pathname.split("/")[3];
-  // char = pageURL.pathname[5];
 
   // Redirects with GET request query to a character selection gallery
   window.location.href = "/gallery/user/" + user;
-  // "../login/selector.html?user=" + user + "&token=" + token;
 });
 
 // When page loads
 window.addEventListener("load", async () => {
-  // // Parameters from url
-  // const url_params = new URLSearchParams(window.location.search);
-
   const pageURL = new URL(window.location.href);
 
   const exportElem = document.getElementById("export-btn");
@@ -565,15 +541,12 @@ window.addEventListener("load", async () => {
   exportElem.href = "/char-sheet-export/user/" + user + "/character/" + char;
   exportElem.download = char + "_sheets.json";
 
-  // console.log(pageURL.pathname);
-
   // request using same get to be sent here, with flag to request json
   // instead of webpage
   const response = await fetch(pageURL.pathname + "?getSheet=true");
 
   if (response.ok) {
     const body = await response.json();
-    // console.log(body);
     window.characterSheet = body;
 
     if (window.characterSheet.charAttributes === undefined) {
@@ -597,7 +570,6 @@ window.addEventListener("load", async () => {
 
     updateSheetValues();
   } else {
-    // console.log("not found");
     alert("ERROR: Character not found.");
     window.location.href = "/gallery/user/" + pageURL.pathname.split("/")[3];
   }
@@ -615,7 +587,6 @@ document
         document.getElementById("user-img-actual").src = imgURL;
         window.characterSheet.charImage = imgURL;
         saveSheet();
-        // alert("success");
       };
       img.onerrer = img.onabort = () => {
         clearTimeout(timer);
@@ -627,7 +598,6 @@ document
       }, 5000);
       img.src = imgURL;
     } catch (e) {
-      // alert(e.stack);
       console.log(e.stack);
     }
   });
