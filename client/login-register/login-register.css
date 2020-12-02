@@ -32,20 +32,18 @@ header {
 }
 
 .top-buffer, .bottom-buffer {
-    margin-top: 170px;
-}
-
-.container {
-    height: 590px;
+    margin-top: 130px;
 }
 
 #signin-container {
     max-width: 600px;
+    height: 500px;
     background-color: #161A1D;
 }
 
 .register-container {
-    max-width: 700px; 
+    max-width: 700px;
+    height: 590px; 
     background-color: #161A1D;
 }
 

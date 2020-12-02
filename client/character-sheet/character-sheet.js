@@ -83,9 +83,6 @@ document.getElementById("exp-range").addEventListener("input", setSliderLabel);
 // name readonly
 document.getElementById("char-name").readOnly = true;
 
-// update whole sheet
-// updateSheetValues();
-
 // auto-save sheet every 60s
 // currently disabled
 setTimeout(periodicSaveAll, 60000);
@@ -96,7 +93,6 @@ function templateCopy(template) {
 
 /**
  * Save an input to the characterSheet obj by id
- * @param  {} e
  */
 function genericInputSave() {
   if (this.id === "char-name") {
@@ -106,6 +102,9 @@ function genericInputSave() {
   }
 }
 
+/**
+ * Saves generic entries
+ */
 function saveAllGenerics() {
   for (const input of docInputs) {
     if (!input.classList.contains("special-save")) {
@@ -114,6 +113,9 @@ function saveAllGenerics() {
   }
 }
 
+/** 
+ * Saves entire sheet
+*/
 function periodicSaveAll() {
   saveAllGenerics();
   saveInv();
@@ -123,8 +125,7 @@ function periodicSaveAll() {
 }
 
 /**
- * Update the rendered sheet from the given sheet, or window.characterSheet.
- * @param  {} sheet=null The sheet to use, if null window.characterSheet is used.
+ * Update the rendered sheet from window.characterSheet.
  */
 function updateFromObj() {
   const sheet = window.characterSheet.charAttributes;
@@ -215,7 +216,6 @@ function addInventoryItem() {
 }
 /**
  * Save changes to the window.characterSheet obj.
- * @param  {} e
  */
 function saveInventoryItem() {
   const row = this.parentElement.parentElement;
@@ -237,7 +237,6 @@ function saveInv() {
 }
 /**
  * Delete a row from the rendered sheet and window.characterSheet obj.
- * @param  {} e
  */
 function deleteInventoryItem() {
   const row = this.parentElement.parentElement;
@@ -383,21 +382,16 @@ async function saveSheet() {
     user = pageURL.pathname.split("/")[3],
     char = pageURL.pathname.split("/")[5];
 
-  console.log(`attempting to save sheet ${user} of ${char}`);
-
-  console.log("sending save sheet...");
-
   const response = await fetch(
     "/char-sheet-save/user/" + user + "/character/" + char,
     options
   );
 
   if (response.ok) {
-    console.log("request received");
     const body = await response.text();
     alert("Sheet accepted" + JSON.stringify(body));
   } else {
-    console.log(`request failed (code ${response.status})`);
+    alert(`request failed (code ${response.status})`);
   }
 }
 
@@ -550,7 +544,6 @@ window.addEventListener("load", async () => {
     window.characterSheet = body;
 
     if (window.characterSheet.charAttributes === undefined) {
-      console.log("received new sheet");
       window.characterSheet.charAttributes = {};
       window.characterSheet.charAttributes.inventory = [];
       window.characterSheet.charAttributes.spells = {
