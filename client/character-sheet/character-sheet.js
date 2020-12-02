@@ -51,7 +51,10 @@ for (const input of docInputs) {
 }
 
 // save button
-document.getElementById("save-btn").addEventListener("mouseup", saveSheet);
+document.getElementById("save-btn").addEventListener("mouseup", async function() {
+  // Alerts user if there sheet was saved or not
+  saveSheet() ? alert("Sheet saved successfully!") : alert("Sheet was unable to be saved");
+});
 // export button
 document.getElementById("export-btn").addEventListener("click", saveSheet);
 document.getElementById("reset-btn").addEventListener("mouseup", resetSheet);
@@ -372,6 +375,11 @@ function updateSheetValues() {
   createInventoryTables();
 }
 
+/**
+ * Saves the save and sends a request to the server based
+ * on the contents that are inputted at the time
+ * @returns {boolean} Returns true if sheet can be saved
+ */
 async function saveSheet() {
   const options = {
       method: "POST",
@@ -386,13 +394,10 @@ async function saveSheet() {
     "/char-sheet-save/user/" + user + "/character/" + char,
     options
   );
-
-  if (response.ok) {
-    const body = await response.text();
-    alert("Sheet accepted" + JSON.stringify(body));
-  } else {
-    alert(`request failed (code ${response.status})`);
-  }
+  
+  // Returns true if sheet can be saved or false otherwise
+  const sheetStatus = response.ok ? true : false;
+  return sheetStatus;
 }
 
 async function resetSheet() {
