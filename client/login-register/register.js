@@ -1,3 +1,5 @@
+'use strict';
+
 window.addEventListener('load', () => {
     // Parameters from url
     const urlParams = new URLSearchParams(window.location.search);

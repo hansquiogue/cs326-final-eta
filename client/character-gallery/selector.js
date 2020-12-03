@@ -1,3 +1,5 @@
+'use strict';
+
 // User retrieved from url parameter
 const user = window.location.pathname.split('/')[3];
 // Previous character button

@@ -1,3 +1,5 @@
+'use strict';
+
 const invItemTemplate = {
   name: "",
   qty: "",

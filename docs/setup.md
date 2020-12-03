@@ -36,12 +36,13 @@ Once all the files are downloaded and the requirements are completed, the projec
 1. Change the directory to the path where you placed the Euryale repository.
 
 2. Install the package dependencies for Euryale.
-   -  use **npm i** to install the required packages
+   -  use **npm i** to install the required packages.
 
 3. Run the server script to initialize Euryale.
-   - Use **npm run start** to start the server
-   - *Note: the server will not run without the database URL, access and Express secret key; you will recieve an error!*
+   - Use **npm run start** to start the server.
+   - *Note: the server will not run without the database URL and Express secret key; you will recieve an error!*
 
 4. Load the Euryale webpage.
-   - Head to **localhost:8080** on your preferred browser
-   - Make sure the ports 8080 are not blocked in your network! Otherwise, you may personally change the port in server/server.js if needed.
+   - Head to **localhost:8080** on your preferred browser.
+   - Make sure the port 8080 is not blocked in your network! You may personally change the port in server/server.js if needed.
+   - You are now able to access Euryale locally!

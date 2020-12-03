@@ -1,4 +1,4 @@
-# **COMPSCI 326 - Final Report*
+# **COMPSCI 326 - Final Report**
 
 ## **Group ETA**
 
@@ -143,7 +143,7 @@ Main Pages:
 
 ## Authentication
 
-User authentication is achieved when a user enters the proper credentials on the Euryale login page. On the server side, [Passport](http://www.passportjs.org/) is used as a middleware for authentication when a user makes login attempts. Except for the homepage, 404 page, and login or registration pages, a user will need to be authenticated to access the rest of the application; unauthorized users will not be able to access most of the UI such as a character gallery and character sheet, and UI views that correspond to those interfaces.
+User authentication is achieved when a user enters the proper credentials on the Euryale login page. On the server side, [Passport](http://www.passportjs.org/) is used as a middleware for authentication when a user makes login attempts. The local authentication strategy is used. Except for the homepage, 404 page, and login or registration pages, a user will need to be authenticated to access the rest of the application; unauthorized users will not be able to access most of the UI such as a character gallery and character sheet, and UI views that correspond to those interfaces.
 
 ## Division of Labor
 
