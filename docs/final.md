@@ -1,4 +1,4 @@
-# **COMPSCI 326 - Final Project Milestone**
+# **COMPSCI 326 - Final Report*
 
 ## **Group ETA**
 
