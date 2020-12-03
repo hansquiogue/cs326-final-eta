@@ -2,14 +2,14 @@
 
 ## users
 
-The `users` collection stores the basic information about users, as well as a list of character names by which character data may be found
+The `users` collection stores basic userdata, such as the name, the salt & hash for their password, their email, and a list of character names.
 
 ```
 // users document
 {
     _id: <ObjectId>,
     user: String,
-    pass: String,
+    pass: [Salt, Hash],
     email: String,
     characters: [String]
 }
@@ -19,7 +19,9 @@ The `users` collection stores the basic information about users, as well as a li
 
 The `characters` collection stores all data within a character sheet, as well as its associated username. As characters may not be accessed by users other than their owner, this may not be used to obtain usernames.
 
-Be warned: There are a lot of pieces of data for a given character, so this will be a wall of text. Also, as character.charAttributes contains so many values with no strictly important order, for the purposes of this definition complex attributes have been placed on top, followed by the rest of the attributes sorted alphabetically.
+Be warned: There are a lot of pieces of data for a given character, so this will be a wall of text. Also, as `character.charAttributes` contains so many values with no strictly important order, for the purposes of this definition complex attributes have been placed on top, followed by the rest of the attributes sorted alphabetically.
+
+`charAttributes` contains all character-related information that is displayed on the character sheet page. While it may appear that some character attributes should be ints or floats instead of strings, they have been kept as strings so that experienced users may use whatever notation they prefer. `inventory` is an array of objects, each with the attributes `name`, `qty`, and `wgt`. `spells` is an object consisting of attributes labelled 0 through 9, each an object with String attributes, as listed below. This represents spell lists for each spell level of 0 through 9. `inventory` and `spells` are set up such that they may contain an arbitrary number of items and spells.
 
 ```
 // characters document
@@ -36,8 +38,8 @@ Be warned: There are a lot of pieces of data for a given character, so this will
         wgt: String,
       }
   ],
-    spells: [
-      {
+    spells: {
+      <0-9>: {
           name: String,
           cast: String,
           range: String,
@@ -46,7 +48,7 @@ Be warned: There are a lot of pieces of data for a given character, so this will
           type: String,
           details: String,
       }
-    ]
+    }
     ac: String,
     acrobatics: String,
     acrobaticsExp: String,

@@ -10,7 +10,7 @@
 
 - Created as a final project for COMPSCI 326 Fall 2020
 
-Euryale is a web application that seeks to improve the Dungeons and Dragons (D&D) experience by making the character sheet process of the game easier to use. Oftentimes, when most D&D players utilize character creation sheets, they'll use a physical copy that's static—the process of creating a character in the game can be incredibly boring and tedious with the game's complex and long rules. Some might not even know that character creation sheet websites exist! There are a lot of available online character creation sheets, but most of them are outdated and complicated. That is why Euryale was created. Euryale allows D&D users to easily create, manage and download their character sheets. The idea of this project is not the most innovative since character sheet applications already exist. Nonetheless, it was created to redesign and improve upon existing products as an attempt to further enhance the D&D gaming experience. 
+Euryale is a web application that seeks to improve the Dungeons and Dragons (D&D) experience by making the character sheet process of the game easier to use. Oftentimes, when most D&D players utilize character creation sheets, they'll use a physical copy that's static—the process of creating a character in the game can be incredibly boring and tedious with the game's complex and long rules. Some might not even know that character creation sheet websites exist! There are a lot of available online character creation sheets, but most of them are outdated and complicated. That is why Euryale was created. Euryale allows D&D users to easily create, manage and download their character sheets. The idea of this project is not the most innovative since character sheet applications already exist. Nonetheless, it was created to redesign and improve upon existing products as an attempt to further enhance the D&D gaming experience.
 
 Team Members:
 - Jackson Callaghan: *[jackson-callaghan-school](https://github.com/jackson-callaghan-school)*
@@ -26,10 +26,10 @@ Images Used:
 - Homepage:
     - [Red Dragon](https://wall.alphacoders.com/big.php?i=678272)
     - [Forest](https://wall.alphacoders.com/big.php?i=1116810)
-    - [Gray Dragon](https://wall.alphacoders.com/big.php?i=749770) 
+    - [Gray Dragon](https://wall.alphacoders.com/big.php?i=749770)
 - Login: [Monster](https://wallup.net/dungeons-dragons-artwork-fantasy-art/)
 - Register: [Worm Monster](https://wallup.net/dungeons-and-dragons-fantasy-adventure-board-rpg-dungeons-dragons-79/)
-- Gallery and Sheet: [Default Character](https://www.artstation.com/artwork/rXNWe) 
+- Gallery and Sheet: [Default Character](https://www.artstation.com/artwork/rXNWe)
 
 ## **User Interface**
 
@@ -62,7 +62,7 @@ A user can also select a character and click “Delete” underneath the selecte
 ![delete](final-img/delete.png)
 <div align="center">Deleting a character</div><br>
 
-Another modal will pop up as a confirmation message to the user asking them if they are sure they want to delete that character. The character will be deleted forever once the button is clicked. 
+Another modal will pop up as a confirmation message to the user asking them if they are sure they want to delete that character. The character will be deleted forever once the button is clicked.
 
 **Character Sheet**: the page for users to manage a character’s attributes. Like before, users will only be able to access their own characters. A user can edit the entire character sheet to their liking.
 
@@ -71,14 +71,14 @@ A user can save their save their character sheet by clicking the “Save” butt
 ![save](final-img/save.png)
 <div align="center">Saving a character sheet</div><br>
 
-An alert will pop up as an indicator to the user that the sheet has been saved. Another note is that our application features an autosave feature that attempts to save a character sheet every 60 seconds. 
+An alert will pop up as an indicator to the user that the sheet has been saved. Another note is that our application features an autosave feature that attempts to save a character sheet every 60 seconds.
 
 A user can also update a character’s image by clicking “Change Image” on the bottom right side of the character image in the center of the page:
 
 ![upload](final-img/upload.png)
 <div align="center">Uploading a new character image</div><br>
 
-A modal will pop where the user can input an image link and click the button to update their character to the new image. 
+A modal will pop where the user can input an image link and click the button to update their character to the new image.
 
 A user can also click “Export” in the top right corner of the page to download a character sheet:
 
@@ -125,7 +125,26 @@ An alert will pop up asking the user if they are certain that they want to reset
 
 ## Database
 
-// TODO
+The database was implemented using mongoDB, and as such the document layout is not *quite* relational, however it may still be represented in psuedo entity relational diagram.
+
+![psuedo-ERD](final-img/db.png)
+
+The database consists of two document collections: `users` and `characters`.
+
+```
+// users document
+{
+    _id: <ObjectId>,
+    user: String,
+    pass: [Salt, Hash],
+    email: String,
+    characters: [String]
+}
+```
+
+The `users` collection stores basic userdata, such as the name, the salt & hash for their password, their email, and a list of character names. The `characters` collection all data within a character sheet. Due to the number of items, that template and explanation has been kept in a separate document, available [here](collections-definitionds.md), along with a copy of the user document definition for reference.
+
+A given user 'owns' zero or more characters, with character being a weak entity requiring a username to identify it. With a combination of a user name and a character name, a given character document may be identified, found, and retrieved.
 
 ## URL Routes/Mapping
 
@@ -147,8 +166,84 @@ User authentication is achieved when a user enters the proper credentials on the
 
 ## Division of Labor
 
-// TODO
+Below are discrete sections of work as they were divided. All team members contributed in equal parts to writeups, general bug/style fixing, overall planning, etc. Front and back end work were divided as evenly as possible given the structure of the project and our individual time constraints. Heroku deployments were done with everyone in a call helping out.
 
+It is also worth noting that for the final cleanup John was hit significantly harder by finals and as such was given script writeup. Code cleanup largely consisted of simply removing excess comments with very little functionally changed.
+
+Additionally, another reminder is given that Jackson accidentally used his personal account, previously named `jackson-callaghan` and now named `tokebe`, rather than his school account `jackson-callaghan-school`, for some of his commits. His apologies for the confusion.
+
+**Hans:**
+
+Milestone 1:
+
+- Login/registration/character gallery wireframe & HTML/CSS
+- Top/bottom/center portions of character sheet HTML/CSS
+
+Milestone 2:
+
+- Frontend: sheet management
+- Backend: user session, sheet management
+
+Milestone 3:
+
+- Frontend: gallery, registration
+- Backend:
+    - initial conversion to express
+    - gallery
+    - user session
+
+Wrapup:
+
+- Code cleanup, writeup
+
+**Jackson:**
+
+Milestone 1:
+
+- Character sheet wireframe
+- Left & center sections of character sheet HTML/CSS
+- Character sheet popups HTML/CSS
+
+Milestone 2:
+
+- Frontend: character sheet
+- Backend: character sheet
+
+Milestone 3:
+
+- Frontend: character sheet, validation tweaks
+- Backend:
+    - character sheet
+    - initial mongoDB setup & mongoDB wrapper
+    - fixes
+
+Wrapup:
+
+- Code cleanup, writeup
+
+**John:**
+
+Milestone 1:
+
+- Homepage wireframe & HTML/CSS
+- Character sheet wireframe
+- Right sections of character sheet HTML/CSS
+
+Milestone 2:
+
+- Frontend: homepage, login, register
+- Backend: fixes, primary heroku setup/deployment
+
+Milestone 3:
+
+- Frontend: 404 page, register success page, fixes
+- Backend:
+    - 404/login/register endpoint conversion
+    - password encryption
+
+Wrapup:
+
+- Script writeup, planning, deployment
 ## Conclussion
 
-// TODO
+Our team managed to have a largely good experience with this project, through good communication in virtual meetings and a good spirit of cooperation. We learned a lot about the generic topics such as front and backend structural design, database interfacing and such, however among the most interesting thigs we learned were much tighter css design, functions for dynamic page setup, good use of wrapper functions, and good skills in interpreting how another person's code is modelled. The greatest difficulty we faced was perhaps simply the timeframe with which we had to get our ideas implemented and as bug-free as possible, though github merge conflicts come in at a close second. We really wish we knew express prior to implementing the skeleton backend as that took a fair number of unnecessary hours to tear down and re-implement. There weren't many great hurdles we encountered, though we had our fair share of things suddenly breaking and being difficult to trace. There were a lot of cool ideas we had that we didn't have the time to implement, which we'll talk about more in our demo video.
