@@ -244,6 +244,7 @@ Milestone 3:
 Wrapup:
 
 - Script writeup, planning, deployment
+
 ## Conclussion
 
 Our team managed to have a largely good experience with this project, through good communication in virtual meetings and a good spirit of cooperation. We learned a lot about the generic topics such as front and backend structural design, database interfacing and such, however among the most interesting thigs we learned were much tighter css design, functions for dynamic page setup, good use of wrapper functions, and good skills in interpreting how another person's code is modelled. The greatest difficulty we faced was perhaps simply the timeframe with which we had to get our ideas implemented and as bug-free as possible, though github merge conflicts come in at a close second. We really wish we knew express prior to implementing the skeleton backend as that took a fair number of unnecessary hours to tear down and re-implement. There weren't many great hurdles we encountered, though we had our fair share of things suddenly breaking and being difficult to trace. There were a lot of cool ideas we had that we didn't have the time to implement, which we'll talk about more in our demo video.
