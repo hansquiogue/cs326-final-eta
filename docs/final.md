@@ -31,6 +31,10 @@ Images Used:
 - Register: [Worm Monster](https://wallup.net/dungeons-and-dragons-fantasy-adventure-board-rpg-dungeons-dragons-79/)
 - Gallery and Sheet: [Default Character](https://www.artstation.com/artwork/rXNWe)
 
+Rubric:
+- [Rubric](https://github.com/hansquiogue/cs326-final-eta/blob/master/docs/rubric.md)
+- **NOTE**: for convenience while grading our project, we created an example account with an example character. The username is **grading** and the password is **grading**.
+
 ## **User Interface**
 
 **Login/Register**: a place for users to sign in or register a new account:
