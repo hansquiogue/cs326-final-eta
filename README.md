@@ -15,6 +15,7 @@
 ### *Online Dungeons & Dragons Character Sheet Tool*
 
 - [Euryale Website Link](https://pacific-cove-11560.herokuapp.com/)
+- [Video Demo](https://www.youtube.com/watch?v=znpeWgspey4&list=PLbTmqqGclWPKV6zjHKaGYw069yCJa3Xwt&index=1)
 
 ## Setup and Rubric
 - [Setup](https://github.com/hansquiogue/cs326-final-eta/blob/master/docs/setup.md)
